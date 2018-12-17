@@ -1,22 +1,60 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import {createBottomTabNavigator, createAppContainer} from 'react-navigation';
+import { Ionicons } from '@expo/vector-icons';
+import HomeScreen from './HomeScreen';
+import HelpScreen from './HelpScreen';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>WORDGAME APP!</Text>
-        <Text>Let's game!</Text>
-      </View>
-    );
-  }
-}
+const HomeIcon = <Ionicons name="md-play-circle" size={35} color="#5ef992" />;
+const HelpIcon = <Ionicons name="md-help" size={35} color="#fff684" />;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const Menu = createBottomTabNavigator(
+  {
+  Home : {
+    screen: HomeScreen,
+    navigationOptions: ({navigation}) => ({
+    
+      tabBarIcon: HomeIcon,
+      tabBarOptions : {
+        style: {
+          backgroundColor: 'transparent',
+  
+          borderTopWidth: 0,
+      position: 'absolute',
+      left: 50,
+      right: 50,
+      bottom: 20,
+        }
+      }
+}),
+},
+Help : {
+  screen: HelpScreen,
+  navigationOptions: ({navigation}) => ({
+  
+    tabBarIcon: HelpIcon,
+    tabBarOptions : {
+      style: {
+        backgroundColor: 'transparent',
+
+        borderTopWidth: 0,
+    position: 'absolute',
+    left: 50,
+    right: 50,
+    bottom: 20,
+
+      }
+    }
+}),
+},
+
+
+
+})
+
+
+export default createAppContainer(Menu)
+
+
+
+
