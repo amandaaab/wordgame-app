@@ -6,6 +6,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Text>WORDGAME APP!</Text>
+        <Text>Let's game!</Text>
       </View>
     );
   }
