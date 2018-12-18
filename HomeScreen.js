@@ -3,22 +3,16 @@ import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import PlayScreen from './PlayScreen';
 
 export default class HomeScreen extends React.Component {
-    state = {
-        startGame: false
-    } 
+  
     onPressPlay = () => {
+        this.props.navigation.navigate('play')
         alert('game begins!')
-        this.setState({
-            startGame: true
-        })
-
-
     }
+    
 
     render() {
       return (
-        this.state.startGame ?  <PlayScreen /> :
-        
+
         <View style={styles.container}>
           <Text style={styles.text}>WORDGAME APP!</Text>
           <Text style={styles.text}>Let's game!</Text>
