@@ -2,29 +2,41 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableHighlight } from 'react-native';
 
 
-const things = [
+const things = 
+[
   {
-      "husdjur": 
-          [
-              "katt",
-              "hund",
-              "pingvin",
-          ]
+    "question": "tjejnamn",
+    "answers": [
+        "amanda",
+        "alice",
+        "agnes"
+    ]
   },
   {
-      "städer på G":
-          [
-              "göteborg",
-              "gotland",
-          ]
-  }
+    "question": "städer på G",
+    "answers": [
+        "göteborg",
+        "gotland",
+        "grimmered"
 
+    ]
+  },
+  {
+    "question": "saker i ett kök",
+    "answers": [
+        "tallrik",
+        "skål",
+        "sked",
+        "spis"
+    ]
+  },
 ]
 
-console.log('things', things[1])
+console.log('things', things[1][0])
 
 export default class PlayScreen extends React.Component {
 
+  
 
   state = {
     text: '',
@@ -42,21 +54,48 @@ export default class PlayScreen extends React.Component {
   }
 
   onSave = () => {
-    if(this.state.text.length > 1){
-      this.setState(previousState => (
+    const answer = things.filter(obj => obj.question === "tjejnamn")
+    const yay = answer[0].answers.includes(this.state.text)
+
+    if(yay){
+      this.setState(prevState => ({
+        words: [
+          ...prevState.words,
+          {
+            word: this.state.text,
+            color: 'white'
+          }
+        ]
+  
+    }), () =>  console.log('textfinns', this.state.words))
+
+  } else {
+    this.setState(prevState => ({
+      words: [
+        ...prevState.words,
         {
-        words: [...previousState.words, this.state.text]
-      }), () => console.log(this.state.words))
-//console.log('save', this.state.text)
-//console.log(this.state.words)
-    }
+          word: this.state.text,
+          color: 'red'
+        }
+      ]
+
+  }), () =>   console.log('textfinss ej', this.state.words))
+  }
+
   }
 
     render() {
+  
       return (
+        
         <View style={styles.container}>
           <Text style={styles.text}>Lista tjejnamn på A</Text>
-          <Text style={styles.text}>{this.state.words}</Text>
+
+          {this.state.words.map(obj => 
+            <Text style={{color: obj.color}}>{obj.word}</Text>
+          )}
+
+          <Text style={styles.text}>hejsan</Text>
           <TextInput 
           onChangeText={this.onChangeT}
           style={styles.input}
