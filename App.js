@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from './HomeScreen';
 import HelpScreen from './HelpScreen';
 import PlayScreen from './PlayScreen';
+import ScoreScreen from './ScoreScreen';
 
 const HomeIcon = <Ionicons name="md-play-circle" size={35} color="#5ef992" />;
 const HelpIcon = <Ionicons name="md-help" size={35} color="#fff684" />;
@@ -16,6 +17,10 @@ const HomeStack = createSwitchNavigator(
       screen: HomeScreen,
   },
     play: {screen: PlayScreen,
+  },
+
+  score: {screen: ScoreScreen
+  
   },
 }
   

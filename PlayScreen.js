@@ -42,6 +42,8 @@ export default class PlayScreen extends React.Component {
     words: [],
     timer: 10,
     usedExtraTime: false,
+    timer: 10, 
+    score: 0
   }
 
   componentDidMount() {
@@ -57,7 +59,7 @@ export default class PlayScreen extends React.Component {
    decrementClock = () => {      
     this.setState((prevstate) => ({ timer: prevstate.timer-1 }));
     if(this.state.timer === 0){
-      this.props.navigation.navigate('Home')
+      this.props.navigation.navigate('score', {userScore: this.state.score} )
     }
     console.log('timer', this.state.timer)
 
@@ -88,9 +90,12 @@ export default class PlayScreen extends React.Component {
           ...prevState.words,
           {
             word: this.state.text,
-            color: 'white'
+            color: 'white',
+            point: 1
           }
-        ]
+        ],
+
+        score: prevState.score+1
   
     }), () =>  console.log('textfinns', this.state.words))
   }
@@ -100,7 +105,8 @@ export default class PlayScreen extends React.Component {
         ...prevState.words,
         {
           word: this.state.text,
-          color: 'red'
+          color: 'red',
+          point: 0
         }
       ]
 
@@ -129,7 +135,7 @@ export default class PlayScreen extends React.Component {
             <Text style={{color: obj.color}}>{obj.word}</Text>
           )}
 
-          <Text style={styles.text}>hejsan</Text>
+          <Text style={styles.text}>{this.state.score}</Text>
           <TextInput
           ref={input => { this.textInput = input }}
           onChangeText={this.onChangeT}
