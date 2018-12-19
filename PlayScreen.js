@@ -2,6 +2,27 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableHighlight } from 'react-native';
 
 
+const things = [
+  {
+      "husdjur": 
+          [
+              "katt",
+              "hund",
+              "pingvin",
+          ]
+  },
+  {
+      "städer på G":
+          [
+              "göteborg",
+              "gotland",
+          ]
+  }
+
+]
+
+console.log('things', things[1])
+
 export default class PlayScreen extends React.Component {
 
 
