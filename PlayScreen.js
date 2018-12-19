@@ -31,8 +31,9 @@ const things =
     ]
   },
 ]
+let randomNumber = Math.floor(Math.random() * Math.floor(things.length));
 
-console.log('things', things[1][0])
+console.log('things', things[1].question);
 
 export default class PlayScreen extends React.Component {
 
@@ -54,10 +55,14 @@ export default class PlayScreen extends React.Component {
   }
 
   onSave = () => {
-    const answer = things.filter(obj => obj.question === "tjejnamn")
+    this.textInput.clear()
+    const answer = things.filter(obj => obj.question === `${things[randomNumber].question}`)
     const yay = answer[0].answers.includes(this.state.text)
 
     if(yay){
+      if(this.state.words.filter( word => word.word === this.state.text).length > 0){
+        alert('finns redan')
+      } else{
       this.setState(prevState => ({
         words: [
           ...prevState.words,
@@ -68,7 +73,7 @@ export default class PlayScreen extends React.Component {
         ]
   
     }), () =>  console.log('textfinns', this.state.words))
-
+  }
   } else {
     this.setState(prevState => ({
       words: [
@@ -85,21 +90,22 @@ export default class PlayScreen extends React.Component {
   }
 
     render() {
-  
+
       return (
         
         <View style={styles.container}>
-          <Text style={styles.text}>Lista tjejnamn på A</Text>
+          <Text style={styles.text}>{things[randomNumber].question}</Text>
 
           {this.state.words.map(obj => 
             <Text style={{color: obj.color}}>{obj.word}</Text>
           )}
 
           <Text style={styles.text}>hejsan</Text>
-          <TextInput 
+          <TextInput
+          ref={input => { this.textInput = input }}
           onChangeText={this.onChangeT}
           style={styles.input}
-          onSubmitEditing={this.searchSubmit}
+          onSubmitEditing={this.onSave}
           />
            <TouchableHighlight                     
            style={styles.button}
