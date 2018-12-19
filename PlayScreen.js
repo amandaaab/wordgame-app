@@ -37,12 +37,27 @@ console.log('things', things[1].question);
 
 export default class PlayScreen extends React.Component {
 
-  
-
   state = {
     text: '',
     words: [],
+    timer: 30
   }
+
+  componentDidMount() {
+    this.clockCall = setInterval(() => {
+      this.decrementClock();
+    }, 1000);
+   }
+   
+   decrementClock = () => {      
+    this.setState((prevstate) => ({ timer: prevstate.timer-1 }));
+    if(this.state.timer === 0){
+      this.props.navigation.navigate('Home')
+    }
+    console.log('timer', this.state.timer)
+
+   };
+
 
   onChangeT = (value) => {
     this.setState({
@@ -61,7 +76,7 @@ export default class PlayScreen extends React.Component {
 
     if(yay){
       if(this.state.words.filter( word => word.word === this.state.text).length > 0){
-        alert('finns redan')
+        alert('ordet finns redan')
       } else{
       this.setState(prevState => ({
         words: [
@@ -94,6 +109,7 @@ export default class PlayScreen extends React.Component {
       return (
         
         <View style={styles.container}>
+        <Text style={styles.text}>{this.state.timer}</Text>
           <Text style={styles.text}>{things[randomNumber].question}</Text>
 
           {this.state.words.map(obj => 
