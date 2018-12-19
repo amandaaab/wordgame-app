@@ -6,10 +6,11 @@ import HomeScreen from './HomeScreen';
 import HelpScreen from './HelpScreen';
 import PlayScreen from './PlayScreen';
 import ScoreScreen from './ScoreScreen';
+import ProfileScreen from './ProfileScreen';
 
 const HomeIcon = <Ionicons name="md-play-circle" size={35} color="#5ef992" />;
 const HelpIcon = <Ionicons name="md-help" size={35} color="#fff684" />;
-
+const ProfileIcon = <Ionicons name="md-person" size={30} />;
 
 const HomeStack = createSwitchNavigator(
   {
@@ -34,6 +35,7 @@ HomeStack.navigationOptions = ({ navigation }) => {
   }
   return {
     tabBarVisible,
+    tabBarIcon: HomeIcon
   };
 };
 
@@ -61,10 +63,29 @@ const HelpStack = createSwitchNavigator(
   }
 )
 
+const ProfileStack = createSwitchNavigator(
+  {
+  Profile : {
+    
+    screen: ProfileScreen
+
+    }
+  }
+)
+ 
+ProfileStack.navigationOptions = ({navigation}) => ({
+  tabBarIcon: ProfileIcon
+})
+
+HelpStack.navigationOptions = ({navigation}) => ({
+  tabBarIcon: HelpIcon
+})
+
 const Menu = createBottomTabNavigator(
   {
     Home : {screen: HomeStack},
     Help : {screen: HelpStack},
+    Profile: {screen: ProfileStack}
   }
 )
 
