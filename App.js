@@ -35,30 +35,13 @@ HomeStack.navigationOptions = ({ navigation }) => {
   }
   return {
     tabBarVisible,
-    tabBarIcon: HomeIcon
   };
 };
 
 const HelpStack = createSwitchNavigator(
   {
     Help : {
-      screen: HelpScreen,
-      navigationOptions: ({navigation}) => ({
-      
-        tabBarIcon: HelpIcon,
-        tabBarOptions : {
-          style: {
-            backgroundColor: 'transparent',
-    
-            borderTopWidth: 0,
-        position: 'absolute',
-        left: 50,
-        right: 50,
-        bottom: 20,
-    
-          }
-        }
-    }),
+      screen: HelpScreen,      
     },
   }
 )
@@ -73,19 +56,58 @@ const ProfileStack = createSwitchNavigator(
   }
 )
  
-ProfileStack.navigationOptions = ({navigation}) => ({
-  tabBarIcon: ProfileIcon
-})
-
-HelpStack.navigationOptions = ({navigation}) => ({
-  tabBarIcon: HelpIcon
-})
 
 const Menu = createBottomTabNavigator(
   {
-    Home : {screen: HomeStack},
-    Help : {screen: HelpStack},
-    Profile: {screen: ProfileStack}
+    Home : {
+      screen: HomeStack,
+      navigationOptions: ({navigation}) => ({
+      tabBarIcon: HomeIcon,
+        tabBarOptions : {
+          style : {
+              backgroundColor: 'transparent',
+              borderTopWidth: 0,
+              position: 'absolute',
+              left: 50,
+              right: 50,
+              bottom: 20,
+          }
+        }
+      })
+    },
+    Help : {
+      screen: HelpStack,
+      navigationOptions: ({navigation}) => ({
+        tabBarIcon: HelpIcon,
+          tabBarOptions : {
+            style : {
+                backgroundColor: 'transparent',
+                borderTopWidth: 0,
+                position: 'absolute',
+                left: 50,
+                right: 50,
+                bottom: 20,
+            }
+          }
+        })
+    
+    },
+    Profile: {
+      screen: ProfileStack,
+      navigationOptions: ({navigation}) => ({
+        tabBarIcon: ProfileIcon,
+          tabBarOptions : {
+            style : {
+                backgroundColor: 'transparent',
+                borderTopWidth: 0,
+                position: 'absolute',
+                left: 50,
+                right: 50,
+                bottom: 20,
+            }
+          }
+        })
+    }
   }
 )
 
