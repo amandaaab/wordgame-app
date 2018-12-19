@@ -40,7 +40,7 @@ export default class PlayScreen extends React.Component {
   state = {
     text: '',
     words: [],
-    timer: 30
+    timer: 10
   }
 
   componentDidMount() {
@@ -48,7 +48,11 @@ export default class PlayScreen extends React.Component {
       this.decrementClock();
     }, 1000);
    }
-   
+  
+   componentWillUnmount() {
+    clearInterval(this.clockCall);
+   }
+
    decrementClock = () => {      
     this.setState((prevstate) => ({ timer: prevstate.timer-1 }));
     if(this.state.timer === 0){
