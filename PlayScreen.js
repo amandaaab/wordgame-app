@@ -40,7 +40,8 @@ export default class PlayScreen extends React.Component {
   state = {
     text: '',
     words: [],
-    timer: 10
+    timer: 10,
+    usedExtraTime: false,
   }
 
   componentDidMount() {
@@ -108,6 +109,14 @@ export default class PlayScreen extends React.Component {
 
   }
 
+  onGetSeconds = () => {
+    this.setState(prevState =>({
+      timer: prevState.timer + 10,
+      usedExtraTime: true,
+    }))
+    alert('vill ha mer tid');
+  }
+
     render() {
 
       return (
@@ -132,6 +141,13 @@ export default class PlayScreen extends React.Component {
             onPress={this.onSave}>
                 <Text>Enter</Text>
             </TouchableHighlight>
+            {!this.state.usedExtraTime ? 
+            <TouchableHighlight                     
+           style={styles.button}
+            onPress={this.onGetSeconds}>
+                <Text>10 sek extra tid!(10 poäng)</Text>
+            </TouchableHighlight>
+            : null}
         </View>
       );
     }
