@@ -20,6 +20,7 @@ export default class HelpScreen extends React.Component {
       backgroundColor: '#000416',
       alignItems: 'center',
       justifyContent: 'center',
+      zIndex: 1
     },
     text: {
         color: 'white'

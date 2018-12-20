@@ -8,9 +8,9 @@ import PlayScreen from './PlayScreen';
 import ScoreScreen from './ScoreScreen';
 import ProfileScreen from './ProfileScreen';
 
-const HomeIcon = <Ionicons name="md-play-circle" size={35} color="#5ef992" />;
-const HelpIcon = <Ionicons name="md-help" size={35} color="#fff684" />;
-const ProfileIcon = <Ionicons name="md-person" size={30} />;
+const HomeIcon = <Ionicons name="md-play-circle" size={50} color="#5ef992" />;
+const HelpIcon = <Ionicons name="md-help-circle" size={50} color="#fff684" />;
+const ProfileIcon = <Ionicons name="md-contact" size={50} color="#fff684" />;
 
 const HomeStack = createSwitchNavigator(
   {
@@ -70,7 +70,8 @@ const Menu = createBottomTabNavigator(
               position: 'absolute',
               left: 50,
               right: 50,
-              bottom: 20,
+              bottom: 0,
+              height: 70
           }
         }
       })
@@ -86,7 +87,8 @@ const Menu = createBottomTabNavigator(
                 position: 'absolute',
                 left: 50,
                 right: 50,
-                bottom: 20,
+                bottom: 0,
+                height: 70
             }
           }
         })
@@ -103,7 +105,8 @@ const Menu = createBottomTabNavigator(
                 position: 'absolute',
                 left: 50,
                 right: 50,
-                bottom: 20,
+                bottom: 0,
+                height: 70
             }
           }
         })

@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import PlayScreen from './PlayScreen';
-//import LinearGradient from 'react-native-linear-gradient';
+//import GradientScreen from './GradientScreen';
+import {LinearGradient} from 'expo';
 
 
 export default class HomeScreen extends React.Component {
@@ -14,39 +15,28 @@ export default class HomeScreen extends React.Component {
 
     render() {
 
-        const  gradientHeight=500;
-        const gradientBackground  = 'blue';
-        const data = Array.from({ length: gradientHeight });
+       
 
       return (
 
+        <LinearGradient 
+          colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
+          style={{flex: 1, justifyContent: 'center'
+          
+          }}>
         
         <View style={styles.container}>
-
-        {data.map((_, i) => (
-                  <View
-                      key={i}
-                      style={{
-                          position: 'absolute',
-                          backgroundColor: gradientBackground,
-                          height: 1,
-                          bottom: (gradientHeight - i),
-                          right: 0,
-                          left: 0,
-                         
-                          opacity: (1 / gradientHeight) * (i + 2)
-                      }}
-                  />
-              ))}
-
+            
           <Text style={styles.text}>SKYNDA!</Text>
-          <Text style={[styles.text, styles.undertext]}>Nu kör vi igång</Text>
+          <Text style={[styles.text, styles.undertext]}>Nu spelar vi</Text>
           <View style={styles.buttonContainer}>
             <TouchableHighlight onPress={this.onPressPlay} style={styles.playButton}>
-                <Text style={styles.buttonText}>Play</Text>
+                <Text style={styles.buttonText}>SPELA</Text>
             </TouchableHighlight>
             </View>
         </View>
+
+        </LinearGradient>
      
       );
     }
@@ -55,36 +45,40 @@ export default class HomeScreen extends React.Component {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'purple',
+      backgroundColor: 'transparent',
       alignItems: 'center',
       justifyContent: 'center',
+      width: '100%'
     },
-
+    
     text: {
         color: 'white',
-        fontSize: 30,
+        fontSize: 40,
         fontWeight: 'bold'
     },
     undertext: {
-        fontSize: 20
+        fontSize: 25,
+        marginBottom: 20 
     },
     playButton: {
-        backgroundColor: '#93ff9c',
+        backgroundColor: '#47ef88',
         width: '100%',
         height: 40,
-        borderRadius: 5,
+        borderRadius: 6,
         alignItems: 'center',
         padding: 10,
+        marginTop: 30
     },
 
     buttonText: {
-        color: 'purple',
+        color: 'rgba(0,21,72,1)',
         fontWeight: 'bold'
     }, 
     
     buttonContainer: {
         margin: '5%',
-        width: '50%',
+        width: '60%',
+        padding: 20
     }
 
 });
