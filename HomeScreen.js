@@ -3,9 +3,22 @@ import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import PlayScreen from './PlayScreen';
 //import GradientScreen from './GradientScreen';
 import {LinearGradient} from 'expo';
+import { Font } from 'expo';
 
 
 export default class HomeScreen extends React.Component {
+
+    state = {
+        fontLoaded: false
+    }
+
+    async componentDidMount() {
+       await Font.loadAsync({
+          'Comfortaa-Bold': require('./assets/fonts/Comfortaa-Bold.ttf'),
+        });
+
+        this.setState({ fontLoaded: true });
+      }
   
     onPressPlay = () => {
         this.props.navigation.navigate('play')
@@ -26,14 +39,23 @@ export default class HomeScreen extends React.Component {
           }}>
         
         <View style={styles.container}>
-            
-          <Text style={styles.text}>SKYNDA!</Text>
-          <Text style={[styles.text, styles.undertext]}>Nu spelar vi</Text>
-          <View style={styles.buttonContainer}>
+        {this.state.fontLoaded ? 
+          <Text style={[{ fontFamily:'Comfortaa-Bold'}, styles.text]}>SKYNDA!</Text>  
+        : null }
+        {this.state.fontLoaded ? 
+          <Text style={[{fontFamily:'Comfortaa-Bold'},styles.text, styles.undertext]}>Nu spelar vi</Text>
+         : null }
+         
+          <View style={styles.buttonContainer}> 
+          {this.state.fontLoaded ? 
             <TouchableHighlight onPress={this.onPressPlay} style={styles.playButton}>
-                <Text style={styles.buttonText}>SPELA</Text>
+           
+                <Text style={[{fontFamily:'Comfortaa-Bold'},styles.buttonText]}>SPELA</Text>
+       
             </TouchableHighlight>
+            : null }
             </View>
+          
         </View>
 
         </LinearGradient>
@@ -52,22 +74,25 @@ export default class HomeScreen extends React.Component {
     },
     
     text: {
-        color: 'white',
+        color: '#ffffff',
         fontSize: 40,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+
+      
     },
     undertext: {
         fontSize: 25,
-        marginBottom: 20 
+        marginBottom: 20,
     },
     playButton: {
         backgroundColor: '#47ef88',
         width: '100%',
-        height: 40,
+        height: 50,
         borderRadius: 6,
         alignItems: 'center',
+
         padding: 10,
-        marginTop: 30
+        
     },
 
     buttonText: {
@@ -78,7 +103,10 @@ export default class HomeScreen extends React.Component {
     buttonContainer: {
         margin: '5%',
         width: '60%',
-        padding: 20
+        height: 50,
+    
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 
 });
