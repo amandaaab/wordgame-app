@@ -22,7 +22,6 @@ export default class HomeScreen extends React.Component {
   
     onPressPlay = () => {
         this.props.navigation.navigate('play')
-        alert('game begins!')
     }
     
 
