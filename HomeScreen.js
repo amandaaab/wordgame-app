@@ -65,7 +65,7 @@ export default class HomeScreen extends React.Component {
                 <TouchableHighlight onPress={this.onPressPlay} style={styles.playButton}>
                     <Text style={[{fontFamily:'Comfortaa-Bold'},styles.buttonText]}>Spela</Text>
                 </TouchableHighlight>
-            
+    
             : null }
 
             </LinearGradient>
