@@ -42,7 +42,7 @@ export default class PlayScreen extends React.Component {
     words: [],
     timer: 10,
     usedExtraTime: false,
-    timer: 50, 
+    timer: 5, 
     score: 0
   }
 
@@ -175,7 +175,7 @@ export default class PlayScreen extends React.Component {
         flex: 1,
         backgroundColor: 'rgba(235,43,70,1)',
         alignItems: 'center',
-        //justifyContent: 'center',
+        justifyContent: 'center',
         },
         text: {
             padding: 20,
