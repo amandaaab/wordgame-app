@@ -38,27 +38,25 @@ export default class HomeScreen extends React.Component {
           
           }}>
         
-        <View style={styles.container}>
-        {this.state.fontLoaded ? 
-          <Text style={[{ fontFamily:'Comfortaa-Bold'}, styles.text]}>SKYNDA!</Text>  
-        : null }
-        {this.state.fontLoaded ? 
-          <Text style={[{fontFamily:'Comfortaa-Bold'},styles.text, styles.undertext]}>Nu spelar vi</Text>
-         : null }
-         
-          <View style={styles.buttonContainer}> 
-          {this.state.fontLoaded ? 
-            <TouchableHighlight onPress={this.onPressPlay} style={styles.playButton}>
-           
-                <Text style={[{fontFamily:'Comfortaa-Bold'},styles.buttonText]}>SPELA</Text>
-       
-            </TouchableHighlight>
+            <View style={styles.container}>
+            {this.state.fontLoaded ? 
+            <Text style={[{ fontFamily:'Comfortaa-Bold'}, styles.text]}>SKYNDA!</Text>  
             : null }
+            {this.state.fontLoaded ? 
+            <Text style={[{fontFamily:'Comfortaa-Bold'},styles.text, styles.undertext]}>Nu spelar vi</Text>
+            : null }
+            
+            
+            {this.state.fontLoaded ? 
+                <TouchableHighlight onPress={this.onPressPlay} style={styles.playButton}>
+                    <Text style={[{fontFamily:'Comfortaa-Bold'},styles.buttonText]}>Spela</Text>
+                </TouchableHighlight>
+            
+            : null }
+            
             </View>
-          
-        </View>
 
-        </LinearGradient>
+    </LinearGradient>
      
       );
     }
@@ -77,8 +75,7 @@ export default class HomeScreen extends React.Component {
         color: '#ffffff',
         fontSize: 40,
         fontWeight: 'bold',
-
-      
+  
     },
     undertext: {
         fontSize: 25,
@@ -86,27 +83,19 @@ export default class HomeScreen extends React.Component {
     },
     playButton: {
         backgroundColor: '#47ef88',
-        width: '100%',
+        width: '60%',
         height: 50,
         borderRadius: 6,
+        justifyContent: "center",
         alignItems: 'center',
-
         padding: 10,
         
     },
 
     buttonText: {
         color: 'rgba(0,21,72,1)',
-        fontWeight: 'bold'
+        fontSize: 20
     }, 
-    
-    buttonContainer: {
-        margin: '5%',
-        width: '60%',
-        height: 50,
-    
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
+   
 
 });
