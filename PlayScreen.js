@@ -40,9 +40,9 @@ export default class PlayScreen extends React.Component {
   state = {
     text: '',
     words: [],
-    timer: 10,
+    timer: 1,
     usedExtraTime: false,
-    timer: 10, 
+    timer: 1, 
     score: 0
   }
 
@@ -73,7 +73,7 @@ export default class PlayScreen extends React.Component {
   }
 
   searchSubmit = () => {
-    alert('search')
+   
   }
 
   onSave = () => {
