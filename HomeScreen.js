@@ -37,27 +37,42 @@ export default class HomeScreen extends React.Component {
           
           }}>
         
-        <View style={styles.container}>
-        {this.state.fontLoaded ? 
-          <Text style={[{ fontFamily:'Comfortaa-Bold'}, styles.text]}>SKYNDA!</Text>  
-        : null }
-        {this.state.fontLoaded ? 
-          <Text style={[{fontFamily:'Comfortaa-Bold'},styles.text, styles.undertext]}>Nu spelar vi</Text>
-         : null }
-         
-          <View style={styles.buttonContainer}> 
-          {this.state.fontLoaded ? 
-            <TouchableHighlight onPress={this.onPressPlay} style={styles.playButton}>
-           
-                <Text style={[{fontFamily:'Comfortaa-Bold'},styles.buttonText]}>SPELA</Text>
-       
-            </TouchableHighlight>
+            <View style={styles.container}>
+            {this.state.fontLoaded ? 
+            <Text style={[{ fontFamily:'Comfortaa-Bold'}, styles.text]}>SKYNDA!</Text>  
             : null }
-            </View>
-          
-        </View>
+            {this.state.fontLoaded ? 
+            <Text style={[{fontFamily:'Comfortaa-Bold'},styles.text, styles.undertext]}>Nu spelar vi</Text>
+            : null }
+            
+        <LinearGradient
+            colors={['#62fc9d', '#47ef88']}
+            style={{ width: '60%',
+            height: 50,
+            borderRadius: 6,
+            justifyContent: "center",
+            alignItems: 'center',
+            padding: 10,
+            shadowColor: '#294434',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.8,
+            shadowRadius: 2,
+            elevation: 1,
+        
+        }}
+          >
+            {this.state.fontLoaded ? 
+                <TouchableHighlight onPress={this.onPressPlay} style={styles.playButton}>
+                    <Text style={[{fontFamily:'Comfortaa-Bold'},styles.buttonText]}>Spela</Text>
+                </TouchableHighlight>
+            
+            : null }
 
-        </LinearGradient>
+            </LinearGradient>
+            
+            </View>
+
+    </LinearGradient>
      
       );
     }
@@ -76,36 +91,27 @@ export default class HomeScreen extends React.Component {
         color: '#ffffff',
         fontSize: 40,
         fontWeight: 'bold',
-
-      
+  
     },
     undertext: {
         fontSize: 25,
         marginBottom: 20,
     },
     playButton: {
-        backgroundColor: '#47ef88',
-        width: '100%',
+        backgroundColor: 'transparent',
+        width: '60%',
         height: 50,
         borderRadius: 6,
+        justifyContent: "center",
         alignItems: 'center',
-
         padding: 10,
         
     },
 
     buttonText: {
         color: 'rgba(0,21,72,1)',
-        fontWeight: 'bold'
+        fontSize: 20
     }, 
-    
-    buttonContainer: {
-        margin: '5%',
-        width: '60%',
-        height: 50,
-    
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
+   
 
 });
