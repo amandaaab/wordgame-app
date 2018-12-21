@@ -46,13 +46,30 @@ export default class HomeScreen extends React.Component {
             <Text style={[{fontFamily:'Comfortaa-Bold'},styles.text, styles.undertext]}>Nu spelar vi</Text>
             : null }
             
-            
+        <LinearGradient
+            colors={['#62fc9d', '#47ef88']}
+            style={{ width: '60%',
+            height: 50,
+            borderRadius: 6,
+            justifyContent: "center",
+            alignItems: 'center',
+            padding: 10,
+            shadowColor: '#294434',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.8,
+            shadowRadius: 2,
+            elevation: 1,
+        
+        }}
+          >
             {this.state.fontLoaded ? 
                 <TouchableHighlight onPress={this.onPressPlay} style={styles.playButton}>
                     <Text style={[{fontFamily:'Comfortaa-Bold'},styles.buttonText]}>Spela</Text>
                 </TouchableHighlight>
             
             : null }
+
+            </LinearGradient>
             
             </View>
 
@@ -82,7 +99,7 @@ export default class HomeScreen extends React.Component {
         marginBottom: 20,
     },
     playButton: {
-        backgroundColor: '#47ef88',
+        backgroundColor: 'transparent',
         width: '60%',
         height: 50,
         borderRadius: 6,
