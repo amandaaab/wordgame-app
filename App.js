@@ -9,7 +9,7 @@ import PlayScreen from './PlayScreen';
 import ScoreScreen from './ScoreScreen';
 import ProfileScreen from './ProfileScreen';
 
-const HomeIcon = <Ionicons name="md-play-circle" size={50} color="#5ef992" />;
+const HomeIcon = <Ionicons name="md-play-circle" size={50} color="#fff684" border="1 solid black" />;
 const HelpIcon = <Ionicons name="md-help-circle" size={50} color="#fff684" />;
 const ProfileIcon = <Ionicons name="md-contact" size={50} color="#fff684" />;
 
