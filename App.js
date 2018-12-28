@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import {createBottomTabNavigator, createAppContainer, createStackNavigator, createSwitchNavigator, createDrawerNavigator} from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -9,9 +9,10 @@ import PlayScreen from './PlayScreen';
 import ScoreScreen from './ScoreScreen';
 import ProfileScreen from './ProfileScreen';
 
-const HomeIcon = <Ionicons name="md-play-circle" size={50} color="#fff684" border="1 solid black" />;
-const HelpIcon = <Ionicons name="md-help-circle" size={50} color="#fff684" />;
-const ProfileIcon = <Ionicons name="md-contact" size={50} color="#fff684" />;
+//const HomeIcon = <Ionicons name="md-play-circle" size={50} color={focused ? 'green' : '"#fff684'} border="1 solid black" />;
+//const HelpIcon = <Ionicons name="md-help-circle" size={50} color="#fff684" />;
+//const ProfileIcon = <Ionicons name="md-contact" size={50} color="#fff684" />;
+
 
 const HomeStack = createSwitchNavigator(
   {
@@ -59,13 +60,17 @@ const ProfileStack = createSwitchNavigator(
  
 
 const Menu = createBottomTabNavigator(
+ 
   {
-    Home : {
+    Home: {
+
       screen: HomeStack,
       navigationOptions: ({navigation}) => ({
-      tabBarIcon: HomeIcon,
+      tabBarIcon: ({ focused }) => <Ionicons name="md-play-circle" size={50} color={focused ? '#f9eb43' : '#fff684'} border="1 solid black" />,
         tabBarOptions : {
+          showLabel: false,
           style : {
+
               backgroundColor: 'transparent',
               borderTopWidth: 0,
               position: 'absolute',
@@ -80,8 +85,9 @@ const Menu = createBottomTabNavigator(
     Help : {
       screen: HelpStack,
       navigationOptions: ({navigation}) => ({
-        tabBarIcon: HelpIcon,
+        tabBarIcon: ({ focused }) => <Ionicons name="md-help-circle" size={50} color={focused ? '#f9eb43' : '#fff684'} border="1 solid black" />,
           tabBarOptions : {
+            showLabel: false,
             style : {
                 backgroundColor: 'transparent',
                 borderTopWidth: 0,
@@ -98,8 +104,9 @@ const Menu = createBottomTabNavigator(
     Profile: {
       screen: ProfileStack,
       navigationOptions: ({navigation}) => ({
-        tabBarIcon: ProfileIcon,
+        tabBarIcon: ({ focused }) => <Ionicons name="md-contact" size={50} color={focused ? '#f9eb43' : '#fff684'} border="1 solid black" />,
           tabBarOptions : {
+            showLabel: false,
             style : {
                 backgroundColor: 'transparent',
                 borderTopWidth: 0,
