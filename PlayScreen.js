@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableHighlight, ScrollView } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, Keyboard, Text, View, TextInput, TouchableHighlight, ScrollView } from 'react-native';
 
 
 const things = 
@@ -42,7 +42,7 @@ export default class PlayScreen extends React.Component {
     words: [],
     timer: 1,
     usedExtraTime: false,
-    timer: 5, 
+    timer: 25, 
     score: 0
   }
 
@@ -129,21 +129,32 @@ export default class PlayScreen extends React.Component {
 
       return (
         
-        <View style={styles.container}>
-        <Text style={styles.text}>{this.state.timer}</Text>
-          <Text style={styles.text}>{things[randomNumber].question}</Text>
-        
+    <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+   
+   <View style={styles.questionBox}>
+            <Text style={styles.text}>{things[randomNumber].question}</Text>
+            <Text style={styles.text}>{this.state.timer}</Text>
+          </View>
+
+        <View style={{flex: 1}}>
+         
           <ScrollView 
             contentContainerStyle={styles.contentContainer}
           >
-          <ScrollView contentContainerStyle={styles.small}>
-              {this.state.words.map(obj => 
-                <Text style={{color: obj.color, textDecorationLine: obj.dec}}>{obj.word}</Text>
-              )}
-          </ScrollView>
-          </ScrollView>
 
-          <Text style={styles.text}>{this.state.score}</Text>
+            <ScrollView
+            ref={ref => this.scrollView = ref}
+            onContentSizeChange={(contentWidth, contentHeight)=>{        
+                this.scrollView.scrollToEnd({animated: true});
+            }}
+            >
+                {this.state.words.map(obj => 
+                  <Text style={{fontSize: 18, color: obj.color, textDecorationLine: obj.dec}}>{obj.word}</Text>
+                )}
+            </ScrollView>
+          </ScrollView>
+          </View>
+
           <View style={styles.inputContainer}>
               <TextInput
                 ref={input => { this.textInput = input }}
@@ -151,6 +162,7 @@ export default class PlayScreen extends React.Component {
                 style={styles.input}
                 onSubmitEditing={this.onSave}
                 autoFocus={true}
+                placeholder={'Ditt svar..'}
               />
               <TouchableHighlight                     
                 style={styles.enterButton}
@@ -158,6 +170,8 @@ export default class PlayScreen extends React.Component {
                     <Text>Enter</Text>
                 </TouchableHighlight>
             </View>
+            {/*<Text style={styles.text}>{this.state.score}</Text>*/}
+
             {!this.state.usedExtraTime ? 
             <TouchableHighlight                     
            style={styles.button}
@@ -165,7 +179,7 @@ export default class PlayScreen extends React.Component {
                 <Text>10 sek extra tid!(10 poäng)</Text>
             </TouchableHighlight>
             : null}
-        </View>
+        </KeyboardAvoidingView>
       );
     }
   }
@@ -173,23 +187,28 @@ export default class PlayScreen extends React.Component {
  const styles = StyleSheet.create({
       container: { 
         flex: 1,
-        backgroundColor: 'rgba(235,43,70,1)',
-        alignItems: 'center',
-        justifyContent: 'center',
+        flexDirection: 'column',
+        backgroundColor: 'rgba(0,21,72,1)',
+        //backgroundColor: 'rgba(235,43,70,1)',
+        //alignItems: 'center' //, kan inte ha, då får scrollview ingen width
+        //justifyContent: 'center',
         },
         text: {
-            padding: 20,
+            //padding: 20,
             color: 'white',
+            fontSize: 22,
         }, 
         input: {
             backgroundColor: 'white',
-            width: '60%',
-            height: 50,
+            width: '80%',
+            height: 60,
             borderRadius: 5,
             margin: 2,
+            paddingLeft: 8,
+            fontSize: 18,
         },
         enterButton: {
-          height: 50,
+          height: 60,
           backgroundColor: '#47ef88',
           alignItems: 'center',
           justifyContent: 'center',
@@ -211,22 +230,44 @@ export default class PlayScreen extends React.Component {
 
         },
         inputContainer: {
-          flex: 1,
+          flex: 0,
           flexDirection: 'row', 
-          alignItems: 'center',
-          width: '100%',
+          width: '96%',
           justifyContent: 'center',
+          marginLeft: '2%',
+          marginRight: '2%',
         },
         contentContainer: {
-          //flex: 1, 
-          height: 200,
-          width: 280,
+          height: 250,
+          marginLeft: '2%',
+          marginRight: '2%',
+          width: '96%',
           //justifyContent: 'center',
           //alignItems: 'center',
           backgroundColor: 'white',
+          borderRadius: 5,
           //flexDirection: 'column',
+          shadowColor: '#294434',
+            shadowOffset: { width: 3, height: 3 },
+            shadowOpacity: 0.8,
+            shadowRadius: 2,
+            flexGrow: 1,
+            marginBottom: '2%',
         },
-        small : {
+
+        questionBox: {
+          flexDirection: 'row',
+          flex: 0,
+          backgroundColor: 'rgba(235,43,70,1)',
+          //backgroundColor: '#dee0e2',
+          marginTop: '5%',
+          marginLeft: '2%',
+          marginRight: '2%',
+          marginBottom: '2%',
+          borderRadius: 5,
+          height: '10%',
+          justifyContent: 'space-around',
+          alignItems: 'center',
         }
        
   })
