@@ -3,15 +3,45 @@ import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import {createBottomTabNavigator, createAppContainer, createStackNavigator, createSwitchNavigator, createDrawerNavigator} from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 
+
 import HomeScreen from './HomeScreen';
 import HelpScreen from './HelpScreen';
 import PlayScreen from './PlayScreen';
 import ScoreScreen from './ScoreScreen';
 import ProfileScreen from './ProfileScreen';
+import * as firebase from 'firebase';
 
-//const HomeIcon = <Ionicons name="md-play-circle" size={50} color={focused ? 'green' : '"#fff684'} border="1 solid black" />;
-//const HelpIcon = <Ionicons name="md-help-circle" size={50} color="#fff684" />;
-//const ProfileIcon = <Ionicons name="md-contact" size={50} color="#fff684" />;
+import 'firebase/firestore';
+
+//const firebase = require("firebase");
+
+// Intialize Firebase
+const config = {
+  apiKey: "AIzaSyBHdEu5KIZzY98_aW0s-Stln-KoC3HUF2E",
+  authDomain: "wordgame-app.firebaseapp.com",
+  databaseURL: "https://wordgame-app.firebaseio.com",
+  projectId: "wordgame-app",
+  storageBucket: "wordgame-app.appspot.com",
+  messagingSenderId: "908666592559"
+};
+firebase.initializeApp(config);
+
+var db = firebase.firestore();
+console.log(config, 'configen')
+
+db.settings({
+  timestampsInSnapshots: true
+});
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(config);
+}
+
+db.collection("questions").get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data()}`);
+  });
+});
 
 
 const HomeStack = createSwitchNavigator(

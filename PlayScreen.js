@@ -42,7 +42,7 @@ export default class PlayScreen extends React.Component {
     words: [],
     timer: 1,
     usedExtraTime: false,
-    timer: 5, 
+    timer: 20, 
     score: 0
   }
 
