@@ -8,7 +8,9 @@ import { Font } from 'expo';
 export default class ScoreScreen extends React.Component {
 
     state = {
-        fontLoaded: false
+        fontLoaded: false,
+        score: this.props.navigation.state.params.userScore,
+        message: ''
     }
 
     async componentDidMount() {
@@ -17,6 +19,21 @@ export default class ScoreScreen extends React.Component {
         });
 
         this.setState({ fontLoaded: true });
+
+        if(this.state.score === 0){
+            this.setState({
+                message: 'Bättre lycka nästa gång...'
+            })
+        }
+        else if(this.state.score >= 1 && this.state.score < 2){
+            this.setState({
+                message: 'Du kan bättre!'
+            })
+        }else{
+            this.setState({
+                message: 'Bra Jobbat!'
+            })
+        }
       }
 
     onPressContinue = () => {
@@ -24,9 +41,10 @@ export default class ScoreScreen extends React.Component {
        
     }
 
+
     render() {
 
-        let score = this.props.navigation.state.params.userScore
+    
 
       return (
         <LinearGradient 
@@ -36,13 +54,13 @@ export default class ScoreScreen extends React.Component {
         }}>
         <View style={styles.container}>
         {this.state.fontLoaded ? 
-            <Text style={[{fontFamily:'Comfortaa-Bold'}, styles.text, styles.message]}>BRA JOBBAT!</Text>  
+            <Text style={[{fontFamily:'Comfortaa-Bold'}, styles.text, styles.message]}>{this.state.message}</Text>  
         : null }
         {this.state.fontLoaded ? 
             <Text style={[{ fontFamily:'Comfortaa-Bold'}, styles.text]}>{`Du fick`}</Text>    
         : null }
         {this.state.fontLoaded ? 
-            <Text style={[{ fontFamily:'Comfortaa-Bold'}, styles.text, styles.point]}>{`${score} rätt`}</Text>
+            <Text style={[{ fontFamily:'Comfortaa-Bold'}, styles.text, styles.point]}>{`${this.state.score} rätt`}</Text>
             
         : null }
         {this.state.fontLoaded ? 

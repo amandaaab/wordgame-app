@@ -39,7 +39,7 @@ export default class HomeScreen extends React.Component {
         
             <View style={styles.container}>
             {this.state.fontLoaded ? 
-            <Text style={[{ fontFamily:'Comfortaa-Bold'}, styles.text]}>SKYNDA!</Text>  
+            <Text style={[{ fontFamily:'Comfortaa-Bold'}, styles.text, styles.title]}>SKYNDA!</Text>  
             : null }
             {this.state.fontLoaded ? 
             <Text style={[{fontFamily:'Comfortaa-Bold'},styles.text, styles.undertext]}>Nu spelar vi</Text>
@@ -86,16 +86,22 @@ export default class HomeScreen extends React.Component {
       justifyContent: 'center',
       width: '100%'
     },
+
+    title: {
+        marginBottom: 20,
+        fontSize: 50,
+        fontWeight: 'bold',
+    },
     
     text: {
         color: '#ffffff',
         fontSize: 40,
-        fontWeight: 'bold',
+        
   
     },
     undertext: {
         fontSize: 25,
-        marginBottom: 20,
+        marginBottom: 50,
     },
     playButton: {
         backgroundColor: 'transparent',
