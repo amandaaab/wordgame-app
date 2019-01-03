@@ -16,7 +16,7 @@ import 'firebase/firestore';
 //const firebase = require("firebase");
 
 // Intialize Firebase
-const config = {
+/*const config = {
   apiKey: "AIzaSyBHdEu5KIZzY98_aW0s-Stln-KoC3HUF2E",
   authDomain: "wordgame-app.firebaseapp.com",
   databaseURL: "https://wordgame-app.firebaseio.com",
@@ -37,11 +37,11 @@ if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
 
-db.collection("questions").get().then((querySnapshot) => {
+/*db.collection("questions").get().then((querySnapshot) => {
   querySnapshot.forEach((doc) => {
       console.log(`${doc.id} => ${doc.data()}`);
   });
-});
+});*/
 
 
 const HomeStack = createSwitchNavigator(
@@ -152,8 +152,13 @@ const Menu = createBottomTabNavigator(
   }
 )
 
-export default createAppContainer(Menu)
+const AppContainer = createAppContainer(Menu)
 
+export default class App extends React.Component {
+	render() {
+		return <AppContainer />;
+	}
+}
 
 
 
