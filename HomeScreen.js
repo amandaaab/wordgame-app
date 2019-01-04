@@ -81,8 +81,8 @@ export default class HomeScreen extends React.Component {
 
             </LinearGradient>
 
-            {this.state.questions.map(question => 
-            <Text style={{color: 'white'}}>{question.question} {question.answers}</Text>
+            {this.state.questions.map((question, i) => 
+            <Text key={i} style={{color: 'white'}}>{question.question} {question.answers}</Text>
                 //console.log('HIHI', question)
                 )}
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, KeyboardAvoidingView, Keyboard, Text, View, TextInput, TouchableHighlight, ScrollView } from 'react-native';
-
+import db from './firebaseConfig';
 
 const things = 
 [
@@ -43,13 +43,36 @@ export default class PlayScreen extends React.Component {
     timer: 1,
     usedExtraTime: false,
     timer: 20, 
-    score: 0
+    score: 0,
+    questions: [],
+    selectedQuestion: null,
+    answers: [],
+  }
+
+  async componentWillMount(){
+
+    let questionsArray = []; 
+     await db.collection("questions").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if(doc.data().question !== undefined){
+            questionsArray.push(doc.data().question);
+          }
+            //console.log(questionsArray);
+            //console.log(`${doc.id} => ${doc.data()}`);
+        });
+      });
+
+      this.setState({ questions: questionsArray });
+
   }
 
   componentDidMount() {
     this.clockCall = setInterval(() => {
       this.decrementClock();
     }, 1000);
+
+    
+
    }
   
    componentWillUnmount() {
@@ -76,10 +99,37 @@ export default class PlayScreen extends React.Component {
    
   }
 
-  onSave = () => {
+onSave = () => {
     this.textInput.clear()
+    const answer2 = this.state.questions.filter(obj => obj === `${this.state.questions[randomNumber]}`)
+    console.log('ANSWER!!!!!!!!!!!!!!!!!!!!!!', answer2)
     const answer = things.filter(obj => obj.question === `${things[randomNumber].question}`)
-    const yay = answer[0].answers.includes(this.state.text)
+
+    db.collection("questions").where("question", "==", `${this.state.questions[randomNumber]}`).get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+       console.log('FRÅN ONSAVE!!!!!!!', doc.data())//här consollogas objekt med rätt svar 
+          //console.log(questionsArray);
+          //console.log(`${doc.id} => ${doc.data()}`);
+        console.log('BARA SVARENNNN', doc.data().answer);
+        let answersArray = [];
+        answersArray.push(doc.data().answer)
+        this.setState({
+          answers : answersArray
+        }, () => this.correctThis())
+      });
+    });
+    
+  }
+
+
+  correctThis = () => {
+    console.log('FRÅN CORRECTTHIIIIIIS!!!')
+    console.log('array state', this.state.answers)
+
+
+    //skriv en funktion där consollogen är för att hålla statet uppdaterat. där i jämförs det och yay funktionen nedan körs. 
+    //const yay = answer[0].answers.includes(this.state.text)
+    const yay = this.state.answers.includes(this.state.text);
 
     if(yay){
       if(this.state.words.filter( word => word.word === this.state.text).length > 0){
@@ -115,6 +165,9 @@ export default class PlayScreen extends React.Component {
   }), () =>   console.log('textfinss ej', this.state.words))
   }
 
+
+
+
   }
 
   onGetSeconds = () => {
@@ -127,12 +180,15 @@ export default class PlayScreen extends React.Component {
 
     render() {
 
+      console.log('state från playscreen!', this.state.questions)
+
       return (
         
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
    
    <View style={styles.questionBox}>
-            <Text style={styles.text}>{things[randomNumber].question}</Text>
+            {/*<Text style={styles.text}>{things[randomNumber].question}</Text>*/}
+            <Text style={styles.text}>{this.state.questions[randomNumber]}</Text>
             <Text style={styles.text}>{this.state.timer}</Text>
           </View>
 
