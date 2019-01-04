@@ -1,40 +1,18 @@
 import React from 'react';
 import { StyleSheet, KeyboardAvoidingView, Text, View, TextInput, TouchableHighlight, ScrollView } from 'react-native';
-import db from './firebaseConfig';
 
 
 export default class PlayScreen extends React.Component {
 
   state = {
+    allQandA: this.props.screenProps.allDocs,
     text: '', //text from userinput
     words: [],//all words you have written in the inputfield, both right and wrong
     usedExtraTime: false,
     timer: 20, // timer countdown
     score: 0,
-    questions: [], //questions from database in an array
     answers: [], //array with answers(in an array too) that belongs to the selected question.
     randomNumber: Math.floor(Math.random() * Math.floor(3)) //We need a randomNumber for later to random get a question from an array with questions
-
-
-  }
-
-
-
-  async componentWillMount(){
-
-//getting all questions from the database, push them to the array and set state
-    let questionsArray = []; 
-
-     await db.collection("questions").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          if(doc.data().question !== undefined){
-            questionsArray.push(doc.data().question);
-          }
-        });
-      });
-
-      this.setState({ questions: questionsArray });
-
   }
 
   componentDidMount() {
@@ -66,24 +44,16 @@ onSave = () => {
     this.textInput.clear()
     //const answer2 = this.state.questions.filter(obj => obj === `${this.state.questions[randomNumber]}`)
 
+    console.log('vald fråga:', this.state.allQandA[this.state.randomNumber].question);
+    let allAnswers = this.state.allQandA.filter(obj => obj.question === this.state.allQandA[this.state.randomNumber].question)[0].answers;
 
-
-    db.collection("questions").where("question", "==", `${this.state.questions[this.state.randomNumber]}`).get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        let answersArray = [];
-        answersArray.push(doc.data().answers)
-        this.setState({
-          answers : answersArray
-        }, () => this.correctThis())
-      });
-    });
-    
+    this.correctThis(allAnswers)
   }
 
 
-  correctThis = () => {
-    const yay = this.state.answers[0].includes(this.state.text);
-    if(yay){
+  correctThis = (allAnswers) => {
+    const isItCorrect = allAnswers.includes(this.state.text);
+    if(isItCorrect){
       if(this.state.words.filter( word => word.word === this.state.text).length > 0){
         alert('ordet finns redan')
       } else{
@@ -119,7 +89,6 @@ onSave = () => {
 
 
 
-
   }
 
   onGetSeconds = () => {
@@ -131,15 +100,14 @@ onSave = () => {
   }
 
     render() {
-
-      let randomNumber = Math.floor(Math.random() * Math.floor(this.state.questions.length));
-
+      //let randomNumber = Math.floor(Math.random() * Math.floor(this.state.questions2.length));
+      //console.log('Alla frågor:', this.props.screenProps.allDocs)
       return (
         
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
    
    <View style={styles.questionBox}>
-            <Text style={styles.text}>{this.state.questions[this.state.randomNumber]}</Text>
+            <Text style={styles.text}>{this.state.allQandA[this.state.randomNumber].question}</Text>
             <Text style={styles.text}>{this.state.timer}</Text>
           </View>
 

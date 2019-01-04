@@ -9,39 +9,8 @@ import HelpScreen from './HelpScreen';
 import PlayScreen from './PlayScreen';
 import ScoreScreen from './ScoreScreen';
 import ProfileScreen from './ProfileScreen';
-import * as firebase from 'firebase';
 
-import 'firebase/firestore';
-
-//const firebase = require("firebase");
-
-// Intialize Firebase
-/*const config = {
-  apiKey: "AIzaSyBHdEu5KIZzY98_aW0s-Stln-KoC3HUF2E",
-  authDomain: "wordgame-app.firebaseapp.com",
-  databaseURL: "https://wordgame-app.firebaseio.com",
-  projectId: "wordgame-app",
-  storageBucket: "wordgame-app.appspot.com",
-  messagingSenderId: "908666592559"
-};
-firebase.initializeApp(config);
-
-var db = firebase.firestore();
-console.log(config, 'configen')
-
-db.settings({
-  timestampsInSnapshots: true
-});
-
-if (!firebase.apps.length) {
-  firebase.initializeApp(config);
-}
-
-/*db.collection("questions").get().then((querySnapshot) => {
-  querySnapshot.forEach((doc) => {
-      console.log(`${doc.id} => ${doc.data()}`);
-  });
-});*/
+import db from './firebaseConfig';
 
 
 const HomeStack = createSwitchNavigator(
@@ -155,8 +124,28 @@ const Menu = createBottomTabNavigator(
 const AppContainer = createAppContainer(Menu)
 
 export default class App extends React.Component {
+  state = {
+    allDocs: [], //questions from database in an array
+  }
+
+  async componentWillMount(){
+
+    //getting all questions from the database, push them to the array and set state
+        let allDocsArray = []; 
+    
+         await db.collection("questions").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                allDocsArray.push(doc.data());
+            });
+          });
+    
+          this.setState({ allDocs: allDocsArray });
+    
+      }
+
+
 	render() {
-		return <AppContainer />;
+		return <AppContainer screenProps={{allDocs: this.state.allDocs}} />;
 	}
 }
 

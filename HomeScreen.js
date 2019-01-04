@@ -6,7 +6,6 @@ import {LinearGradient} from 'expo';
 import { Font } from 'expo';
 
 export default class HomeScreen extends React.Component {
-
     state = {
         fontLoaded: false
     }
@@ -25,8 +24,6 @@ export default class HomeScreen extends React.Component {
     
 
     render() {
-
-
       return (
 
         <LinearGradient 
