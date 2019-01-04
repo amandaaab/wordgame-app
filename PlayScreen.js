@@ -1,64 +1,35 @@
 import React from 'react';
-import { StyleSheet, KeyboardAvoidingView, Keyboard, Text, View, TextInput, TouchableHighlight, ScrollView } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, Text, View, TextInput, TouchableHighlight, ScrollView } from 'react-native';
 import db from './firebaseConfig';
 
-const things = 
-[
-  {
-    "question": "tjejnamn",
-    "answers": [
-        "amanda",
-        "alice",
-        "agnes"
-    ]
-  },
-  {
-    "question": "städer på G",
-    "answers": [
-        "göteborg",
-        "gotland",
-        "grimmered"
-
-    ]
-  },
-  {
-    "question": "saker i ett kök",
-    "answers": [
-        "tallrik",
-        "skål",
-        "sked",
-        "spis"
-    ]
-  },
-]
-let randomNumber = Math.floor(Math.random() * Math.floor(things.length));
-
-console.log('things', things[1].question);
 
 export default class PlayScreen extends React.Component {
 
   state = {
-    text: '',
-    words: [],
-    timer: 1,
+    text: '', //text from userinput
+    words: [],//all words you have written in the inputfield, both right and wrong
     usedExtraTime: false,
-    timer: 20, 
+    timer: 20, // timer countdown
     score: 0,
-    questions: [],
-    selectedQuestion: null,
-    answers: [],
+    questions: [], //questions from database in an array
+    answers: [], //array with answers(in an array too) that belongs to the selected question.
+    randomNumber: Math.floor(Math.random() * Math.floor(3)) //We need a randomNumber for later to random get a question from an array with questions
+
+
   }
+
+
 
   async componentWillMount(){
 
+//getting all questions from the database, push them to the array and set state
     let questionsArray = []; 
+
      await db.collection("questions").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           if(doc.data().question !== undefined){
             questionsArray.push(doc.data().question);
           }
-            //console.log(questionsArray);
-            //console.log(`${doc.id} => ${doc.data()}`);
         });
       });
 
@@ -70,9 +41,6 @@ export default class PlayScreen extends React.Component {
     this.clockCall = setInterval(() => {
       this.decrementClock();
     }, 1000);
-
-    
-
    }
   
    componentWillUnmount() {
@@ -84,8 +52,6 @@ export default class PlayScreen extends React.Component {
     if(this.state.timer === 0){
       this.props.navigation.navigate('score', {userScore: this.state.score} )
     }
-    console.log('timer', this.state.timer)
-
    };
 
 
@@ -95,24 +61,17 @@ export default class PlayScreen extends React.Component {
     })
   }
 
-  searchSubmit = () => {
-   
-  }
-
+//when clicking on submit  
 onSave = () => {
     this.textInput.clear()
-    const answer2 = this.state.questions.filter(obj => obj === `${this.state.questions[randomNumber]}`)
-    console.log('ANSWER!!!!!!!!!!!!!!!!!!!!!!', answer2)
-    const answer = things.filter(obj => obj.question === `${things[randomNumber].question}`)
+    //const answer2 = this.state.questions.filter(obj => obj === `${this.state.questions[randomNumber]}`)
 
-    db.collection("questions").where("question", "==", `${this.state.questions[randomNumber]}`).get().then((querySnapshot) => {
+
+
+    db.collection("questions").where("question", "==", `${this.state.questions[this.state.randomNumber]}`).get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-       console.log('FRÅN ONSAVE!!!!!!!', doc.data())//här consollogas objekt med rätt svar 
-          //console.log(questionsArray);
-          //console.log(`${doc.id} => ${doc.data()}`);
-        console.log('BARA SVARENNNN', doc.data().answer);
         let answersArray = [];
-        answersArray.push(doc.data().answer)
+        answersArray.push(doc.data().answers)
         this.setState({
           answers : answersArray
         }, () => this.correctThis())
@@ -123,14 +82,7 @@ onSave = () => {
 
 
   correctThis = () => {
-    console.log('FRÅN CORRECTTHIIIIIIS!!!')
-    console.log('array state', this.state.answers)
-
-
-    //skriv en funktion där consollogen är för att hålla statet uppdaterat. där i jämförs det och yay funktionen nedan körs. 
-    //const yay = answer[0].answers.includes(this.state.text)
-    const yay = this.state.answers.includes(this.state.text);
-
+    const yay = this.state.answers[0].includes(this.state.text);
     if(yay){
       if(this.state.words.filter( word => word.word === this.state.text).length > 0){
         alert('ordet finns redan')
@@ -180,15 +132,14 @@ onSave = () => {
 
     render() {
 
-      console.log('state från playscreen!', this.state.questions)
+      let randomNumber = Math.floor(Math.random() * Math.floor(this.state.questions.length));
 
       return (
         
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
    
    <View style={styles.questionBox}>
-            {/*<Text style={styles.text}>{things[randomNumber].question}</Text>*/}
-            <Text style={styles.text}>{this.state.questions[randomNumber]}</Text>
+            <Text style={styles.text}>{this.state.questions[this.state.randomNumber]}</Text>
             <Text style={styles.text}>{this.state.timer}</Text>
           </View>
 

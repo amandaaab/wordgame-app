@@ -4,12 +4,10 @@ import PlayScreen from './PlayScreen';
 //import GradientScreen from './GradientScreen';
 import {LinearGradient} from 'expo';
 import { Font } from 'expo';
-import db from './firebaseConfig';
 
 export default class HomeScreen extends React.Component {
 
     state = {
-        questions: [],
         fontLoaded: false
     }
 
@@ -18,16 +16,6 @@ export default class HomeScreen extends React.Component {
           'Comfortaa-Bold': require('./assets/fonts/Comfortaa-Bold.ttf'),
         });
         this.setState({ fontLoaded: true });
-        let questionsArray = []; 
-        await db.collection("questions").get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                questionsArray.push(doc.data());
-                //console.log(questionsArray);
-                //console.log(`${doc.id} => ${doc.data()}`);
-            });
-          });
-
-          this.setState({ questions: questionsArray });
 
       }
   
@@ -38,7 +26,6 @@ export default class HomeScreen extends React.Component {
 
     render() {
 
-       console.log('state!', this.state.questions)
 
       return (
 
@@ -80,11 +67,6 @@ export default class HomeScreen extends React.Component {
             : null }
 
             </LinearGradient>
-
-            {this.state.questions.map((question, i) => 
-            <Text key={i} style={{color: 'white'}}>{question.question} {question.answers}</Text>
-                //console.log('HIHI', question)
-                )}
 
             </View>
 
