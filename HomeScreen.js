@@ -4,11 +4,16 @@ import PlayScreen from './PlayScreen';
 //import GradientScreen from './GradientScreen';
 import {LinearGradient} from 'expo';
 import { Font } from 'expo';
+import * as firebase from 'firebase';
 
 export default class HomeScreen extends React.Component {
-    state = {
-        fontLoaded: false
+    constructor(props){
+        super(props)
+        this.state = {
+        fontLoaded: false,
     }
+    }
+    
 
     async componentDidMount() {
        await Font.loadAsync({
@@ -24,6 +29,8 @@ export default class HomeScreen extends React.Component {
     
 
     render() {
+        const user = this.props.screenProps.currentUser
+
       return (
 
         <LinearGradient 
@@ -37,7 +44,7 @@ export default class HomeScreen extends React.Component {
             <Text style={[{ fontFamily:'Comfortaa-Bold'}, styles.text, styles.title]}>SKYNDA!</Text>  
             : null }
             {this.state.fontLoaded ? 
-            <Text style={[{fontFamily:'Comfortaa-Bold'},styles.text, styles.undertext]}>Nu spelar vi</Text>
+            <Text style={[{fontFamily:'Comfortaa-Bold'},styles.text, styles.undertext]}>Nu spelar vi {user && user.uid}!</Text>
             : null }
             
         <LinearGradient
