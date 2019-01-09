@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput, } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+import { StyleSheet, Text, View, TouchableHighlight, TextInput, KeyboardAvoidingView } from 'react-native';
+import { FormLabel, FormInput, FormValidationMessage,} from 'react-native-elements';
 import {LinearGradient} from 'expo';
 
 import * as firebase from 'firebase';
@@ -51,8 +51,10 @@ class SignupScreen extends React.Component {
           style={{flex: 1, justifyContent: 'center', alignItems: 'center'
           
           }}>
-          <Text style={styles.screenLabel}>Registrera dig</Text>
+           <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-100} enabled>
+         
             <View style={styles.content}>
+            <Text style={styles.screenLabel}>Registrera dig</Text>
 
                 <Text style={styles.labelText}>Namn</Text>
                 <TextInput
@@ -90,6 +92,7 @@ class SignupScreen extends React.Component {
                 </TouchableHighlight>
 
             </View>
+            </KeyboardAvoidingView>
             </LinearGradient>
         )
 
@@ -101,7 +104,7 @@ class SignupScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ff5656',
+        backgroundColor: 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',

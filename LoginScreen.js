@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, TextInput, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, } from 'react-native-elements';
 import SignupScreen from './SignupScreen';
 import {LinearGradient} from 'expo';
@@ -65,14 +65,18 @@ class LoginScreen extends React.Component {
             )
         } else {
             return (
-                 <LinearGradient
+                
+        <LinearGradient
           colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
           style={{flex: 1, justifyContent: 'center', alignItems: 'center'
           
           }}>
-          <Text style={styles.screenLabel}>Logga in</Text>
+
+       <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-100} enabled>
+         
 
                     <View style={styles.content}>
+                    <Text style={styles.screenLabel}>Logga in</Text>
                     <Text style={styles.labelText}>Email</Text>
                     <TextInput
                         
@@ -96,18 +100,22 @@ class LoginScreen extends React.Component {
                         placeholder="Ditt Lösenord"
                         onChangeText={(password) => this.setState({ password })}
                         value={this.state.password}
-                        autoFocus={true}
+                       
                     />
 
                     <TouchableHighlight  style={[styles.button]}>
                         <Text  onPress={() => this.isLogin()} style={styles.btnText}>Logga in</Text>
                     </TouchableHighlight>
 
+                   
+
                     <TouchableHighlight  style={[styles.button, styles.reg]}>
                         <Text onPress={() => this.renderSignup()} style={styles.regText}>Skapa Konto</Text>
                     </TouchableHighlight>
                 </View>
+              </KeyboardAvoidingView>
               </LinearGradient>
+              
 
 
             )
@@ -120,7 +128,7 @@ class LoginScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ff5656',
+        backgroundColor: 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
@@ -130,7 +138,7 @@ const styles = StyleSheet.create({
     screenLabel: {
         fontSize: 34,
         color: 'white',
-        margin: 10
+        margin: 30
     
     },
     content: {
@@ -188,6 +196,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderBottomColor: '#bbb',
         borderBottomWidth: 0.5,
+        margin: -10
     
     }, 
     regText: {
