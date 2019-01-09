@@ -13,6 +13,7 @@ class SignupScreen extends React.Component {
         this.state = {
             email: '',
             password: '',
+            displayName: '',
             errors: false
         }
 
@@ -23,16 +24,20 @@ class SignupScreen extends React.Component {
 
     trySignup = () => {
 
-        const {email, password} = this.state
+        const {email, password, displayName} = this.state
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(() => {
-             console.log('tjena ny användare', email )
-
-            this.props.isSignupRender()
-           
+            let user = firebase.auth().currentUser;
+                if(user) {
+                    user.updateProfile({
+                        displayName: displayName,
+                    }).then(
+                    () => this.props.isSignupRender()
+                    )
+                }           
         })
-        .catch(()=>{
-            console.log('gick ej att logga in')
+        .catch((error)=>{
+            console.log('gick ej att logga in, error:', error)
         })
         
 
@@ -40,6 +45,16 @@ class SignupScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+
+                <FormLabel>Namn</FormLabel>
+                <FormInput
+                    style={{ height: 40, width: '60%', textAlign: 'center' }}
+                    placeholder="Namn"
+                    required={true}
+                    onChangeText={(displayName) => this.setState({ displayName })}
+                    value={this.state.displayName}
+                    autoFocus={false}
+                />
 
                 <FormLabel>Email</FormLabel>
                 <FormInput
@@ -55,7 +70,7 @@ class SignupScreen extends React.Component {
                  <FormLabel>Lösenord</FormLabel>
                 <FormInput
                     style={{ height: 40, width: '60%', textAlign: 'center' }}
-                    placeholder="Email"
+                    placeholder="Lösenord"
                     onChangeText={(password) => this.setState({ password })}
                     value={this.state.password}
                     autoFocus={false}

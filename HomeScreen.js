@@ -44,7 +44,7 @@ export default class HomeScreen extends React.Component {
             <Text style={[{ fontFamily:'Comfortaa-Bold'}, styles.text, styles.title]}>SKYNDA!</Text>  
             : null }
             {this.state.fontLoaded ? 
-            <Text style={[{fontFamily:'Comfortaa-Bold'},styles.text, styles.undertext]}>Nu spelar vi {user && user.email}!</Text>
+            <Text style={[{fontFamily:'Comfortaa-Bold'},styles.text, styles.undertext]}>Nu spelar vi {user && user.displayName}!</Text>
             : null }
             
         <LinearGradient
