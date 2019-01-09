@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, TextInput, } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+import {LinearGradient} from 'expo';
+
 import * as firebase from 'firebase';
 
 
@@ -44,11 +46,17 @@ class SignupScreen extends React.Component {
     }
     render() {
         return (
-            <View style={styles.container}>
+            <LinearGradient
+          colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
+          style={{flex: 1, justifyContent: 'center', alignItems: 'center'
+          
+          }}>
+          <Text style={styles.screenLabel}>Registrera dig</Text>
+            <View style={styles.content}>
 
-                <FormLabel>Namn</FormLabel>
-                <FormInput
-                    style={{ height: 40, width: '60%', textAlign: 'center' }}
+                <Text style={styles.labelText}>Namn</Text>
+                <TextInput
+                    style={styles.input}
                     placeholder="Namn"
                     required={true}
                     onChangeText={(displayName) => this.setState({ displayName })}
@@ -56,9 +64,9 @@ class SignupScreen extends React.Component {
                     autoFocus={false}
                 />
 
-                <FormLabel>Email</FormLabel>
+                <Text style={styles.labelText}>Email</Text>
                 <TextInput
-                    style={{ height: 40, width: '60%', textAlign: 'center' }}
+                    style={styles.input}
                     placeholder="Email"
                     onChangeText={(email) => this.setState({ email })}
                     value={this.state.email}
@@ -67,20 +75,22 @@ class SignupScreen extends React.Component {
                 {this.state.errors == true ?
                     <FormValidationMessage>Kunde inte hitta en giltlig email</FormValidationMessage>
                     : null}
-                 <FormLabel>Lösenord</FormLabel>
+                 <Text style={styles.labelText}>Lösenord</Text>
                 <TextInput
-                    style={{ height: 40, width: '60%', textAlign: 'center' }}
+                    secureTextEntry={true}
+                    style={styles.input}
                     placeholder="Lösenord"
                     onChangeText={(password) => this.setState({ password })}
                     value={this.state.password}
                     autoFocus={false}
                 />
 
-                <TouchableHighlight>
-                    <Text onPress={() => this.trySignup()} style={styles.LoginButton}>Registrera</Text>
+                <TouchableHighlight style={styles.button}>
+                    <Text onPress={() => this.trySignup()}style={styles.btnText}>Registrera</Text>
                 </TouchableHighlight>
 
             </View>
+            </LinearGradient>
         )
 
     }
@@ -91,21 +101,67 @@ class SignupScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'transparent',
+        backgroundColor: '#ff5656',
         alignItems: 'center',
         justifyContent: 'center',
-        width: '100%'
+        width: '100%',
+        alignItems: 'center'
     },
 
+    screenLabel: {
+        fontSize: 34,
+        color: 'white',
+        margin: 10
+    
+    },
+    content: {
+        height: '50%',
+        width: '100%',
+        
+        justifyContent: 'center', 
+        alignItems: 'center',
+     
+    },
 
-    loginButton: {
-        backgroundColor: 'transparent',
+    load: {
+        backgroundColor: 'black'
+    },
+
+    labelText: {
+       fontSize: 17,
+       fontWeight: 'bold',
+       color:'white'
+       
+    },
+
+    input: {
+      width: '75%',
+      height: 50,
+      textAlign: 'center',
+      borderBottomWidth: 1,
+      borderColor:'#dddbdb',
+      backgroundColor: '#f9f9f9',
+      margin: 12,
+      borderRadius: 14
+
+    },
+
+    button: {
+        backgroundColor: '#74e56e',
         width: '60%',
         height: 50,
-        borderRadius: 6,
+        borderRadius: 30,
         justifyContent: "center",
         alignItems: 'center',
         padding: 10,
+        margin: 10
+
+    },
+
+    btnText: {
+        fontSize: 18,
+        color: 'rgba(0,21,72,1)',
+        fontWeight:'bold'
 
     },
 
