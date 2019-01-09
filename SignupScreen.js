@@ -42,7 +42,7 @@ class SignupScreen extends React.Component {
             <View style={styles.container}>
 
                 <FormLabel>Email</FormLabel>
-                <FormInput
+                <TextInput
                     style={{ height: 40, width: '60%', textAlign: 'center' }}
                     placeholder="Email"
                     onChangeText={(email) => this.setState({ email })}
@@ -53,7 +53,7 @@ class SignupScreen extends React.Component {
                     <FormValidationMessage>Kunde inte hitta en giltlig email</FormValidationMessage>
                     : null}
                  <FormLabel>Lösenord</FormLabel>
-                <FormInput
+                <TextInput
                     style={{ height: 40, width: '60%', textAlign: 'center' }}
                     placeholder="Email"
                     onChangeText={(password) => this.setState({ password })}

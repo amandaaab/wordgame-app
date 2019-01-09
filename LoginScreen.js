@@ -2,6 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, TextInput, ActivityIndicator } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, } from 'react-native-elements';
 import SignupScreen from './SignupScreen';
+
+
+import Icon from 'react-native-vector-icons/FontAwesome';
 import * as firebase from 'firebase';
 
 
@@ -63,24 +66,28 @@ class LoginScreen extends React.Component {
             return (
                 <View style={styles.container}>
                     <FormLabel>Email</FormLabel>
-                    <FormInput
-                        style={{ height: 40, width: '60%', textAlign: 'center' }}
+                    <TextInput
+                        
+                        style={styles.input}
                         placeholder="Tex. amanda@gmail.com"
                         onChangeText={(email) => this.setState({ email })}
                         value={this.state.email}
                         autoFocus={false}
+                        
+                       
+
                     />
                     {this.state.errors == true ?
                         <FormValidationMessage>Kunde inte hitta användaren, försök igen!</FormValidationMessage>
                         : null}
 
                     <FormLabel>Lösenord</FormLabel>
-                    <FormInput
-                        style={{ height: 40, width: '60%', textAlign: 'center' }}
-                        placeholder="********"
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Ditt Lösenord"
                         onChangeText={(password) => this.setState({ password })}
                         value={this.state.password}
-                        autoFocus={false}
+                        autoFocus={true}
                     />
 
                     <TouchableHighlight>
@@ -113,6 +120,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'black'
     },
 
+    input: {
+      width: '90%',
+      height: 40,
+      textAlign: 'center',
+      borderBottomWidth: 1
+
+    },
 
     loginButton: {
         backgroundColor: 'transparent',
