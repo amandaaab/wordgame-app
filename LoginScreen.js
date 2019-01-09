@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput, } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+import { StyleSheet, Text, View, TouchableHighlight, TextInput, ActivityIndicator } from 'react-native';
+import { FormLabel, FormInput, FormValidationMessage, } from 'react-native-elements';
 import SignupScreen from './SignupScreen';
 import * as firebase from 'firebase';
 
@@ -13,7 +13,7 @@ class LoginScreen extends React.Component {
 
         this.state = {
             email: '',
-            testa: 'amanda',
+            password: '',
             errors: false,
             loading: false,
             wantToSignup: false,
@@ -22,53 +22,50 @@ class LoginScreen extends React.Component {
 
     }
 
-   
     renderSignup = () => {
-        this.setState({
-            wantToSignup: true
-        })
+        this.props.viewSignup()
     }
-
-    signedUp = (name) => {
-        this.props.isLoginRender(name)
-        console.log('ny användare')
-    }
-
 
     isLogin = () => {
 
-    const {email, password} = this.state
+        this.setState({
+            loading: true
+        })
+        const { email, password } = this.state
         firebase.auth().signInWithEmailAndPassword(email, password)
-        
-        .then(() => {
-            this.props.isLoginRender(email)
-                console.log('inloggad som:' , email)
+       
 
+            .then(() => {
               
-           
-             
+                this.props.isLoginRender(email)
+                console.log('inloggad som:', email)
+
             })
 
-        .catch(()=>{
-            this.setState({errors: 'Gick inte att skapa användare', loading: false})
-            console.log(this.state.errors, 'gick ej att logga in')
-        })
-   
+            .catch(() => {
+                this.setState({ errors: 'Gick inte att skapa användare', loading: false })
+                console.log(this.state.errors, 'gick ej att logga in')
+            })
+
     }
-    
+
+
+
 
     render() {
-        if (this.state.wantToSignup == true) {
-            return <SignupScreen isSignupRender={this.signedUp} />
-
+        if (this.state.loading) {
+            return (
+                <View style={[styles.container, styles.load]}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+            )
         } else {
             return (
-
                 <View style={styles.container}>
                     <FormLabel>Email</FormLabel>
                     <FormInput
                         style={{ height: 40, width: '60%', textAlign: 'center' }}
-                        placeholder="Vänligen skriv in din mailadress ..."
+                        placeholder="Tex. amanda@gmail.com"
                         onChangeText={(email) => this.setState({ email })}
                         value={this.state.email}
                         autoFocus={false}
@@ -76,11 +73,11 @@ class LoginScreen extends React.Component {
                     {this.state.errors == true ?
                         <FormValidationMessage>Kunde inte hitta användaren, försök igen!</FormValidationMessage>
                         : null}
-                    
+
                     <FormLabel>Lösenord</FormLabel>
                     <FormInput
                         style={{ height: 40, width: '60%', textAlign: 'center' }}
-                        placeholder="Vänligen skriv in din mailadress ..."
+                        placeholder="********"
                         onChangeText={(password) => this.setState({ password })}
                         value={this.state.password}
                         autoFocus={false}
@@ -91,12 +88,14 @@ class LoginScreen extends React.Component {
                     </TouchableHighlight>
 
                     <TouchableHighlight>
-                        <Text onPress={this.renderSignup} style={styles.LoginButton}>Registrera dig</Text>
+                        <Text onPress={() => this.renderSignup()} style={styles.LoginButton}>Registrera dig</Text>
                     </TouchableHighlight>
-
                 </View>
+
+
             )
         }
+
     }
 }
 
@@ -108,6 +107,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%'
+    },
+
+    load: {
+        backgroundColor: 'black'
     },
 
 

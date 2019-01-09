@@ -9,10 +9,9 @@ import HelpScreen from './HelpScreen';
 import PlayScreen from './PlayScreen';
 import ScoreScreen from './ScoreScreen';
 import ProfileScreen from './ProfileScreen';
-//import LoginScreen from './LoginScreen;'
+import MainVerify from './MainVerify';
 
 import db from './firebaseConfig';
-import LoginScreen from './LoginScreen';
 import * as firebase from 'firebase';
 
 const HomeStack = createSwitchNavigator(
@@ -57,7 +56,8 @@ const ProfileStack = createSwitchNavigator(
 
       screen: ProfileScreen
 
-    }
+    },
+
   }
 )
 
@@ -66,7 +66,6 @@ const Menu = createBottomTabNavigator(
 
   {
     Home: {
-
       screen: HomeStack,
       navigationOptions: ({ navigation }) => ({
         tabBarIcon: ({ focused }) => <Ionicons name="md-play-circle" size={50} color={focused ? '#f9eb43' : '#fff684'} border="1 solid black" />,
@@ -135,8 +134,6 @@ export default class App extends React.Component {
 
   }
 
-
-
   async componentWillMount() {
 
     //getting all questions from the database, push them to the array and set state
@@ -148,41 +145,37 @@ export default class App extends React.Component {
       });
     });
 
-    this.setState({ allDocs: allDocsArray });
-
-    // firebase.auth() gets the current user 
-    const { currentUser } = firebase.auth()
-    this.setState({ currentUser })
-
-  }
-
-  async componentWillUnmount() {
-
+    this.setState({ allDocs: allDocsArray })
   }
 
   open = (email) => {
-
     this.setState({
       loggedIn: true
     })
 
     console.log(email)
-    //const user = FirebaseAuth.getInstance().getCurrentUser();
-    //console.log('user:', user)
+    this.account()
 
   }
 
+  close = () => {
+    this.setState({
+      loggedIn: false
+    })
 
+  }
+
+  account = () => {
+    const { currentUser } = firebase.auth()
+    this.setState({ currentUser })
+  }
 
   render() {
-
-    // console.log(userInfo) 
     return (
       this.state.loggedIn == false ?
-        <LoginScreen isLoginRender={this.open} />
+        <MainVerify isLoginRender={this.open} isSignupRender={this.open} />
         :
-
-        <AppContainer screenProps={{ allDocs: this.state.allDocs, currentUser: this.state.currentUser }} />
+        <AppContainer screenProps={{ allDocs: this.state.allDocs, currentUser: this.state.currentUser, loggingOut: this.close }} />
 
     )
   }

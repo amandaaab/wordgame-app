@@ -1,0 +1,82 @@
+import React from 'react';
+import { StyleSheet, Text, View, TouchableHighlight, TextInput, } from 'react-native';
+import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+import SignupScreen from './SignupScreen';
+import LoginScreen from './LoginScreen';
+import * as firebase from 'firebase';
+
+class MainVerify extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            email: '',
+            password: '',
+            errors: false,
+            loading: false,
+            wantToSignup: false,
+            items: []
+        }
+
+    }
+
+    signedUp = () => {
+        this.props.isSignupRender()
+        console.log('ny användare')
+    }
+
+    loggedIn = () => {
+        this.props.isLoginRender()
+        console.log('exiterande användare')
+    }
+
+
+
+    openSignup = () => {
+        this.setState({
+            wantToSignup: true
+        })
+    }
+    
+
+
+    render() {
+        if (this.state.wantToSignup == true) {
+            return <SignupScreen isSignupRender={this.signedUp} />
+        
+
+        } else {
+            return (
+                <LoginScreen isLoginRender={this.loggedIn}viewSignup={this.openSignup}/>
+            
+            )
+        }
+    }
+}
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'transparent',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%'
+    },
+
+
+    loginButton: {
+        backgroundColor: 'transparent',
+        width: '60%',
+        height: 50,
+        borderRadius: 6,
+        justifyContent: "center",
+        alignItems: 'center',
+        padding: 10,
+
+    },
+
+});
+
+export default MainVerify

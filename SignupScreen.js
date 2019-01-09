@@ -26,28 +26,15 @@ class SignupScreen extends React.Component {
         const {email, password} = this.state
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(() => {
-            this.props.isSignupRender()
-            console.log('tjena ny användare', email )
+             console.log('tjena ny användare', email )
 
+            this.props.isSignupRender()
+           
         })
         .catch(()=>{
             console.log('gick ej att logga in')
         })
-        /*
-        if (name) {
-            this.props.isSignupRender(name)
-
-            this.setState({
-                errors: false
-            })
-            console.log('du loggas in', name)
-        } else {
-            this.setState({
-                errors: true
-            })
-            console.log('fel namn')
-        }
-        */
+        
 
     }
     render() {
