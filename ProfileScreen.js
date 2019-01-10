@@ -33,7 +33,8 @@ export default class ProfileScreen extends React.Component {
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.rating}>Rating</Text>
         <Text style={styles.rating}>⭐️ ⭐️ ⭐️ ⭐️ ⭐️ </Text>
-        <Text style={styles.rounds}>Antal spelade omgångar:</Text>
+        <Text style={styles.rounds}>Antal spelade omgångar: {this.props.screenProps.roundes[this.props.screenProps.roundes.length-1]}
+</Text>
 
         <TouchableHighlight onPress={this.onPressLogout}>
             <Text>
