@@ -32,7 +32,7 @@ class SignupScreen extends React.Component {
                     user.updateProfile({
                         displayName: displayName,
                     }).then(
-                    () => this.props.isSignupRender()
+                        () => this.props.isSignupRender()
                     )
                 }           
         })
@@ -57,7 +57,7 @@ class SignupScreen extends React.Component {
                 />
 
                 <FormLabel>Email</FormLabel>
-                <TextInput
+                <FormInput
                     style={{ height: 40, width: '60%', textAlign: 'center' }}
                     placeholder="Email"
                     onChangeText={(email) => this.setState({ email })}
@@ -68,7 +68,7 @@ class SignupScreen extends React.Component {
                     <FormValidationMessage>Kunde inte hitta en giltlig email</FormValidationMessage>
                     : null}
                  <FormLabel>Lösenord</FormLabel>
-                <TextInput
+                <FormInput
                     style={{ height: 40, width: '60%', textAlign: 'center' }}
                     placeholder="Lösenord"
                     onChangeText={(password) => this.setState({ password })}

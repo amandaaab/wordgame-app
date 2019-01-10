@@ -9,7 +9,7 @@ export default class PlayScreen extends React.Component {
     text: '', //text from userinput
     words: [],//all words you have written in the inputfield, both right and wrong
     usedExtraTime: false,
-    timer: 20, // timer countdown
+    timer: 5, // timer countdown
     score: 0,
     answers: [], //array with answers(in an array too) that belongs to the selected question.
     randomNumber: Math.floor(Math.random() * Math.floor(3)) //We need a randomNumber for later to random get a question from an array with questions

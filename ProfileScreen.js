@@ -20,12 +20,20 @@ export default class ProfileScreen extends React.Component {
   
 
   render() {
+
+    let user = firebase.auth().currentUser;
+    console.log('currentuser:', user)
+        let name;
+        if(user != null){
+            name = user.displayName;
+          }
+
     return (
       <View style={styles.container}>
-        <Text style={styles.name}>Amanda</Text>
+        <Text style={styles.name}>{name}</Text>
         <Text style={styles.rating}>Rating</Text>
         <Text style={styles.rating}>⭐️ ⭐️ ⭐️ ⭐️ ⭐️ </Text>
-        <Text style={styles.rounds}>Antal spelade omgångar: 29</Text>
+        <Text style={styles.rounds}>Antal spelade omgångar:</Text>
 
         <TouchableHighlight onPress={this.onPressLogout}>
             <Text>

@@ -4,6 +4,8 @@ import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elemen
 import SignupScreen from './SignupScreen';
 import LoginScreen from './LoginScreen';
 import * as firebase from 'firebase';
+import db from './firebaseConfig';
+
 
 class MainVerify extends React.Component {
 
@@ -23,7 +25,24 @@ class MainVerify extends React.Component {
 
     signedUp = () => {
         this.props.isSignupRender()
-        console.log('ny användare')
+        let user = firebase.auth().currentUser;
+        let userId;
+        if(user){
+            userId = user.uid;
+
+            db.collection("users").doc(userId).set({
+                roundes: 0,
+            })
+            .then(function() {
+                console.log("Document successfully written!");
+            })
+            .catch(function(error) {
+                console.error("Error writing document: ", error);
+            });
+            
+        }
+
+        console.log('ny användare', userId )
     }
 
     loggedIn = () => {

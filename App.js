@@ -130,7 +130,8 @@ export default class App extends React.Component {
   state = {
     allDocs: [], //questions from database in an array
     loggedIn: false,
-    currentUser: null
+    currentUser: null, 
+    roundes: [],
 
   }
 
@@ -165,9 +166,30 @@ export default class App extends React.Component {
 
   }
 
-  account = () => {
+  account = async () => {
     const { currentUser } = firebase.auth()
-    this.setState({ currentUser })
+    let roundesArray = [];
+    /*var docRef = await db.collection("users").doc(currentUser.uid);
+
+docRef.get().then(function(doc) {
+    if (doc.exists) {
+        console.log("Document data:", doc.data().roundes);
+        roundesArray.push(doc.data().roundes);
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
+}).catch(function(error) {
+    console.log("Error getting document:", error);
+});*/
+
+await db.collection("users").doc(currentUser.uid)
+    .onSnapshot(function(doc) {
+      roundesArray.push(doc.data().roundes);
+        console.log("Current data now changed: ", doc.data());
+    });
+
+    this.setState({ currentUser, roundes: roundesArray })
   }
 
   render() {
@@ -175,7 +197,7 @@ export default class App extends React.Component {
       this.state.loggedIn == false ?
         <MainVerify isLoginRender={this.open} isSignupRender={this.open} />
         :
-        <AppContainer screenProps={{ allDocs: this.state.allDocs, currentUser: this.state.currentUser, loggingOut: this.close }} />
+        <AppContainer screenProps={{ allDocs: this.state.allDocs, currentUser: this.state.currentUser, loggingOut: this.close, roundes: this.state.roundes }} />
 
     )
   }

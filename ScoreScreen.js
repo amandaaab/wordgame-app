@@ -2,6 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import {LinearGradient} from 'expo';
 import { Font } from 'expo';
+import * as firebase from 'firebase';
+import db from './firebaseConfig';
+
 
 
 
@@ -10,9 +13,10 @@ export default class ScoreScreen extends React.Component {
     state = {
         fontLoaded: false,
         score: this.props.navigation.state.params.userScore,
-        message: ''
+        message: '',
     }
 
+ 
     async componentDidMount() {
        await Font.loadAsync({
           'Comfortaa-Bold': require('./assets/fonts/Comfortaa-Bold.ttf'),
@@ -34,6 +38,23 @@ export default class ScoreScreen extends React.Component {
                 message: 'Bra Jobbat!'
             })
         }
+
+        let user = firebase.auth().currentUser;
+
+        // Add a new document in collection "cities"
+            db.collection("users").doc(user.uid).set({
+                roundes: this.props.screenProps.roundes[this.props.screenProps.roundes.length-1] + 1,
+            })
+            .then(function() {
+                console.log("Document successfully written!");
+            })
+            .catch(function(error) {
+                console.error("Error writing document: ", error);
+            });
+
+
+        console.log('roundes i scorescreen!', this.props.screenProps.roundes)
+
       }
 
     onPressContinue = () => {
@@ -44,7 +65,6 @@ export default class ScoreScreen extends React.Component {
 
     render() {
 
-    
 
       return (
         <LinearGradient 
