@@ -115,9 +115,11 @@ export default class PlayScreen extends React.Component {
 
           <ScrollView
             contentContainerStyle={styles.contentContainer}
+           
           >
 
             <ScrollView
+           scrollEnabled={true}
               ref={ref => this.scrollView = ref}
               onContentSizeChange={(contentWidth, contentHeight) => {
                 this.scrollView.scrollToEnd({ animated: true });
@@ -214,8 +216,10 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     height: 250,
+    
     marginLeft: '2%',
     marginRight: '2%',
+    
     width: '96%',
     //justifyContent: 'center',
     //alignItems: 'center',
