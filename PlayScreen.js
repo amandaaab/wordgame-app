@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, KeyboardAvoidingView, Text, View, TextInput, TouchableHighlight, ScrollView } from 'react-native';
+import * as Progress from 'react-native-progress';
 
 
 export default class PlayScreen extends React.Component {
@@ -9,20 +10,33 @@ export default class PlayScreen extends React.Component {
     text: '', //text from userinput
     words: [],//all words you have written in the inputfield, both right and wrong
     usedExtraTime: false,
-    timer: 5, // timer countdown
+    timer: 40, // timer countdown
     score: 0,
     answers: [], //array with answers(in an array too) that belongs to the selected question.
-    randomNumber: Math.floor(Math.random() * Math.floor(3)) //We need a randomNumber for later to random get a question from an array with questions
+    randomNumber: Math.floor(Math.random() * Math.floor(3)), //We need a randomNumber for later to random get a question from an array with questions
+    progress: 1, //progressbar
+    indeterminate: false, //progressbar
   }
 
   componentDidMount() {
     this.clockCall = setInterval(() => {
       this.decrementClock();
     }, 1000);
+    this.animate();
   }
 
   componentWillUnmount() {
     clearInterval(this.clockCall);
+  }
+
+  animate() {
+      setInterval(() => {
+   // 1/156, varje omgång 39 sek vid nollan strecket fullt
+        this.setState(prevState => ({
+          progress: prevState.progress -= 0.00641026
+        }))
+
+      }, 250); //uppdateras var 1/4 sekund
   }
 
   decrementClock = () => {
@@ -95,16 +109,26 @@ export default class PlayScreen extends React.Component {
     this.setState(prevState => ({
       timer: prevState.timer + 10,
       usedExtraTime: true,
+      progress: prevState.progress += 0.2564104
     }))
-    alert('vill ha mer tid');
+
+    //alert('vill ha mer tid');
   }
 
   render() {
     //let randomNumber = Math.floor(Math.random() * Math.floor(this.state.questions2.length));
     //console.log('Alla frågor:', this.props.screenProps.allDocs)
+    let progressColor;
+    if(this.state.progress < 0.25){
+      progressColor = 'red';
+    } else {
+      progressColor = '#48BBEC'
+    }
     return (
 
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+
+        
 
         <View style={styles.questionBox}>
           <Text style={styles.text}>{this.state.allQandA[this.state.randomNumber].question}</Text>
@@ -112,6 +136,18 @@ export default class PlayScreen extends React.Component {
         </View>
 
         <View style={{ flex: 1 }}>
+        <Progress.Bar
+          unfilledColor={'none'}
+          borderRadius={6}
+          height={18}
+          borderColor={'transparent'}
+          color={progressColor}//{'#fff684'}
+          width={null}
+          animationType={'timing'}
+          style={styles.progress}
+          progress={this.state.progress}
+          indeterminate={this.state.indeterminate}
+        />
 
           <ScrollView
             contentContainerStyle={styles.contentContainer}
@@ -174,6 +210,11 @@ const styles = StyleSheet.create({
     //padding: 20,
     color: 'white',
     fontSize: 22,
+  },
+  progress: {
+    marginBottom: 5,
+    marginLeft: 5,
+    marginRight: 5,
   },
   input: {
     backgroundColor: 'white',
