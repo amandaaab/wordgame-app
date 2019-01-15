@@ -161,8 +161,8 @@ export default class PlayScreen extends React.Component {
                 this.scrollView.scrollToEnd({ animated: true });
               }}
             >
-              {this.state.words.map(obj =>
-                <Text style={{ fontSize: 18, color: obj.color, textDecorationLine: obj.dec }}>{obj.word}</Text>
+              {this.state.words.map((obj, i) =>
+                <Text key={i} style={{ fontSize: 18, color: obj.color, textDecorationLine: obj.dec }}>{obj.word}</Text>
               )}
             </ScrollView>
           </ScrollView>
