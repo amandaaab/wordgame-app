@@ -28,6 +28,7 @@ class LoginScreen extends React.Component {
 
     }
 
+
     renderSignup = () => {
         this.props.viewSignup()
     }
@@ -36,13 +37,15 @@ class LoginScreen extends React.Component {
 
         const { email, password, emailError, passwordError, validatedEmail, validatedPassword } = this.state
 
-      
+        Keyboard.dismiss()
+                  
+        
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(() => {
-                    
+                   
                     this.props.isLoginRender(email)
                     console.log('inloggad som:', email)
-                    Keyboard.dismiss()
+                   
                    
 
                 })
@@ -64,16 +67,15 @@ class LoginScreen extends React.Component {
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
         this.setState({
-            errors: '', 
-            loading: true
+            errors: '',
         })
-
         if (reg.test(email) == false) {
             console.log('email är inte correct')
             this.setState({
                 emailError: '* Du måste fylla en giltlig email',
                 validatedEmail: false,
-                errors: ''
+                errors: '',
+
             })
         } else {
             this.setState({
@@ -101,6 +103,7 @@ class LoginScreen extends React.Component {
             })
         }
 
+
     }
 
 
@@ -116,7 +119,7 @@ class LoginScreen extends React.Component {
 
                 }}>
 
-                <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-170} enabled>
+                <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-120} enabled>
 
 
                     <View style={styles.content}>
@@ -156,7 +159,7 @@ class LoginScreen extends React.Component {
                         />
                        
 
-                        {this.state.validatedEmail & this.state.validatedPassword ? this.validateLogin() :null}
+                        {this.state.validatedEmail & this.state.validatedPassword ? this.validateLogin() : null}
 
                         <LinearGradient
                             colors={['#62fc9d', '#47ef88']}

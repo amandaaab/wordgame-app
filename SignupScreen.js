@@ -20,7 +20,11 @@ class SignupScreen extends React.Component {
             password: '',
             displayName: '',
             loading: false,
-            errors: false,
+            errors: '',
+            emailError: null,
+            passwordError: null,
+            validatedEmail: false,
+            validatedPassword: false,
             goBackToMain: false
         }
 
@@ -34,12 +38,10 @@ class SignupScreen extends React.Component {
         })
     }
 
+    
 
-    trySignup = () => {
-
-        this.setState({
-            loading: true
-        })
+    validateSignUp = () => {
+        
         const { email, password, displayName } = this.state
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
@@ -52,9 +54,66 @@ class SignupScreen extends React.Component {
                     )
                 }
             })
-            .catch((error) => {
-                console.log('gick ej att logga in, error:', error)
+            .catch(() => {
+                this.setState({
+                    validatedEmail: false,
+                    validatedPassword: false,
+                    errors: "Kunde inte skapa användare"
+                })
+              
             })
+    }
+
+    trySignup = () => {
+
+        const { email, password } = this.state
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+        this.setState({
+            errors: '',
+        })
+        if (reg.test(email) == false) {
+            console.log('email är inte correct')
+            this.setState({
+                emailError: '* Du måste fylla en giltlig email',
+                validatedEmail: false,
+                errors: '',
+
+            })
+        } else {
+            this.setState({
+                emailError: null,
+                validatedEmail: true,
+                errors: ''
+            })
+          
+        }
+
+        if(password.length < 6) {
+            console.log('fyll i lösen')
+            this.setState({
+                passwordError: '* Vänligen fyll i ett lösenord',
+                validatedPassword: false,
+                errors: ''
+               
+                
+            })
+        } else {
+            this.setState({
+                passwordError: null,
+                validatedPassword: true,
+                errors: ''
+            })
+        }
+
+
+
+
+
+
+
+
+
 
 
     }
@@ -69,7 +128,7 @@ class SignupScreen extends React.Component {
                         flex: 1, justifyContent: 'center', alignItems: 'center'
 
                     }}>
-                    <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-60} enabled>
+                    <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-10} enabled>
                    
                         <View style={styles.content1}> 
                 
@@ -79,6 +138,7 @@ class SignupScreen extends React.Component {
                         </View>
                         <View style={styles.content}>
                             <Text style={styles.screenLabel}>Registrera dig</Text>
+                            <Text style={[styles.error,{textAlign: 'center'}]}>{this.state.errors == '' ? null : this.state.errors}</Text>
 
                             <Text style={styles.labelText}>Namn</Text>
                             <TextInput
@@ -91,6 +151,7 @@ class SignupScreen extends React.Component {
                             />
 
                             <Text style={styles.labelText}>Email</Text>
+                            {this.state.emailError ? <Text style={styles.error}>{this.state.emailError}</Text> : null}
                             <TextInput
                                 style={styles.input}
                                 placeholder="Email"
@@ -98,10 +159,9 @@ class SignupScreen extends React.Component {
                                 value={this.state.email}
                                 autoFocus={false}
                             />
-                            {this.state.errors == true ?
-                                <FormValidationMessage>Kunde inte hitta en giltlig email</FormValidationMessage>
-                                : null}
+                           
                             <Text style={styles.labelText}>Lösenord</Text>
+                            {this.state.passwordError ? <Text style={styles.error}>{this.state.passwordError}</Text> : null}
                             <TextInput
                                 secureTextEntry={true}
                                 style={styles.input}
@@ -110,6 +170,8 @@ class SignupScreen extends React.Component {
                                 value={this.state.password}
                                 autoFocus={false}
                             />
+
+                            {this.state.validatedEmail & this.state.validatedPassword ? this.validateSignUp() : null}
 
 <LinearGradient
             colors={['#62fc9d', '#47ef88']}
@@ -187,6 +249,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white'
 
+    },
+
+    error: {
+        color: 'yellow', 
+        fontSize: 16
     },
 
     gobackBTN: {
