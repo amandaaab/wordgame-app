@@ -49,7 +49,7 @@ export default class PlayScreen extends React.Component {
 
   onChangeT = (value) => {
     this.setState({
-      text: value
+      text: value.toLowerCase()
     })
   }
 
