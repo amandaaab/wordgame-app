@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, KeyboardAvoidingView, Text, View, TextInput, TouchableHighlight, ScrollView } from 'react-native';
 import * as Progress from 'react-native-progress';
+import { Ionicons } from '@expo/vector-icons';
+
 
 
 export default class PlayScreen extends React.Component {
@@ -78,7 +80,8 @@ export default class PlayScreen extends React.Component {
               word: this.state.text,
               color: 'green',
               dec: 'none',
-              point: 1
+              point: 1,
+              star: true
             }
           ],
 
@@ -94,7 +97,9 @@ export default class PlayScreen extends React.Component {
             word: this.state.text,
             color: 'red',
             dec: 'line-through',
-            point: 0
+            point: 0,
+            star: false
+
           }
         ]
 
@@ -160,9 +165,14 @@ export default class PlayScreen extends React.Component {
               onContentSizeChange={(contentWidth, contentHeight) => {
                 this.scrollView.scrollToEnd({ animated: true });
               }}
-            >
+            > 
               {this.state.words.map((obj, i) =>
+              <View style={styles.inner}>
                 <Text key={i} style={{ fontSize: 18, color: obj.color, textDecorationLine: obj.dec }}>{obj.word}</Text>
+                {obj.star ? <Ionicons name="md-star-outline" color={'#f4df42'} size={21}/>
+                : <Text style={{marginRight: 2}}><Ionicons name="md-close"color={'#bdc6cc'} size={20}/></Text>
+                }
+                </View>
               )}
             </ScrollView>
           </ScrollView>
@@ -273,8 +283,15 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     flexGrow: 1,
     marginBottom: '2%',
+    //paddingLeft: 15,
+    alignItems: 'center',
   },
-
+  inner: { //innuti scrollview där orden du skrivit skrivs ut
+    flex: 1, 
+    flexDirection: 'row',
+    width: 150,
+    justifyContent: 'space-between',
+  },
   questionBox: {
     flexDirection: 'row',
     flex: 0,
