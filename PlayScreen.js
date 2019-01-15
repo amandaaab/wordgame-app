@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, KeyboardAvoidingView, Text, View, TextInput, TouchableHighlight, ScrollView } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, Text, View, TextInput, TouchableHighlight, ScrollView, StatusBar } from 'react-native';
 
 
 export default class PlayScreen extends React.Component {
@@ -105,8 +105,9 @@ export default class PlayScreen extends React.Component {
     return (
 
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-
+          <StatusBar hidden={true}/>
         <View style={styles.questionBox}>
+        
           <Text style={styles.text}>{this.state.allQandA[this.state.randomNumber].question}</Text>
           <Text style={styles.text}>{this.state.timer}</Text>
         </View>

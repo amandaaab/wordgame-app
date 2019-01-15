@@ -2,8 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 
+
 export default class HelpScreen extends React.Component {
-  render() {
+  
+
+    
+
+    render() {
     return (
       <View style={styles.container}>
         <View style={styles.content}>

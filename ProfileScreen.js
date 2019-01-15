@@ -11,6 +11,7 @@ export default class ProfileScreen extends React.Component {
     this.onPressLogout = this.onPressLogout.bind(this)
   }
 
+  
   onPressLogout = () => {
     firebase.auth().signOut()
   
@@ -40,6 +41,7 @@ export default class ProfileScreen extends React.Component {
         <Text style={styles.rounds}>Antal spelade omgångar: {this.props.screenProps.roundes[this.props.screenProps.roundes.length-1]}
         </Text>
       </View>
+     
         <TouchableHighlight style={styles.logoutButton} onPress={this.onPressLogout}>
             <Text>
               Logga ut

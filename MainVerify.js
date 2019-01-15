@@ -59,10 +59,15 @@ class MainVerify extends React.Component {
     }
     
 
+    closeSignUp = () => {
+        this.setState({
+            wantToSignup: false
+        })
+    }
 
     render() {
         if (this.state.wantToSignup == true) {
-            return <SignupScreen isSignupRender={this.signedUp} />
+            return <SignupScreen isSignupRender={this.signedUp} closeSignUp={this.closeSignUp} />
         
 
         } else {
