@@ -6,11 +6,13 @@ import {LinearGradient} from 'expo';
 import { Font } from 'expo';
 import * as firebase from 'firebase';
 
+
 export default class HomeScreen extends React.Component {
     constructor(props){
         super(props)
         this.state = {
         fontLoaded: false,
+    
     }
     }
     
@@ -46,6 +48,10 @@ export default class HomeScreen extends React.Component {
             {this.state.fontLoaded ? 
             <Text style={[{fontFamily:'Comfortaa-Bold'},styles.text, styles.undertext]}>Nu spelar vi {user && user.displayName}!</Text>
             : null }
+
+           <TouchableHighlight onPress={() => this.playSound()} style={[styles.playButton, {backgroundColor: 'yellow'}]}>
+               <Text>ljud på</Text>
+           </TouchableHighlight>
             
         <LinearGradient
             colors={['#62fc9d', '#47ef88']}

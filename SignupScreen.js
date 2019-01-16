@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, ActivityIndicator, TextInput, KeyboardAvoidingView, StatusBar } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage, } from 'react-native-elements';
+import { StyleSheet, Text, Modal, View, Switch, TouchableHighlight, ActivityIndicator, TextInput, KeyboardAvoidingView, StatusBar } from 'react-native';
+import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import { LinearGradient } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
+import PolicyScreen from './PolicyScreen';
 
 
 import * as firebase from 'firebase';
@@ -23,12 +24,18 @@ class SignupScreen extends React.Component {
             errors: '',
             emailError: null,
             passwordError: null,
+            policyError: null,
             validatedEmail: false,
             validatedPassword: false,
-            goBackToMain: false
+            validatedPolicy: false,
+            goBackToMain: false,
+            value: false,
+            modalVisible: false,
         }
 
         this.trySignup = this.trySignup.bind(this)
+        this.onChangePolicy = this.onChangePolicy.bind(this)
+        this.closeModalPolicy = this.closeModalPolicy.bind(this)
     }
 
     onPressBack = () => {
@@ -38,10 +45,10 @@ class SignupScreen extends React.Component {
         })
     }
 
-    
+
 
     validateSignUp = () => {
-        
+
         const { email, password, displayName } = this.state
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
@@ -60,18 +67,35 @@ class SignupScreen extends React.Component {
                     validatedPassword: false,
                     errors: "Kunde inte skapa användare"
                 })
-              
+
             })
     }
 
     trySignup = () => {
 
-        const { email, password } = this.state
+        const { email, password, value } = this.state
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
         this.setState({
             errors: '',
         })
+
+        if(value == false){
+            this.setState({
+                policyError: '* Du måste godkänna vår policy',
+                validatedPolicy: false,
+                errors: '',
+
+            })
+        }else {
+            this.setState({
+                policyError: '',
+                validatedPolicy: true,
+                errors: '',
+
+            })
+        }
+
         if (reg.test(email) == false) {
             console.log('email är inte correct')
             this.setState({
@@ -86,17 +110,17 @@ class SignupScreen extends React.Component {
                 validatedEmail: true,
                 errors: ''
             })
-          
+
         }
 
-        if(password.length < 6) {
+        if (password.length < 6) {
             console.log('fyll i lösen')
             this.setState({
                 passwordError: '* Vänligen fyll i ett lösenord',
                 validatedPassword: false,
                 errors: ''
-               
-                
+
+
             })
         } else {
             this.setState({
@@ -105,18 +129,27 @@ class SignupScreen extends React.Component {
                 errors: ''
             })
         }
-
-
-
-
-
-
-
-
-
-
-
     }
+
+
+    openModalPolicy = () => {
+        this.setState({
+            modalVisible: true
+        })
+    }
+
+    closeModalPolicy = () => {
+        this.setState({
+            modalVisible: false
+        })
+    }
+
+    onChangePolicy = () => {
+        this.setState(prevState => ({
+            value: !prevState.value
+        }));
+    }
+
     render() {
         if (this.state.goBackToMain == true) {
             return <LoginScreen />
@@ -125,20 +158,28 @@ class SignupScreen extends React.Component {
                 <LinearGradient
                     colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
                     style={{
-                        flex: 1, justifyContent: 'center', alignItems: 'center'
+                        flex: 1/* justifyContent: 'center', alignItems: 'center'*/
 
                     }}>
+
+
+                    <View style={styles.contentOne}>
+                        <Modal
+                            animationType="slide"
+                            transparent={false}
+                            visible={this.state.modalVisible}
+                            onRequestClose={() => {
+                            }}>
+
+                           <PolicyScreen modalClose={this.closeModalPolicy}/>
+
+                        </Modal>
+                    </View>
                     <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-10} enabled>
-                   
-                        <View style={styles.content1}> 
-                
-                            <TouchableHighlight onPress={() => this.onPressBack()} style={styles.gobackBTN}>
-                                <Text style={styles.goback}><Ionicons name="md-close" size={50}></Ionicons></Text>
-                            </TouchableHighlight>
-                        </View>
                         <View style={styles.content}>
+
                             <Text style={styles.screenLabel}>Registrera dig</Text>
-                            <Text style={[styles.error,{textAlign: 'center'}]}>{this.state.errors == '' ? null : this.state.errors}</Text>
+                            <Text style={[styles.error, { textAlign: 'center' }]}>{this.state.errors == '' ? null : this.state.errors}</Text>
 
                             <Text style={styles.labelText}>Namn</Text>
                             <TextInput
@@ -159,7 +200,7 @@ class SignupScreen extends React.Component {
                                 value={this.state.email}
                                 autoFocus={false}
                             />
-                           
+
                             <Text style={styles.labelText}>Lösenord</Text>
                             {this.state.passwordError ? <Text style={styles.error}>{this.state.passwordError}</Text> : null}
                             <TextInput
@@ -173,35 +214,57 @@ class SignupScreen extends React.Component {
 
                             {this.state.validatedEmail & this.state.validatedPassword ? this.validateSignUp() : null}
 
-<LinearGradient
-            colors={['#62fc9d', '#47ef88']}
-            style={{ width: '60%',
-            height: 50,
-            borderRadius: 30,
-            justifyContent: "center",
-            alignItems: 'center',
-            padding: 10,
-            shadowColor: '#294434',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.8,
-            shadowRadius: 2,
-            elevation: 1,
-            }
-        } >
-                            {this.state.loading ? 
-                            <TouchableHighlight underlayColor='transparent' style={styles.button}>
-                                <ActivityIndicator style={styles.btnText} size="small" color='rgba(0,21,72,1)' />
-                            </TouchableHighlight>
+                            <View style={styles.policy}>
+                                <View style={styles.policyItem}>
+                                    <Switch value={this.state.value} onValueChange={() => this.onChangePolicy()}></Switch>
+                                </View>
+                                <View style={styles.policyItem}>
+                                    <TouchableHighlight onPress={() => this.openModalPolicy()}>
+                                        <Text style={{color: 'white'}}>Användar  villkor</Text>
+                                    </TouchableHighlight>
+                                </View> 
+                            </View>
+                            {this.state.policyError ? <Text style={styles.error}>{this.state.policyError}</Text> : null}
+                            <LinearGradient
+                                colors={['#62fc9d', '#47ef88']}
+                                style={{
+                                    width: '60%',
+                                    height: 50,
+                                    borderRadius: 30,
+                                    justifyContent: "center",
+                                    alignItems: 'center',
+                                    padding: 10,
+                                    shadowColor: '#294434',
+                                    shadowOffset: { width: 0, height: 2 },
+                                    shadowOpacity: 0.8,
+                                    shadowRadius: 2,
+                                    elevation: 1,
+                                    marginTop: 16
+                                }
+                                } >
+                                {this.state.loading ?
+                                    <TouchableHighlight underlayColor='transparent' style={styles.button}>
+                                        <ActivityIndicator style={styles.btnText} size="small" color='rgba(0,21,72,1)' />
+                                    </TouchableHighlight>
 
-                            : <TouchableHighlight  onPress={() => this.trySignup()} underlayColor='transparent' style={styles.button}>
-                                <Text style={styles.btnText}>Registrera</Text>
-                            </TouchableHighlight>}
+                                    : <TouchableHighlight onPress={() => this.trySignup()} underlayColor='transparent' style={styles.button}>
+                                        <Text style={styles.btnText}>Registrera</Text>
+                                    </TouchableHighlight>}
 
                             </LinearGradient>
+                            <Text style={{ color: 'white', margin: 10, fontSize: 17 }}></Text>
+
+                            <TouchableHighlight onPress={() => this.onPressBack()} style={[styles.button, styles.reg]}>
+                                <Text style={styles.regText}><Ionicons name="md-arrow-back" size={20}></Ionicons> Tillbaka</Text>
+                            </TouchableHighlight>
 
 
                         </View>
+
                     </KeyboardAvoidingView>
+
+
+
                 </LinearGradient>
             )
 
@@ -228,9 +291,10 @@ const styles = StyleSheet.create({
 
     },
 
-    content1: {
-        width: '100%',
-        padding: 30
+    contentOne: {
+        height: 20,
+        width: '100%'
+
     },
 
     content: {
@@ -252,7 +316,7 @@ const styles = StyleSheet.create({
     },
 
     error: {
-        color: 'yellow', 
+        color: 'yellow',
         fontSize: 16
     },
 
@@ -269,7 +333,8 @@ const styles = StyleSheet.create({
         borderColor: '#dddbdb',
         backgroundColor: '#f9f9f9',
         margin: 12,
-        borderRadius: 14
+        borderRadius: 14,
+        marginBottom: 16,
 
     },
 
@@ -281,7 +346,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: 'center',
         padding: 10,
-        margin: 20
+        margin: 20,
+
+
+    },
+
+    policy: {
+        width: 150,
+        flex: 1,
+        flexDirection: 'row',
+        margin: 20,
+        alignItems: 'center',
+        justifyContent: 'center'
 
     },
 
@@ -294,13 +370,43 @@ const styles = StyleSheet.create({
 
 
     goback: {
-        fontSize: 18,
-        color: 'rgba(0,21,72,1)',
+        fontSize: 24,
+        color: 'rgba(235,43,70,1)',
         fontWeight: 'bold',
-        alignSelf: 'flex-start',
-        marginTop: -150,
+        margin: 20,
+        borderBottomWidth: 10,
+        borderColor: 'blue'
+
+    },
 
 
+    reg: {
+        backgroundColor: 'transparent',
+        borderBottomColor: '#bbb',
+        borderBottomWidth: 0.5,
+        margin: -10
+
+    },
+    button: {
+        backgroundColor: 'transparent',
+        width: '60%',
+        height: 50,
+        borderRadius: 30,
+        justifyContent: "center",
+        alignItems: 'center',
+        padding: 10,
+        margin: 20
+
+    },
+    regText: {
+        color: 'white',
+        fontSize: 22,
+
+    },
+    policyItem: {
+        height: 40,
+        width: '50%',
+        color: 'white'
 
     }
 
