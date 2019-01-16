@@ -1,23 +1,29 @@
 import React from 'react';
-import { StyleSheet, KeyboardAvoidingView, Text, View, TextInput, TouchableHighlight, ScrollView } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, Text, View, TextInput, TouchableHighlight, ScrollView, Animated } from 'react-native';
 import * as Progress from 'react-native-progress';
 import { Ionicons } from '@expo/vector-icons';
 
 
 
 export default class PlayScreen extends React.Component {
+  
+  constructor(props){
+    super(props)
 
-  state = {
-    allQandA: this.props.screenProps.allDocs,
-    text: '', //text from userinput
-    words: [],//all words you have written in the inputfield, both right and wrong
-    usedExtraTime: false,
-    timer: 40, // timer countdown
-    score: 0,
-    answers: [], //array with answers(in an array too) that belongs to the selected question.
-    randomNumber: Math.floor(Math.random() * Math.floor(3)), //We need a randomNumber for later to random get a question from an array with questions
-    progress: 1, //progressbar
-    indeterminate: false, //progressbar
+    this.state = {
+      allQandA: this.props.screenProps.allDocs,
+      text: '', //text from userinput
+      words: [],//all words you have written in the inputfield, both right and wrong
+      usedExtraTime: false,
+      timer: 40, // timer countdown
+      score: 0,
+      answers: [], //array with answers(in an array too) that belongs to the selected question.
+      randomNumber: Math.floor(Math.random() * Math.floor(3)), //We need a randomNumber for later to random get a question from an array with questions
+      progress: 1, //progressbar
+      indeterminate: false, //progressbar
+      animate: true,
+    }
+    this.animatedValue = new Animated.Value(0)
   }
 
   componentDidMount() {
@@ -25,10 +31,40 @@ export default class PlayScreen extends React.Component {
       this.decrementClock();
     }, 1000);
     this.animate();
+    //this.animateText();
   }
 
   componentWillUnmount() {
     clearInterval(this.clockCall);
+  }
+
+  animateText () {
+console.log('animateText körs')
+console.log('FRÅN ANIMATE!!!!!!!', this.state.words)
+    let wordExists = this.state.words.filter(word => word.doAnimate === true);
+      if (wordExists.length > 0) {
+        console.log('ORDET i animateText', wordExists)
+        this.animateTextAfter()
+    //if(this.state.words.map){
+    
+    //this.setState({animate: false})
+    }
+  }
+
+  animateTextAfter() {
+    this.animatedValue.setValue(0)
+    Animated.timing(
+      this.animatedValue,
+      {
+        toValue: 1,
+        duration: 1000,
+      }
+    ).start();
+    
+/*let words = [...this.state.words];
+        let index = words.findIndex(word => word.word === this.state.text);
+        words[index] = {...words[index], doAnimate: false};
+        this.setState({ words });*/
   }
 
   animate() {
@@ -50,6 +86,13 @@ export default class PlayScreen extends React.Component {
 
 
   onChangeT = (value) => {
+
+    //ändrar tillbaka doAnimate till false. 
+    let words = [...this.state.words];
+        let index = words.findIndex(word => word.word === this.state.text);
+        words[index] = {...words[index], doAnimate: false};
+        this.setState({ words })
+
     this.setState({
       text: value.toLowerCase()
     })
@@ -70,8 +113,17 @@ export default class PlayScreen extends React.Component {
   correctThis = (allAnswers) => {
     const isItCorrect = allAnswers.includes(this.state.text);
     if (isItCorrect) {
-      if (this.state.words.filter(word => word.word === this.state.text).length > 0) {
-        alert('ordet finns redan')
+
+      let wordExists = this.state.words.filter(word => word.word === this.state.text);
+      if (wordExists.length > 0) {
+        console.log('ORDET', wordExists)
+
+        let words = [...this.state.words];
+        let index = words.findIndex(word => word.word === this.state.text);
+        words[index] = {...words[index], doAnimate: true};
+        this.setState({ words }, () => this.animateText());
+        //this.animateText();
+        //alert('ordet finns redan')
       } else {
         this.setState(prevState => ({
           words: [
@@ -81,7 +133,7 @@ export default class PlayScreen extends React.Component {
               color: 'green',
               dec: 'none',
               point: 1,
-              star: true
+              star: true,
             }
           ],
 
@@ -95,7 +147,7 @@ export default class PlayScreen extends React.Component {
           ...prevState.words,
           {
             word: this.state.text,
-            color: 'red',
+            color: 'black',
             dec: 'line-through',
             point: 0,
             star: false
@@ -121,6 +173,12 @@ export default class PlayScreen extends React.Component {
   }
 
   render() {
+
+    const textSize = this.animatedValue.interpolate({
+      inputRange: [0, 0.5, 1],
+      outputRange: [18, 32, 18]
+    })
+
     //let randomNumber = Math.floor(Math.random() * Math.floor(this.state.questions2.length));
     //console.log('Alla frågor:', this.props.screenProps.allDocs)
     let progressColor;
@@ -132,8 +190,6 @@ export default class PlayScreen extends React.Component {
     return (
 
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-
-        
 
         <View style={styles.questionBox}>
         
@@ -167,9 +223,19 @@ export default class PlayScreen extends React.Component {
                 this.scrollView.scrollToEnd({ animated: true });
               }}
             > 
+             
               {this.state.words.map((obj, i) =>
               <View style={styles.inner}>
+              {obj.doAnimate ?
+              <Animated.Text
+              style={{
+                fontSize: textSize,
+                color: 'green'}} >
+                {obj.word}
+            </Animated.Text> :
                 <Text key={i} style={{ fontSize: 18, color: obj.color, textDecorationLine: obj.dec }}>{obj.word}</Text>
+
+            }
                 {obj.star ? <Ionicons name="md-star-outline" color={'#f4df42'} size={21}/>
                 : <Text style={{marginRight: 2}}><Ionicons name="md-close"color={'#bdc6cc'} size={20}/></Text>
                 }
