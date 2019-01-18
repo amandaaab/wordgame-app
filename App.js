@@ -80,7 +80,8 @@ const Menu = createBottomTabNavigator(
     Home: {
       screen: HomeStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <Ionicons name="md-play-circle" size={50} color={focused ? '#f9eb43' : '#fff684'} border="1 solid black" />,
+        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-play-circle" size={64} style={styles.icons} color={focused ? '#ffb5be' : '#ffd6db'} borderWidth={3}
+      /></View>,
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -99,7 +100,7 @@ const Menu = createBottomTabNavigator(
     Help: {
       screen: HelpStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <Ionicons name="md-help-circle" size={50} color={focused ? '#f9eb43' : '#fff684'} border="1 solid black" />,
+        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-help-circle" style={styles.icons} size={64} color={focused ? '#ffb5be' : '#ffd6db'} /></View>,
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -118,7 +119,7 @@ const Menu = createBottomTabNavigator(
     Profile: {
       screen: ProfileStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <Ionicons name="md-contact" size={50} color={focused ? '#f9eb43' : '#fff684'} border="1 solid black" />,
+        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-contact" size={64} style={styles.icons} color={focused ?'#ffb5be' : '#ffd6db'} /></View>,
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -238,3 +239,26 @@ await db.collection("users").doc(currentUser.uid)
 
 
 
+const styles = StyleSheet.create({
+  icons: {
+   
+    marginTop: -5.5
+   
+  
+  },
+  outerCircle: {
+   
+    borderRadius: 40,
+    width: 56,
+    height: 56,
+    backgroundColor: 'rgba(0,21,72,1)',
+    flex: 0,
+    justifyContent: 'center', 
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    
+   
+    
+  },
+})
