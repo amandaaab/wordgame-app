@@ -3,12 +3,39 @@ import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import * as firebase from 'firebase';
 import { Ionicons } from '@expo/vector-icons';
 
+import db from './firebaseConfig';
+
 
 export default class ProfileScreen extends React.Component {
   constructor(props){
     super(props)
 
+    this.state = {
+      scores: []
+    }
+
     this.onPressLogout = this.onPressLogout.bind(this)
+  }
+
+  async getData(){
+   // console.log('GET DATA FUNCTION!')
+    const { currentUser } = firebase.auth()
+
+
+    /*await db.collection("users").doc(currentUser.uid).collection("roundes")
+    .onSnapshot(function(doc) {
+        console.log("DOC DATA, ROUNDES  ", doc.data());
+    });*/
+
+    let scores = [];
+    await db.collection("users").doc(currentUser.uid).collection("roundes").get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+          // doc.data() is never undefined for query doc snapshots
+          //console.log(doc.id, " => ", doc.data());
+          scores.push(doc.data().points)
+      });
+  });
+this.setState({scores})
   }
 
   
@@ -23,9 +50,9 @@ export default class ProfileScreen extends React.Component {
   
 
   render() {
-
+    this.getData()
+    //console.log('Alla poäng i en array::::: ',this.state.scores)
     let user = firebase.auth().currentUser;
-    console.log('currentuser:', user)
         let name;
         if(user != null){
             name = user.displayName;
@@ -38,7 +65,7 @@ export default class ProfileScreen extends React.Component {
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.rating}>Rating</Text>
         <Text style={styles.rating}>⭐️ ⭐️ ⭐️ ⭐️ ⭐️ </Text>
-        <Text style={styles.rounds}>Antal spelade omgångar: {this.props.screenProps.roundes[this.props.screenProps.roundes.length-1]}
+        <Text style={styles.rounds}>Antal spelade omgångar:{this.state.scores.length}
         </Text>
       </View>
      

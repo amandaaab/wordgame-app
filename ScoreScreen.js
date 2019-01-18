@@ -42,8 +42,9 @@ export default class ScoreScreen extends React.Component {
         let user = firebase.auth().currentUser;
 
         // Add a new document in collection "cities"
-            db.collection("users").doc(user.uid).set({
-                roundes: this.props.screenProps.roundes[this.props.screenProps.roundes.length-1] + 1,
+            db.collection("users").doc(user.uid).collection('roundes').add({
+                points: this.state.score
+                //roundes: this.props.screenProps.roundes[this.props.screenProps.roundes.length-1] + 1,
             })
             .then(function() {
                 console.log("Document successfully written!");

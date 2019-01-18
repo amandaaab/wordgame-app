@@ -10,6 +10,7 @@ import PlayScreen from './PlayScreen';
 import ScoreScreen from './ScoreScreen';
 import ProfileScreen from './ProfileScreen';
 import MainVerify from './MainVerify';
+import HighScoreScreen from './HighScoreScreen';
 
 import db from './firebaseConfig';
 import * as firebase from 'firebase';
@@ -55,6 +56,17 @@ const ProfileStack = createSwitchNavigator(
     Profile: {
 
       screen: ProfileScreen
+
+    },
+
+  }
+)
+
+const HighScoreStack = createSwitchNavigator(
+  {
+    HighScore: {
+
+      screen: HighScoreScreen
 
     },
 
@@ -120,7 +132,28 @@ const Menu = createBottomTabNavigator(
           }
         }
       })
-    }
+    },
+
+
+    HighScore: {
+      screen: HighScoreStack,
+      navigationOptions: ({ navigation }) => ({
+        tabBarIcon: ({ focused }) => <Ionicons name="md-trophy" size={40} color={focused ? '#f9eb43' : '#fff684'} border="1 solid black" />,
+        tabBarOptions: {
+          showLabel: false,
+          style: {
+            backgroundColor: 'transparent',
+            borderTopWidth: 0,
+            position: 'absolute',
+            left: 50,
+            right: 50,
+            bottom: 0,
+            height: 70
+          }
+        }
+      })
+    },
+
   }
 )
 
