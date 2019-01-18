@@ -65,6 +65,22 @@ closeModalPolicy = () => {
     })
 }
 
+pay = async () => { 
+  console.log('pay');
+  
+  try {
+    let response = await fetch(
+      'http://172.20.10.2:5000/payment', //or 192.168.0.255
+    );
+    console.log(response)
+    //return responseJson.movies;
+  } catch (error) {
+    console.error(error);
+  }
+
+}
+
+
   render() {
     this.getData()
     //console.log('Alla poäng i en array::::: ',this.state.scores)
@@ -103,6 +119,9 @@ closeModalPolicy = () => {
       </View>
       <View style={styles.itemWrap}>
       <View style={styles.items}>
+      <TouchableHighlight style={styles.policy} onPress={this.pay}>
+            <Text style={styles.textP}>Betala<Ionicons name="md-arrow-dropright" size={20}></Ionicons></Text>  
+        </TouchableHighlight>
        <TouchableHighlight style={styles.policy} onPress={() => this.openModalPolicy()}>
             <Text style={styles.textP}>Läs våra användarvillkor                 <Ionicons name="md-arrow-dropright" size={20}></Ionicons></Text>  
         </TouchableHighlight>
