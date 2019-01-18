@@ -2,7 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Modal } from 'react-native';
 import * as firebase from 'firebase';
 import { Ionicons } from '@expo/vector-icons';
+
+
+import db from './firebaseConfig';
+
+
 import PolicyScreen from './PolicyScreen';
+
 import { LinearGradient } from 'expo';
 
 export default class ProfileScreen extends React.Component {
@@ -12,7 +18,32 @@ export default class ProfileScreen extends React.Component {
       modalVisible: false
     }
 
+    this.state = {
+      scores: []
+    }
+
     this.onPressLogout = this.onPressLogout.bind(this)
+  }
+
+  async getData(){
+   // console.log('GET DATA FUNCTION!')
+    const { currentUser } = firebase.auth()
+
+
+    /*await db.collection("users").doc(currentUser.uid).collection("roundes")
+    .onSnapshot(function(doc) {
+        console.log("DOC DATA, ROUNDES  ", doc.data());
+    });*/
+
+    let scores = [];
+    await db.collection("users").doc(currentUser.uid).collection("roundes").get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+          // doc.data() is never undefined for query doc snapshots
+          //console.log(doc.id, " => ", doc.data());
+          scores.push(doc.data().points)
+      });
+  });
+this.setState({scores})
   }
 
   
@@ -38,9 +69,9 @@ closeModalPolicy = () => {
 }
 
   render() {
-
+    this.getData()
+    //console.log('Alla poäng i en array::::: ',this.state.scores)
     let user = firebase.auth().currentUser;
-    console.log('currentuser:', user)
         let name;
         if(user != null){
             name = user.displayName;
@@ -69,7 +100,7 @@ closeModalPolicy = () => {
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.rating}>Rating</Text>
         <Text style={styles.rating}>⭐️ ⭐️ ⭐️ ⭐️ ⭐️ </Text>
-        <Text style={styles.rounds}>Antal spelade omgångar: {this.props.screenProps.roundes[this.props.screenProps.roundes.length-1]}
+        <Text style={styles.rounds}>Antal spelade omgångar:{this.state.scores.length}
         </Text>
     
       </View>
