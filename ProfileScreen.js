@@ -15,10 +15,7 @@ export default class ProfileScreen extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      modalVisible: false
-    }
-
-    this.state = {
+      modalVisible: false,
       scores: []
     }
 
