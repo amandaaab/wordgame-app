@@ -18,31 +18,47 @@ class MainVerify extends React.Component {
             errors: false,
             loading: false,
             wantToSignup: false,
-            items: []
+            items: [],
+        
         }
 
     }
+
+   
+/*
+    async componentDidMount(){
+         const soundObject = new Expo.Audio.Sound();
+        try {
+            await soundObject.loadAsync(require('./assets/3265418_a-happy-camper_by_schwartzsound_preview.mp3'));
+            await soundObject.playAsync();
+            // Your sound is playing!
+        } catch (error) {
+            // An error occurred!
+        }
+    }
+    */
+    
 
     signedUp = () => {
         this.props.isSignupRender()
         let user = firebase.auth().currentUser;
         let userId;
-        if(user){
+        if (user) {
             userId = user.uid;
 
             db.collection("users").doc(userId).set({
                 roundes: 0,
             })
-            .then(function() {
-                console.log("Document successfully written!");
-            })
-            .catch(function(error) {
-                console.error("Error writing document: ", error);
-            });
-            
+                .then(function () {
+                    console.log("Document successfully written!");
+                })
+                .catch(function (error) {
+                    console.error("Error writing document: ", error);
+                });
+
         }
 
-        console.log('ny användare', userId )
+        console.log('ny användare', userId)
     }
 
     loggedIn = () => {
@@ -57,7 +73,7 @@ class MainVerify extends React.Component {
             wantToSignup: true
         })
     }
-    
+
 
     closeSignUp = () => {
         this.setState({
@@ -68,12 +84,12 @@ class MainVerify extends React.Component {
     render() {
         if (this.state.wantToSignup == true) {
             return <SignupScreen isSignupRender={this.signedUp} closeSignUp={this.closeSignUp} />
-        
+
 
         } else {
             return (
-                <LoginScreen isLoginRender={this.loggedIn}viewSignup={this.openSignup}/>
-            
+                <LoginScreen isLoginRender={this.loggedIn} viewSignup={this.openSignup} />
+
             )
         }
     }
