@@ -5,6 +5,7 @@ import PlayScreen from './PlayScreen';
 import {LinearGradient} from 'expo';
 import { Font } from 'expo';
 import * as firebase from 'firebase';
+import db from './firebaseConfig'
 
 
 export default class HomeScreen extends React.Component {
@@ -12,21 +13,31 @@ export default class HomeScreen extends React.Component {
         super(props)
         this.state = {
         fontLoaded: false,
+        scores: []
     
     }
     }
-    
 
-    async componentDidMount() {
-       
-      }
   
     onPressPlay = () => {
         this.props.navigation.navigate('play')
     }
-    
+
+    async getData(){
+        // console.log('GET DATA FUNCTION!')
+         const { currentUser } = firebase.auth()
+     
+         let scores = [];
+         await db.collection("users").doc(currentUser.uid).collection("roundes").get().then(function(querySnapshot) {
+           querySnapshot.forEach(function(doc) {
+               scores.push(doc.data().points)
+           });
+       });
+     this.setState({scores})
+       }
 
     render() {
+        this.getData()
         const user = this.props.screenProps.currentUser
 
       return (
@@ -36,9 +47,9 @@ export default class HomeScreen extends React.Component {
           style={{flex: 1, justifyContent: 'center'
           
           }}>
-        
+           
             <View style={styles.container}>
-            <Text style={[styles.text, styles.undertext, styles.oneText]}> {user && user.displayName}</Text>
+            <Text style={[styles.text, styles.undertext, styles.oneText]}> Väkommen {user && user.displayName}</Text>
             <Text style={[ styles.text, styles.title]}>SKYNDA!</Text>     
             <Text style={[,styles.text, styles.undertext, styles.twoText]}>Nu spelar vi!</Text>
         

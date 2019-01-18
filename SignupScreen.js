@@ -175,7 +175,7 @@ class SignupScreen extends React.Component {
 
                         </Modal>
                     </View>
-                    <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-10} enabled>
+                    <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-50} enabled>
                         <View style={styles.content}>
 
                             <Text style={styles.screenLabel}>Registrera dig</Text>

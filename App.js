@@ -80,7 +80,7 @@ const Menu = createBottomTabNavigator(
     Home: {
       screen: HomeStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-play-circle" size={64} style={styles.icons} color={focused ? '#ffb5be' : '#ffd6db'} borderWidth={3}
+        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-play-circle" size={64} style={styles.icons} color={focused ? '#1f1e35' : 'black'} borderWidth={3}
       /></View>,
         tabBarOptions: {
           showLabel: false,
@@ -100,7 +100,7 @@ const Menu = createBottomTabNavigator(
     Help: {
       screen: HelpStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-help-circle" style={styles.icons} size={64} color={focused ? '#ffb5be' : '#ffd6db'} /></View>,
+        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-help-circle" style={styles.icons} size={64} color={focused ? '#1f1e35': 'black'} /></View>,
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -119,7 +119,7 @@ const Menu = createBottomTabNavigator(
     Profile: {
       screen: ProfileStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-contact" size={64} style={styles.icons} color={focused ?'#ffb5be' : '#ffd6db'} /></View>,
+        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-contact" size={64} style={styles.icons} color={focused? '#1f1e35' : 'black'} /></View>,
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -139,7 +139,7 @@ const Menu = createBottomTabNavigator(
     HighScore: {
       screen: HighScoreStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <Ionicons name="md-trophy" size={40} color={focused ? '#f9eb43' : '#fff684'} border="1 solid black" />,
+        tabBarIcon: ({ focused }) => <Ionicons name="md-trophy" size={50} color={focused ? '#f9eb43' : '#fff684'} border="1 solid black" />,
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     width: 56,
     height: 56,
-    backgroundColor: 'rgba(0,21,72,1)',
+    backgroundColor: 'white',
     flex: 0,
     justifyContent: 'center', 
     alignItems: 'center',
