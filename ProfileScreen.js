@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableHighlight, Modal } from 'react-native'
 import * as firebase from 'firebase';
 import { Ionicons } from '@expo/vector-icons';
 import PolicyScreen from './PolicyScreen';
+import { LinearGradient } from 'expo';
 
 export default class ProfileScreen extends React.Component {
   constructor(props){
@@ -46,6 +47,11 @@ closeModalPolicy = () => {
           }
 
     return (
+      <LinearGradient 
+      colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
+      style={{flex: 1, justifyContent: 'center'
+      
+      }}>
       <View style={styles.container}>
        <Modal
           animationType="slide"
@@ -67,6 +73,7 @@ closeModalPolicy = () => {
         </Text>
     
       </View>
+      <View style={styles.itemWrap}>
       <View style={styles.items}>
        <TouchableHighlight style={styles.policy} onPress={() => this.openModalPolicy()}>
             <Text style={styles.textP}>Läs våra användarvillkor                 <Ionicons name="md-arrow-dropright" size={20}></Ionicons></Text>  
@@ -79,10 +86,9 @@ closeModalPolicy = () => {
             </Text>
         </TouchableHighlight>
         </View>
-
-      
-      
+        </View>
       </View>
+      </LinearGradient>
     );
   }
 }
@@ -90,7 +96,7 @@ closeModalPolicy = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0,21,72,1)',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     height: '60%',
@@ -101,6 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 5
    
   },
   name: {
@@ -119,7 +126,7 @@ const styles = StyleSheet.create({
 
   },
   logoutButton: {
-      backgroundColor: '#f44141',
+      backgroundColor: 'rgb(53, 157, 255)',
       borderWidth: 0
   },
 
@@ -127,16 +134,21 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#aeb0b7',
     height: 50,
-    width: '90%', 
+    width: '100%', 
     backgroundColor: 'white',
     padding: 7,
     justifyContent: 'center', 
     alignItems: 'center', 
-    flexDirection: 'row'
+    flexDirection: 'row',
+   
   },
   textP: {
     color: 'black',
     fontSize: 20
+  },
+  itemWrap: {
+    width: '90%',
+    marginBottom: 60
   }
 
 });

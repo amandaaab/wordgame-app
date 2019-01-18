@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, KeyboardAvoidingView, Text, View, TextInput, TouchableHighlight, ScrollView, Animated } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, Text, View, TextInput, TouchableHighlight, ScrollView, Animated, StatusBar } from 'react-native';
+import {LinearGradient} from 'expo';
 import * as Progress from 'react-native-progress';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -173,7 +174,6 @@ console.log('FRÅN ANIMATE!!!!!!!', this.state.words)
   }
 
   render() {
-
     const textSize = this.animatedValue.interpolate({
       inputRange: [0, 0.5, 1],
       outputRange: [18, 32, 18]
@@ -183,16 +183,18 @@ console.log('FRÅN ANIMATE!!!!!!!', this.state.words)
     //console.log('Alla frågor:', this.props.screenProps.allDocs)
     let progressColor;
     if(this.state.progress < 0.25){
-      progressColor = 'red';
+      progressColor = '#c92020';
     } else {
-      progressColor = '#48BBEC'
+      progressColor = 'rgba(235,43,70,1)'
     }
     return (
+      
 
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-
-        <View style={styles.questionBox}>
-        
+<StatusBar
+    hidden={true}
+   />
+        <View style={styles.questionBox}>        
           <Text style={styles.text}>{this.state.allQandA[this.state.randomNumber].question}</Text>
           <Text style={styles.text}>{this.state.timer}</Text>
         </View>
@@ -254,45 +256,83 @@ console.log('FRÅN ANIMATE!!!!!!!', this.state.words)
             autoFocus={true}
             placeholder={'Ditt svar..'}
           />
+          <LinearGradient
+            colors={['#9ffca6', '#68e872']}
+            style={{ 
+            width: '20%',
+            margin: 2,
+            borderRadius: 5,
+            justifyContent: "center",
+            alignItems: 'center',
+            height: 60
+          
+
+        
+        }}
+          >
           <TouchableHighlight
             style={styles.enterButton}
             onPress={this.onSave}>
-            <Text>Enter</Text>
-          </TouchableHighlight>
+            <Text style={styles.buttonText}>Enter</Text>
+          </TouchableHighlight>  
+          </LinearGradient>
         </View>
+      
         {/*<Text style={styles.text}>{this.state.score}</Text>*/}
 
         {!this.state.usedExtraTime ?
+      
+        <LinearGradient
+          colors={['#fff796', '#fff34f']}
+          style={{
+              width: '94%',
+              marginLeft: '3%',
+              marginRight: '3%', 
+              height: 48,
+              borderRadius: 5,
+              justifyContent: "center",
+              alignItems: 'center',
+              margin: 2
+          }
+        } >
           <TouchableHighlight
             style={styles.button}
             onPress={this.onGetSeconds}>
-            <Text>10 sek extra tid!(10 poäng)</Text>
+            <Text style={styles.buttonText}>10 sekunder extra tid!</Text>
           </TouchableHighlight>
+          </LinearGradient>
           : null}
+
+          
       </KeyboardAvoidingView>
+
     );
   }
 }
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'rgba(0,21,72,1)',
-    //backgroundColor: 'rgba(235,43,70,1)',
-    //alignItems: 'center' //, kan inte ha, då får scrollview ingen width
-    //justifyContent: 'center',
   },
+
   text: {
-    //padding: 20,
     color: 'white',
     fontSize: 22,
+    marginTop: 'auto',
+    flexGrow: 1,
+    padding: 10,
+    marginLeft: '8%'
   },
+
   progress: {
     marginBottom: 5,
-    marginLeft: 5,
-    marginRight: 5,
+    marginLeft: 10,
+    marginRight: 10,
   },
+
   input: {
     backgroundColor: 'white',
     width: '80%',
@@ -302,55 +342,37 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     fontSize: 18,
   },
+
   enterButton: {
-    height: 60,
-    backgroundColor: '#47ef88',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 5,
-    width: '20%',
-    margin: 2,
+    backgroundColor: 'transparent',
   },
 
   button: {
-    height: 40,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    alignSelf: 'stretch',
-    margin: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 5,
-
+    backgroundColor: 'transparent',
   },
+
   inputContainer: {
     flex: 0,
     flexDirection: 'row',
-    width: '96%',
+    width: '94%',
     justifyContent: 'center',
-    marginLeft: '2%',
-    marginRight: '2%',
+    marginLeft: '3%',
+    marginRight: '3%',
   },
+  
   contentContainer: {
     height: 250,
-    
-    marginLeft: '2%',
-    marginRight: '2%',
-    
-    width: '96%',
-    //justifyContent: 'center',
-    //alignItems: 'center',
+    marginLeft: '3%',
+    marginRight: '3%',
+    width: '94%',
     backgroundColor: 'white',
     borderRadius: 5,
-    //flexDirection: 'column',
     shadowColor: '#294434',
     shadowOffset: { width: 3, height: 3 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
     flexGrow: 1,
     marginBottom: '2%',
-    //paddingLeft: 15,
     alignItems: 'center',
   },
   inner: { //innuti scrollview där orden du skrivit skrivs ut
@@ -362,16 +384,18 @@ const styles = StyleSheet.create({
   questionBox: {
     flexDirection: 'row',
     flex: 0,
-    backgroundColor: 'rgba(235,43,70,1)',
-    //backgroundColor: '#dee0e2',
-    marginTop: '5%',
-    marginLeft: '2%',
-    marginRight: '2%',
-    marginBottom: '2%',
+    backgroundColor: 'rgba(0,21,72,1)',
     borderRadius: 5,
-    height: '10%',
-    justifyContent: 'space-around',
+    height: '18%',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    textAlign: 'center',
+    
+  },
+  buttonText:{
+    fontWeight: 'bold',
   }
+
+  
 
 })

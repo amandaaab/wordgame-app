@@ -18,11 +18,7 @@ export default class HomeScreen extends React.Component {
     
 
     async componentDidMount() {
-       await Font.loadAsync({
-          'Comfortaa-Bold': require('./assets/fonts/Comfortaa-Bold.ttf'),
-        });
-        this.setState({ fontLoaded: true });
-
+       
       }
   
     onPressPlay = () => {
@@ -42,22 +38,16 @@ export default class HomeScreen extends React.Component {
           }}>
         
             <View style={styles.container}>
-            {this.state.fontLoaded ? 
-            <Text style={[{ fontFamily:'Comfortaa-Bold'}, styles.text, styles.title]}>SKYNDA!</Text>  
-            : null }
-            {this.state.fontLoaded ? 
-            <Text style={[{fontFamily:'Comfortaa-Bold'},styles.text, styles.undertext]}>Nu spelar vi {user && user.displayName}!</Text>
-            : null }
-
-           <TouchableHighlight onPress={() => this.playSound()} style={[styles.playButton, {backgroundColor: 'yellow'}]}>
-               <Text>ljud på</Text>
-           </TouchableHighlight>
+            <Text style={[styles.text, styles.undertext, styles.oneText]}> {user && user.displayName}</Text>
+            <Text style={[ styles.text, styles.title]}>SKYNDA!</Text>     
+            <Text style={[,styles.text, styles.undertext, styles.twoText]}>Nu spelar vi!</Text>
+        
             
         <LinearGradient
             colors={['#62fc9d', '#47ef88']}
-            style={{ width: '60%',
-            height: 50,
-            borderRadius: 6,
+            style={{ width: '64%',
+            height: 60,
+            borderRadius: 14,
             justifyContent: "center",
             alignItems: 'center',
             padding: 10,
@@ -69,12 +59,12 @@ export default class HomeScreen extends React.Component {
         
         }}
           >
-            {this.state.fontLoaded ? 
+           
                 <TouchableHighlight onPress={this.onPressPlay} style={styles.playButton}>
-                    <Text style={[{fontFamily:'Comfortaa-Bold'},styles.buttonText]}>Spela</Text>
+                    <Text style={[styles.buttonText]}>SPELA</Text>
                 </TouchableHighlight>
     
-            : null }
+         
 
             </LinearGradient>
 
@@ -95,9 +85,17 @@ export default class HomeScreen extends React.Component {
       width: '100%'
     },
 
+    oneText: {
+        marginBottom: 20
+    },
+
+    twoText: {
+        marginBottom: 60
+    },
+
     title: {
         marginBottom: 20,
-        fontSize: 50,
+        fontSize: 60,
         fontWeight: 'bold',
     },
     
@@ -109,13 +107,13 @@ export default class HomeScreen extends React.Component {
     },
     undertext: {
         fontSize: 25,
-        marginBottom: 50,
+        marginBottom: 10,
     },
     playButton: {
         backgroundColor: 'transparent',
         width: '60%',
         height: 50,
-        borderRadius: 6,
+        borderRadius: 15,
         justifyContent: "center",
         alignItems: 'center',
         padding: 10,
@@ -124,7 +122,8 @@ export default class HomeScreen extends React.Component {
 
     buttonText: {
         color: 'rgba(0,21,72,1)',
-        fontSize: 20
+        fontSize: 20, 
+        fontWeight: 'bold'
     }, 
    
 
