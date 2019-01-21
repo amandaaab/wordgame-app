@@ -105,11 +105,12 @@ const styles = StyleSheet.create({
   },
 
   top: {
-    marginTop: 40, 
-    flex: 1,
+    marginTop: 30, 
+    flex: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    padding: 20
   },
 
   item: {
@@ -135,7 +136,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(225, 212, 249)',
     width: '100%',
     height: 70,
-    
     flex: 0,
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
   flatlist: {
     width: '100%',
     backgroundColor: 'white',
-    height: 200,
-    marginBottom: 150
+    height: '20%',
+    marginBottom: '40%'
   
   }
 });
