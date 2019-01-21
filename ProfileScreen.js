@@ -2,23 +2,15 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Modal } from 'react-native';
 import * as firebase from 'firebase';
 import { Ionicons } from '@expo/vector-icons';
-
-
 import db from './firebaseConfig';
-
-
 import PolicyScreen from './PolicyScreen';
-
 import { LinearGradient } from 'expo';
 
 export default class ProfileScreen extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      modalVisible: false
-    }
-
-    this.state = {
+      modalVisible: false,
       scores: []
     }
 
