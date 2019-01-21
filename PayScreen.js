@@ -15,6 +15,7 @@ export default class PayScreen extends React.Component {
 pay = async (amount) => { 
     console.log('pay', amount);
     const userEmail = this.props.screenProps.currentUser.email;
+    const userId = this.props.screenProps.currentUser.uid;
 
     try {
       let response = await fetch(
@@ -24,7 +25,7 @@ pay = async (amount) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
-        body: JSON.stringify({amount: amount, email: userEmail}),
+        body: JSON.stringify({amount: amount, email: userEmail, id: userId}),
       }
       );
       console.log(response)
