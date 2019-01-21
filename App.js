@@ -139,7 +139,7 @@ const Menu = createBottomTabNavigator(
     HighScore: {
       screen: HighScoreStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <Ionicons name="md-trophy" size={50} color={focused ? '#f9eb43' : '#fff684'} border="1 solid black" />,
+        tabBarIcon: ({ focused }) => <Ionicons name="md-trophy" size={50} color={focused ? '#fceb6f' : '#ffea4f'} border="1 solid black" />,
         tabBarOptions: {
           showLabel: false,
           style: {
