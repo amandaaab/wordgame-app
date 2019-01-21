@@ -92,6 +92,7 @@ secondChecked = (amount) => {
 
   const styles = StyleSheet.create({
     container: {
+        borderRadius: 10,
         flex: 0,
         //backgroundColor: 'transparent',
         alignItems: 'center',
