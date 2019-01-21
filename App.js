@@ -86,7 +86,7 @@ const Menu = createBottomTabNavigator(
     Home: {
       screen: HomeStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-play-circle" size={64} style={styles.icons} color={focused ? '#1f1e35' : 'black'} borderWidth={3}
+        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-play-circle" size={64} style={styles.icons} color={focused ? '#1f1e35' : 'black'}
       /></View>,
         tabBarOptions: {
           showLabel: false,
@@ -145,7 +145,7 @@ const Menu = createBottomTabNavigator(
     HighScore: {
       screen: HighScoreStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <Ionicons name="md-trophy" size={50} color={focused ? '#f9eb43' : '#fff684'} border="1 solid black" />,
+        tabBarIcon: ({ focused }) => <Ionicons name="md-trophy" size={50} color={focused ? '#ffe389' : '#ffea4f'} />,
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -209,19 +209,6 @@ export default class App extends React.Component {
   account = async () => {
     const { currentUser } = firebase.auth()
     let roundesArray = [];
-    /*var docRef = await db.collection("users").doc(currentUser.uid);
-
-docRef.get().then(function(doc) {
-    if (doc.exists) {
-        console.log("Document data:", doc.data().roundes);
-        roundesArray.push(doc.data().roundes);
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-    }
-}).catch(function(error) {
-    console.log("Error getting document:", error);
-});*/
 
 await db.collection("users").doc(currentUser.uid)
     .onSnapshot(function(doc) {
@@ -247,11 +234,9 @@ await db.collection("users").doc(currentUser.uid)
 
 const styles = StyleSheet.create({
   icons: {
-   
     marginTop: -5.5
-   
-  
   },
+
   outerCircle: {
    
     borderRadius: 40,
