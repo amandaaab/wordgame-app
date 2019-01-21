@@ -13,7 +13,6 @@ export default class HomeScreen extends React.Component {
         super(props)
         this.state = {
         fontLoaded: false,
-        scores: []
     
     }
     }
@@ -23,21 +22,9 @@ export default class HomeScreen extends React.Component {
         this.props.navigation.navigate('play')
     }
 
-    async getData(){
-        // console.log('GET DATA FUNCTION!')
-         const { currentUser } = firebase.auth()
-     
-         let scores = [];
-         await db.collection("users").doc(currentUser.uid).collection("roundes").get().then(function(querySnapshot) {
-           querySnapshot.forEach(function(doc) {
-               scores.push(doc.data().points)
-           });
-       });
-     this.setState({scores})
-       }
+
 
     render() {
-        this.getData()
         const user = this.props.screenProps.currentUser
 
       return (

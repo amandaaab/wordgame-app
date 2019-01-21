@@ -20,19 +20,20 @@ export default class ProfileScreen extends React.Component {
   async getData(){
    // console.log('GET DATA FUNCTION!')
     const { currentUser } = firebase.auth()
-
-
     /*await db.collection("users").doc(currentUser.uid).collection("roundes")
     .onSnapshot(function(doc) {
         console.log("DOC DATA, ROUNDES  ", doc.data());
     });*/
-
     let scores = [];
     await db.collection("users").doc(currentUser.uid).collection("roundes").get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
           // doc.data() is never undefined for query doc snapshots
           //console.log(doc.id, " => ", doc.data());
           scores.push(doc.data().points)
+      }).then(() => {
+        console.log('profilsidan har gått igenom render')
+      }).catch((error) => {
+        console.log(error, 'error i profilescreen')
       });
   });
 this.setState({scores})
