@@ -68,18 +68,9 @@ closeModalPolicy = () => {
     })
 }
 
-pay = async () => { 
-  console.log('pay');
-  
-  try {
-    let response = await fetch(
-      'http://172.20.10.2:5000/payment', //or 192.168.0.255
-    );
-    console.log(response)
-    //return responseJson.movies;
-  } catch (error) {
-    console.error(error);
-  }
+//Skickas vidare till PayScreen.js
+pay = () => { 
+  this.props.navigation.navigate('beforePay')
 
 }
 
@@ -121,15 +112,23 @@ pay = async () => {
     
       </View>
       <View style={styles.itemWrap}>
+
       <View style={styles.items}>
-      <TouchableHighlight style={styles.policy} onPress={this.pay}>
-            <Text style={styles.textP}>Betala<Ionicons name="md-arrow-dropright" size={20}></Ionicons></Text>  
+        <TouchableHighlight style={styles.button} onPress={this.pay}>
+          <View style={styles.item}>
+            <Text style={styles.textP}>Köp mynt här</Text><Ionicons name="md-arrow-dropright" size={20}></Ionicons>
+          </View>
         </TouchableHighlight>
-       <TouchableHighlight style={styles.policy} onPress={() => this.openModalPolicy()}>
-            <Text style={styles.textP}>Läs våra användarvillkor                 <Ionicons name="md-arrow-dropright" size={20}></Ionicons></Text>  
+      </View>
+
+      <View style={styles.items}>
+       <TouchableHighlight style={styles.button} onPress={() => this.openModalPolicy()}>
+          <View style={styles.item}>
+            <Text style={styles.textP}>Läs våra användarvillkor</Text><Ionicons name="md-arrow-dropright" size={20}></Ionicons>
+          </View>
         </TouchableHighlight>
-</View>
-<View style={[styles.items, styles.logoutButton]}>
+      </View>
+      <View style={[styles.items, styles.logoutButton]}>
          <TouchableHighlight style={styles.policy}  onPress={this.onPressLogout}>
             <Text  style={styles.textP} >
               Logga ut 
@@ -184,9 +183,9 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#aeb0b7',
     height: 50,
-    width: '100%', 
+    width: '90%', 
     backgroundColor: 'white',
-    padding: 7,
+    //padding: 7,
     justifyContent: 'center', 
     alignItems: 'center', 
     flexDirection: 'row',
@@ -197,8 +196,24 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   itemWrap: {
-    width: '90%',
-    marginBottom: 60
+    width: '100%',
+    marginBottom: 60,
+    flex: 0, 
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  item: {
+    flex: 1, 
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    alignItems: 'center',
+  },
+  button: {
+    width: '100%',
   }
 
 });
