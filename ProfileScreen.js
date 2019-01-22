@@ -69,7 +69,7 @@ pay = () => {
 
 
   render() {
-    this.getData()
+    //this.getData()
     //console.log('Alla poäng i en array::::: ',this.state.scores)
     let user = firebase.auth().currentUser;
         let name;
