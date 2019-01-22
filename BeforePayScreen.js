@@ -68,7 +68,7 @@ secondChecked = (amount) => {
             />
 
             <CheckBox
-                containerStyle={{backgroundColor: 'white', fontSize: 14, borderColor: 'white'}}
+                containerStyle={{backgroundColor: 'white', borderColor: 'white'}}
                 textStyle={{fontSize: 20, fontWeight: 'normal'}}
                 center
                 size={30}
