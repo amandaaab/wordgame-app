@@ -13,6 +13,8 @@ import MainVerify from './MainVerify';
 import HighScoreScreen from './HighScoreScreen';
 import PayScreen from './PayScreen';
 import BeforePayScreen from './BeforePayScreen';
+import PaymentSuccess from './PaymentSuccess';
+import PaymentFailed from './PaymentFailed';
 
 
 import db from './firebaseConfig';
@@ -61,9 +63,10 @@ const ProfileStack = createSwitchNavigator(
       screen: ProfileScreen
 
     },
-    pay: { screen: PayScreen },
-    beforePay: { screen: BeforePayScreen }
-
+    pay: {screen: PayScreen},
+    beforePay: {screen: BeforePayScreen},
+    paymentSuccess: {screen: PaymentSuccess},
+    paymentFailed: {screen: PaymentFailed}
   }
 
 )

@@ -1,16 +1,24 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, KeyboardAvoidingView, View, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo';
-import { CheckBox } from 'react-native-elements'
+import { Ionicons } from '@expo/vector-icons';
 
 
 export default class PayScreen extends React.Component {
 
-    state = {
-        name : '',
-        address: '',
-        city: '',
-    }
+
+    constructor(props) {
+        super(props);
+
+        this.state = { 
+            name : '',
+            date: '',
+            cvc: '',
+        
+        }
+    
+      }
+
 
 pay = async (amount) => { 
     console.log('pay', amount);
@@ -18,27 +26,35 @@ pay = async (amount) => {
 
     try {
       let response = await fetch(
-        'http://172.20.10.2:5000/payment',{
+        'http://192.168.0.33:5000/payment',{
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
         body: JSON.stringify({amount: amount, email: userEmail}),
-      }
-      );
-      console.log(response)
-      //return responseJson.movies;
+      })
+        console.log(response)
+
+        if(response.ok){
+            console.log('testestest')
+            this.props.navigation.navigate('paymentSuccess')
+        } else {
+            console.log('payment failed')
+            this.props.navigation.navigate('paymentFailed')
+        }
+
     } catch (error) {
-      console.error(error);
+      //console.log('ERROR i payscreen:', error); network request failed
+      this.props.navigation.navigate('paymentFailed')
     }
 
 } 
- 
+
     render() {
         console.log('amount:', this.props.navigation.getParam('amount'))
         const amount = this.props.navigation.getParam('amount');
-
+    
       return (
         <LinearGradient 
         colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
@@ -55,6 +71,7 @@ pay = async (amount) => {
             <Text style={styles.labelText}>För- och efternamn</Text>
             <TextInput style={styles.input}
                         placeholder="Ex Anna Andersson"
+                        maxLength={30}
                         required={true}
                         onChangeText={(name) => this.setState({ name })}
                         value={this.state.name}
@@ -64,31 +81,31 @@ pay = async (amount) => {
 
     
     <View style={styles.box}>
-        <Text style={styles.labelText}>Kortnummer</Text>
+    
+        <Text style={styles.labelText}>
+        <Ionicons name="md-card" size={15}/>  Kortnummer
+        </Text>
             <TextInput style={styles.input}
-                        placeholder="Kortnummer"
-                        required={true}
-                        onChangeText={(city) => this.setState({ city })}
-                        value={this.state.city}
+                        value={'4242 4242 4242 4242'}
             />
         </View>
+
 
         <View style={styles.smallBox}>
             <Text style={styles.labelText}>Utgångsdatum</Text>
                 <TextInput style={styles.input}
-                            placeholder="utgångsdatum"
+                            keyboardType={'numeric'}
                             required={true}
-                            onChangeText={(city) => this.setState({ city })}
-                            value={this.state.city}
+                            value={'01/20'}
                 />
         </View>
         <View style={styles.smallBox}>
             <Text style={styles.labelText}>CVC</Text>
             <TextInput style={styles.input}
-                        placeholder="cvc"
+                        maxLength={3}
+                        keyboardType={'numeric'}
                         required={true}
-                        onChangeText={(city) => this.setState({ city })}
-                        value={this.state.city}
+                        value={'999'}
             />
         </View>
 
@@ -153,10 +170,13 @@ pay = async (amount) => {
     },
     box: {
         width: '75%',
+        margin: '4%',
 
     },
     smallBox: {
         width: '50%',
+        margin: '4%',
+
     },
     text: {
         fontSize: 18, 
@@ -171,7 +191,7 @@ pay = async (amount) => {
     inputContainer: {
 
         width: '90%',
-        height: '60%',
+        height: '68%',
         alignItems: 'center',
         flex:0, 
         flexDirection: 'column',
