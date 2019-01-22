@@ -347,6 +347,10 @@ const styles = StyleSheet.create({
 
   enterButton: {
     backgroundColor: 'transparent',
+    height: 60,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   button: {
