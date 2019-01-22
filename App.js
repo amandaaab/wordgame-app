@@ -61,8 +61,8 @@ const ProfileStack = createSwitchNavigator(
       screen: ProfileScreen
 
     },
-    pay: {screen: PayScreen},
-    beforePay: {screen: BeforePayScreen}
+    pay: { screen: PayScreen },
+    beforePay: { screen: BeforePayScreen }
 
   }
 
@@ -87,7 +87,7 @@ const Menu = createBottomTabNavigator(
       screen: HomeStack,
       navigationOptions: ({ navigation }) => ({
         tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-play-circle" size={64} style={styles.icons} color={focused ? '#1f1e35' : 'black'}
-      /></View>,
+        /></View>,
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -106,7 +106,7 @@ const Menu = createBottomTabNavigator(
     Help: {
       screen: HelpStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-help-circle" style={styles.icons} size={64} color={focused ? '#1f1e35': 'black'} /></View>,
+        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-help-circle" style={styles.icons} size={64} color={focused ? '#1f1e35' : 'black'} /></View>,
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -125,7 +125,7 @@ const Menu = createBottomTabNavigator(
     Profile: {
       screen: ProfileStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-contact" size={64} style={styles.icons} color={focused? '#1f1e35' : 'black'} /></View>,
+        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-contact" size={64} style={styles.icons} color={focused ? '#1f1e35' : 'black'} /></View>,
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -170,16 +170,15 @@ export default class App extends React.Component {
   state = {
     allDocs: [], //questions from database in an array
     loggedIn: false,
-    currentUser: null, 
+    currentUser: null,
     roundes: [],
+   // highScore: [] // Highscore from database
 
   }
 
   async componentWillMount() {
-
     //getting all questions from the database, push them to the array and set state
     let allDocsArray = [];
-
     await db.collection("questions").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         allDocsArray.push(doc.data());
@@ -188,6 +187,21 @@ export default class App extends React.Component {
 
     this.setState({ allDocs: allDocsArray })
   }
+
+  getHighscore = async () => {
+    // Get highscore from database
+    let allScore = []
+
+    await db.collection("highscore").update().then((querySnapshot)=> {
+      querySnapshot.forEach((doc) => {
+        allScore.push(doc.data())
+      });
+    });
+
+    this.setState({
+      highScore: allScore
+    })
+  } 
 
   open = (email) => {
     this.setState({
@@ -206,20 +220,24 @@ export default class App extends React.Component {
 
   }
 
+// Get current user and roundes
   account = async () => {
     const { currentUser } = firebase.auth()
     let roundesArray = [];
 
-await db.collection("users").doc(currentUser.uid)
-    .onSnapshot(function(doc) {
-      roundesArray.push(doc.data().roundes);
+    await db.collection("users").doc(currentUser.uid)
+      .onSnapshot(function (doc) {
+        roundesArray.push(doc.data().roundes);
         console.log("Current data now changed: ", doc.data());
-    });
-
-    this.setState({ currentUser, roundes: roundesArray })
+      });
+ 
+    this.setState({ currentUser })
+   
   }
 
   render() {
+   
+    console.log('highscore', this.state.highScore)
     return (
       this.state.loggedIn == false ?
         <MainVerify isLoginRender={this.open} isSignupRender={this.open} />
@@ -238,18 +256,18 @@ const styles = StyleSheet.create({
   },
 
   outerCircle: {
-   
+
     borderRadius: 40,
     width: 56,
     height: 56,
     backgroundColor: 'white',
     flex: 0,
-    justifyContent: 'center', 
+    justifyContent: 'center',
     alignItems: 'center',
     borderColor: 'black',
     borderWidth: 1,
-    
-   
-    
+
+
+
   },
 })

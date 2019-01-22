@@ -25,8 +25,9 @@ export default class HomeScreen extends React.Component {
 
 
     render() {
+      
         const user = this.props.screenProps.currentUser
-
+  console.log('current user i home', user)
       return (
 
         <LinearGradient 

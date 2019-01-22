@@ -2,58 +2,97 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, FlatList } from 'react-native';
 import * as firebase from 'firebase';
 import { Ionicons } from '@expo/vector-icons';
-import {LinearGradient} from 'expo';
+import { LinearGradient } from 'expo';
 
 import db from './firebaseConfig';
 
 
 export default class HighScoreScreen extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      highScore: []
+    }
 
+  }
 
-    constructor(props){
-        super(props)
-        this.state = {
-        //  scores: []
-        }
-    
-      }
-    /*
-      async getData(){
-        console.log('GET DATA FUNCTION!')
-            await db.collection("highscore").get().then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
-              // doc.data() is never undefined for query doc snapshots
-              console.log(doc.id, " => ", doc.data());
-              //scores.push(doc.data().points)
-          });
+  componentDidMount () {
+    this.navs = [
+      this.props.navigation.addListener('willFocus', () => this.getScore()),
+      this.props.navigation.addListener('willBlur', () => this.getScore()),
+      this.props.navigation.addListener('didFocus', () => this.getScore()),
+    ]
+  }
+
+  componentWillUnmount () {
+    this.navs.forEach((nav) => {
+      nav.remove();
+    });
+  }
+
+  getScore = async() => {
+    let allScore = []
+
+    await db.collection("highscore").get().then((querySnapshot)=> {
+      querySnapshot.forEach((doc) => {
+        allScore.push(doc.data())
       });
-    //this.setState({scores})
-      }
+    });
 
-      */
-    
+    this.setState({
+      highScore: allScore
+    })
+  }
+
+  /*
+    async getData(){
+      console.log('GET DATA FUNCTION!')
+          await db.collection("highscore").get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+            //scores.push(doc.data().points)
+        });
+    });
+  //this.setState({scores})
+    }
+
+    */
+
 
 
   render() {
+
+    let userinfo = this.state.highScore
+    let arrayOfUser = Object.values(userinfo)
+    //let userinfo = this.props.screenProps.highScore
+    //let arrayOfUser = Object.values(userinfo)
+    console.log(arrayOfUser, 'unsername i higchscore')
+    //let userScore = this.props.screenProps.highScore.map(user => user.name)
     return (
-      <LinearGradient 
-      colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
-      style={{flex: 1, justifyContent: 'center'
-      
-      }}>
-      <View style={styles.container}>
-      <View style={styles.top}>
-        <Ionicons name="md-trophy" size={80} color={'#ffea4f'} />
-        <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>TOPPLISTA</Text>
-        </View>
-        <View style={styles.listLabel}>
-          <Text style={styles.item}>Ranking</Text>
-          <Text style={styles.item}>Namn</Text>
-          <Text style={styles.item}>Poäng</Text>
-        </View>
-        <FlatList style={styles.flatlist}
-          data={[
+      <LinearGradient
+        colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
+        style={{
+          flex: 1, justifyContent: 'center'
+
+        }}>
+        <View style={styles.container}>
+          <View style={styles.top}>
+            <Ionicons name="md-trophy" size={80} color={'#ffea4f'} />
+            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>TOPPLISTA</Text>
+          </View>
+          <View style={styles.listLabel}>
+            <Text style={styles.item}>Ranking</Text>
+            <Text style={styles.item}>Namn</Text>
+            <Text style={styles.item}>Poäng</Text>
+          </View>
+          <FlatList style={styles.flatlist}
+            data={arrayOfUser}
+            // data={      
+
+
+            /*
             {key: 'Devin',
           point: 1,
         score: 100},
@@ -81,15 +120,17 @@ export default class HighScoreScreen extends React.Component {
             {key: 'n',
             point: 9,
             score: 20},
-           
-          ]}
-          renderItem={({item}) => <View style={styles.listItem}>
-          <Text style={styles.item}>{item.point}</Text>
-          <Text style={styles.item}>{item.key}</Text>
-          <Text style={styles.item}>{item.score}</Text>
-          </View>}
-        />
-      </View>
+            */
+
+            // }
+            renderItem={({ item }) => <View style={styles.listItem}>
+              <Text style={styles.item}>RANK</Text>
+              <Text style={styles.item}>{item.name}</Text>
+              <Text style={styles.item}>{item.score}</Text>
+
+            </View>}
+          />
+        </View>
       </LinearGradient>
     );
   }
@@ -105,7 +146,7 @@ const styles = StyleSheet.create({
   },
 
   top: {
-    marginTop: 30, 
+    marginTop: 30,
     flex: 0,
     justifyContent: 'center',
     alignItems: 'center',
@@ -132,7 +173,7 @@ const styles = StyleSheet.create({
   },
 
   listLabel: {
-    
+
     backgroundColor: 'rgb(225, 212, 249)',
     width: '100%',
     height: 70,
@@ -140,15 +181,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     flexDirection: 'row'
-    
+
 
   },
 
   flatlist: {
     width: '100%',
     backgroundColor: 'white',
-    height: '20%',
-    marginBottom: '40%'
-  
+    // height: '30%',
+    marginBottom: '35%'
+
   }
 });

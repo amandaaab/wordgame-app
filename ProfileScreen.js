@@ -7,7 +7,7 @@ import PolicyScreen from './PolicyScreen';
 import { LinearGradient } from 'expo';
 
 export default class ProfileScreen extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       modalVisible: false,
@@ -17,119 +17,143 @@ export default class ProfileScreen extends React.Component {
     this.onPressLogout = this.onPressLogout.bind(this)
   }
 
-  async getData(){
-   // console.log('GET DATA FUNCTION!')
+  componentDidMount() {
+    this.navs = [
+      this.props.navigation.addListener('willFocus', () => this.getRoundes()),
+      this.props.navigation.addListener('willBlur', () => this.getRoundes()),
+      this.props.navigation.addListener('didFocus', () => this.getRoundes()),
+    ]
+  }
+
+  componentWillUnmount() {
+    this.navs.forEach((nav) => {
+      nav.remove();
+    });
+  }
+
+  getRoundes = async () => {
+    // console.log('GET DATA FUNCTION!')
     const { currentUser } = firebase.auth()
     /*await db.collection("users").doc(currentUser.uid).collection("roundes")
     .onSnapshot(function(doc) {
         console.log("DOC DATA, ROUNDES  ", doc.data());
     });*/
-    let scores = [];
-    await db.collection("users").doc(currentUser.uid).collection("roundes").get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-          // doc.data() is never undefined for query doc snapshots
-          //console.log(doc.id, " => ", doc.data());
-          scores.push(doc.data().points)
-      }).then(() => {
+    let score = [];
+    await db.collection("users").doc(currentUser.uid).collection("roundes").get().then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        // doc.data() is never undefined for query doc snapshots
+        //console.log(doc.id, " => ", doc.data());
+        score.push(doc.data())
+        //console.log(score, 'scores')
+      })/*.then(() => {
+
         console.log('profilsidan har gått igenom render')
       }).catch((error) => {
         console.log(error, 'error i profilescreen')
-      });
-  });
-this.setState({scores})
+      });*/
+    });
+    this.setState({ scores: score })
   }
 
-  
+
   onPressLogout = () => {
     firebase.auth().signOut()
-  
-    .then(() => {
-      this.props.screenProps.loggingOut()
-    })
+
+      .then(() => {
+        this.props.screenProps.loggingOut()
+      })
     console.log('on press logga ut')
   }
 
+
   openModalPolicy = () => {
     this.setState({
-        modalVisible: true
+      modalVisible: true
     })
-}
+  }
 
-closeModalPolicy = () => {
+  closeModalPolicy = () => {
     this.setState({
-        modalVisible: false
+      modalVisible: false
     })
-}
+  }
 
-//Skickas vidare till PayScreen.js
-pay = () => { 
-  this.props.navigation.navigate('beforePay')
+  //Skickas vidare till PayScreen.js
+  pay = () => {
+    this.props.navigation.navigate('beforePay')
 
-}
+  }
 
 
   render() {
-    this.getData()
+
+    let userinfo = this.state.scores
+    let arrayOfUser = Object.values(userinfo)
+
+    console.log('array of roundes',arrayOfUser.points)
+
+    console.log('sscore i render', this.state.scores.length)
     //console.log('Alla poäng i en array::::: ',this.state.scores)
     let user = firebase.auth().currentUser;
-        let name;
-        if(user != null){
-            name = user.displayName;
-          }
+    let name;
+    if (user != null) {
+      name = user.displayName;
+    }
 
     return (
-      <LinearGradient 
-      colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
-      style={{flex: 1, justifyContent: 'center'
-      
-      }}>
-      <View style={styles.container}>
-       <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-          }}>
+      <LinearGradient
+        colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
+        style={{
+          flex: 1, justifyContent: 'center'
 
-          <PolicyScreen modalClose={this.closeModalPolicy}/>
+        }}>
+        <View style={styles.container}>
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+            }}>
 
-      </Modal>
+            <PolicyScreen modalClose={this.closeModalPolicy} />
 
-      <View style={styles.whiteContainer}>
-      <Ionicons name="md-contact" size={80}/>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.rating}>Rating</Text>
-        <Text style={styles.rating}>⭐️ ⭐️ ⭐️ ⭐️ ⭐️ </Text>
-        <Text style={styles.rounds}>Antal spelade omgångar:{this.state.scores.length}
-        </Text>
-    
-      </View>
-      <View style={styles.itemWrap}>
+          </Modal>
 
-      <View style={styles.items}>
-        <TouchableHighlight style={styles.button} onPress={this.pay}>
-          <View style={styles.item}>
-            <Text style={styles.textP}>Köp mynt här</Text><Ionicons name="md-arrow-dropright" size={20}></Ionicons>
-          </View>
-        </TouchableHighlight>
-      </View>
-
-      <View style={styles.items}>
-       <TouchableHighlight style={styles.button} onPress={() => this.openModalPolicy()}>
-          <View style={styles.item}>
-            <Text style={styles.textP}>Läs våra användarvillkor</Text><Ionicons name="md-arrow-dropright" size={20}></Ionicons>
-          </View>
-        </TouchableHighlight>
-      </View>
-      <View style={[styles.items, styles.logoutButton]}>
-         <TouchableHighlight style={styles.policy}  onPress={this.onPressLogout}>
-            <Text  style={styles.textP} >
-              Logga ut 
+          <View style={styles.whiteContainer}>
+            <Ionicons name="md-contact" size={80} />
+            <Text style={styles.name}>{name}</Text>
+            <Text style={styles.rating}>Rating</Text>
+            <Text style={styles.rating}>⭐️ ⭐️ ⭐️ ⭐️ ⭐️ </Text>
+            <Text style={styles.rounds}>Antal spelade omgångar:{this.state.scores.length}
             </Text>
-        </TouchableHighlight>
+
+          </View>
+          <View style={styles.itemWrap}>
+
+            <View style={styles.items}>
+              <TouchableHighlight style={styles.button} onPress={this.pay}>
+                <View style={styles.item}>
+                  <Text style={styles.textP}>Köp mynt här</Text><Ionicons name="md-arrow-dropright" size={20}></Ionicons>
+                </View>
+              </TouchableHighlight>
+            </View>
+
+            <View style={styles.items}>
+              <TouchableHighlight style={styles.button} onPress={() => this.openModalPolicy()}>
+                <View style={styles.item}>
+                  <Text style={styles.textP}>Läs våra användarvillkor</Text><Ionicons name="md-arrow-dropright" size={20}></Ionicons>
+                </View>
+              </TouchableHighlight>
+            </View>
+            <View style={[styles.items, styles.logoutButton]}>
+              <TouchableHighlight style={styles.policy} onPress={this.onPressLogout}>
+                <Text style={styles.textP} >
+                  Logga ut
+            </Text>
+              </TouchableHighlight>
+            </View>
+          </View>
         </View>
-        </View>
-      </View>
       </LinearGradient>
     );
   }
@@ -150,7 +174,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 5
-   
+
   },
   name: {
     color: 'grey',
@@ -168,21 +192,21 @@ const styles = StyleSheet.create({
 
   },
   logoutButton: {
-      backgroundColor: 'rgb(53, 157, 255)',
-      borderWidth: 0
+    backgroundColor: 'rgb(53, 157, 255)',
+    borderWidth: 0
   },
 
   items: {
     borderWidth: 0.5,
     borderColor: '#aeb0b7',
     height: 50,
-    width: '90%', 
+    width: '90%',
     backgroundColor: 'white',
     //padding: 7,
-    justifyContent: 'center', 
-    alignItems: 'center', 
+    justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'row',
-   
+
   },
   textP: {
     color: 'black',
@@ -191,13 +215,13 @@ const styles = StyleSheet.create({
   itemWrap: {
     width: '100%',
     marginBottom: 60,
-    flex: 0, 
+    flex: 0,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
   },
   item: {
-    flex: 1, 
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',

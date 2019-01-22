@@ -14,6 +14,7 @@ export default class ScoreScreen extends React.Component {
         fontLoaded: false,
         score: this.props.navigation.state.params.userScore,
         message: '',
+      
     }
 
  
@@ -38,23 +39,7 @@ export default class ScoreScreen extends React.Component {
                 message: 'Bra Jobbat!'
             })
         }
-
-        let user = firebase.auth().currentUser;
-
-        // Add a new document in collection "cities"
-            db.collection("users").doc(user.uid).collection('roundes').add({
-                points: this.state.score
-                //roundes: this.props.screenProps.roundes[this.props.screenProps.roundes.length-1] + 1,
-            })
-            .then(function() {
-                console.log("Document successfully written!");
-            })
-            .catch(function(error) {
-                console.error("Error writing document: ", error);
-            });
-
-
-        console.log('roundes i scorescreen!', this.props.screenProps.roundes)
+        this.saveScore()
 
       }
 
@@ -63,10 +48,35 @@ export default class ScoreScreen extends React.Component {
        
     }
 
+    saveScore = async () => {
+       //const user = this.props.screenProps.currentUser
+
+       const user = this.props.screenProps.currentUser
+
+       console.log("current user",this.props.screenProps.currentUser)
+        db.collection("highscore").add({
+            name: user.displayName,
+            score: this.state.score
+        })
+        .then(function(docRef) {
+            console.log("Document written with ID: ", docRef.id);
+        })
+        .catch(function(error) {
+            console.error("Error adding document: ", error);
+        });
+
+
+      /*  await db.collection("highscore").doc().set((querySnapshot)=> {
+            querySnapshot.forEach((doc) => {
+              allScore.push(doc.data())
+            });
+          });
+          */
+    }
+
 
     render() {
-
-
+        this.state.score > 5 ? this.saveScore : null
       return (
         <LinearGradient 
         colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}

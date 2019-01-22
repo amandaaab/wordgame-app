@@ -38,7 +38,6 @@ class LoginScreen extends React.Component {
         const { email, password, emailError, passwordError, validatedEmail, validatedPassword } = this.state
 
         Keyboard.dismiss()
-                  
         
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(() => {
@@ -54,12 +53,6 @@ class LoginScreen extends React.Component {
                     console.log(this.state.errors, 'gick ej att logga in')
                 })
         }
-
-    
-
-
-
-
 
 
     isLogin = () => {

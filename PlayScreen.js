@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, KeyboardAvoidingView, Text, View, TextInput, TouchableHighlight, ScrollView, Animated, StatusBar } from 'react-native';
-import {LinearGradient} from 'expo';
+import { LinearGradient } from 'expo';
 import * as Progress from 'react-native-progress';
 import { Ionicons } from '@expo/vector-icons';
 
 
 
 export default class PlayScreen extends React.Component {
-  
-  constructor(props){
+
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -37,18 +37,19 @@ export default class PlayScreen extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.clockCall);
+    
   }
 
-  animateText () {
-console.log('animateText körs')
-console.log('FRÅN ANIMATE!!!!!!!', this.state.words)
+  animateText() {
+    console.log('animateText körs')
+    console.log('FRÅN ANIMATE!!!!!!!', this.state.words)
     let wordExists = this.state.words.filter(word => word.doAnimate === true);
-      if (wordExists.length > 0) {
-        console.log('ORDET i animateText', wordExists)
-        this.animateTextAfter()
-    //if(this.state.words.map){
-    
-    //this.setState({animate: false})
+    if (wordExists.length > 0) {
+      console.log('ORDET i animateText', wordExists)
+      this.animateTextAfter()
+      //if(this.state.words.map){
+
+      //this.setState({animate: false})
     }
   }
 
@@ -61,27 +62,27 @@ console.log('FRÅN ANIMATE!!!!!!!', this.state.words)
         duration: 1000,
       }
     ).start();
-    
-/*let words = [...this.state.words];
-        let index = words.findIndex(word => word.word === this.state.text);
-        words[index] = {...words[index], doAnimate: false};
-        this.setState({ words });*/
+
+    /*let words = [...this.state.words];
+            let index = words.findIndex(word => word.word === this.state.text);
+            words[index] = {...words[index], doAnimate: false};
+            this.setState({ words });*/
   }
 
   animate() {
-      setInterval(() => {
-   // 1/156, varje omgång 39 sek vid nollan strecket fullt
-        this.setState(prevState => ({
-          progress: prevState.progress -= 0.00641026
-        }))
+    setInterval(() => {
+      // 1/156, varje omgång 39 sek vid nollan strecket fullt
+      this.setState(prevState => ({
+        progress: prevState.progress -= 0.00641026
+      }))
 
-      }, 250); //uppdateras var 1/4 sekund
+    }, 250); //uppdateras var 1/4 sekund
   }
 
   decrementClock = () => {
     this.setState((prevstate) => ({ timer: prevstate.timer - 1 }));
     if (this.state.timer === 0) {
-      this.props.navigation.navigate('score', { userScore: this.state.score })
+      this.props.navigation.navigate('score', { userScore: this.state.score, })
     }
   };
 
@@ -90,9 +91,9 @@ console.log('FRÅN ANIMATE!!!!!!!', this.state.words)
 
     //ändrar tillbaka doAnimate till false. 
     let words = [...this.state.words];
-        let index = words.findIndex(word => word.word === this.state.text);
-        words[index] = {...words[index], doAnimate: false};
-        this.setState({ words })
+    let index = words.findIndex(word => word.word === this.state.text);
+    words[index] = { ...words[index], doAnimate: false };
+    this.setState({ words })
 
     this.setState({
       text: value.toLowerCase()
@@ -121,7 +122,7 @@ console.log('FRÅN ANIMATE!!!!!!!', this.state.words)
 
         let words = [...this.state.words];
         let index = words.findIndex(word => word.word === this.state.text);
-        words[index] = {...words[index], doAnimate: true};
+        words[index] = { ...words[index], doAnimate: true };
         this.setState({ words }, () => this.animateText());
         //this.animateText();
         //alert('ordet finns redan')
@@ -182,65 +183,66 @@ console.log('FRÅN ANIMATE!!!!!!!', this.state.words)
     //let randomNumber = Math.floor(Math.random() * Math.floor(this.state.questions2.length));
     //console.log('Alla frågor:', this.props.screenProps.allDocs)
     let progressColor;
-    if(this.state.progress < 0.25){
+    if (this.state.progress < 0.25) {
       progressColor = '#c92020';
     } else {
       progressColor = 'rgba(235,43,70,1)'
     }
     return (
-      
+
 
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-<StatusBar
-    hidden={true}
-   />
-        <View style={styles.questionBox}>        
+        <StatusBar
+          hidden={true}
+        />
+        <View style={styles.questionBox}>
           <Text style={styles.text}>{this.state.allQandA[this.state.randomNumber].question}</Text>
           <Text style={styles.text}>{this.state.timer}</Text>
         </View>
 
         <View style={{ flex: 1 }}>
-        <Progress.Bar
-          unfilledColor={'none'}
-          borderRadius={6}
-          height={18}
-          borderColor={'transparent'}
-          color={progressColor}//{'#fff684'}
-          width={null}
-          animationType={'timing'}
-          style={styles.progress}
-          progress={this.state.progress}
-          indeterminate={this.state.indeterminate}
-        />
+          <Progress.Bar
+            unfilledColor={'none'}
+            borderRadius={6}
+            height={18}
+            borderColor={'transparent'}
+            color={progressColor}//{'#fff684'}
+            width={null}
+            animationType={'timing'}
+            style={styles.progress}
+            progress={this.state.progress}
+            indeterminate={this.state.indeterminate}
+          />
 
           <ScrollView
             contentContainerStyle={styles.contentContainer}
-           
+
           >
 
             <ScrollView
-           scrollEnabled={true}
+              scrollEnabled={true}
               ref={ref => this.scrollView = ref}
               onContentSizeChange={(contentWidth, contentHeight) => {
                 this.scrollView.scrollToEnd({ animated: true });
               }}
-            > 
-             
-              {this.state.words.map((obj, i) =>
-              <View style={styles.inner}>
-              {obj.doAnimate ?
-              <Animated.Text
-              style={{
-                fontSize: textSize,
-                color: 'green'}} >
-                {obj.word}
-            </Animated.Text> :
-                <Text key={i} style={{ fontSize: 18, color: obj.color, textDecorationLine: obj.dec }}>{obj.word}</Text>
+            >
 
-            }
-                {obj.star ? <Ionicons name="md-star-outline" color={'#f4df42'} size={21}/>
-                : <Text style={{marginRight: 2}}><Ionicons name="md-close"color={'#bdc6cc'} size={20}/></Text>
-                }
+              {this.state.words.map((obj, i) =>
+                <View style={styles.inner}>
+                  {obj.doAnimate ?
+                    <Animated.Text
+                      style={{
+                        fontSize: textSize,
+                        color: 'green'
+                      }} >
+                      {obj.word}
+                    </Animated.Text> :
+                    <Text key={i} style={{ fontSize: 18, color: obj.color, textDecorationLine: obj.dec }}>{obj.word}</Text>
+
+                  }
+                  {obj.star ? <Ionicons name="md-star-outline" color={'#f4df42'} size={21} />
+                    : <Text style={{ marginRight: 2 }}><Ionicons name="md-close" color={'#bdc6cc'} size={20} /></Text>
+                  }
                 </View>
               )}
             </ScrollView>
@@ -258,52 +260,52 @@ console.log('FRÅN ANIMATE!!!!!!!', this.state.words)
           />
           <LinearGradient
             colors={['#9ffca6', '#68e872']}
-            style={{ 
-            width: '20%',
-            margin: 2,
-            borderRadius: 5,
-            justifyContent: "center",
-            alignItems: 'center',
-            height: 60
-          
+            style={{
+              width: '20%',
+              margin: 2,
+              borderRadius: 5,
+              justifyContent: "center",
+              alignItems: 'center',
+              height: 60
 
-        
-        }}
+
+
+            }}
           >
-          <TouchableHighlight
-            style={styles.enterButton}
-            onPress={this.onSave}>
-            <Text style={styles.buttonText}>Enter</Text>
-          </TouchableHighlight>  
+            <TouchableHighlight
+              style={styles.enterButton}
+              onPress={this.onSave}>
+              <Text style={styles.buttonText}>Enter</Text>
+            </TouchableHighlight>
           </LinearGradient>
         </View>
-      
+
         {/*<Text style={styles.text}>{this.state.score}</Text>*/}
 
         {!this.state.usedExtraTime ?
-      
-        <LinearGradient
-          colors={['#fff796', '#fff34f']}
-          style={{
+
+          <LinearGradient
+            colors={['#fff796', '#fff34f']}
+            style={{
               width: '94%',
               marginLeft: '3%',
-              marginRight: '3%', 
+              marginRight: '3%',
               height: 48,
               borderRadius: 5,
               justifyContent: "center",
               alignItems: 'center',
               margin: 2
-          }
-        } >
-          <TouchableHighlight
-            style={styles.button}
-            onPress={this.onGetSeconds}>
-            <Text style={styles.buttonText}>10 sekunder extra tid!</Text>
-          </TouchableHighlight>
+            }
+            } >
+            <TouchableHighlight
+              style={styles.button}
+              onPress={this.onGetSeconds}>
+              <Text style={styles.buttonText}>10 sekunder extra tid!</Text>
+            </TouchableHighlight>
           </LinearGradient>
           : null}
 
-          
+
       </KeyboardAvoidingView>
 
     );
@@ -311,7 +313,7 @@ console.log('FRÅN ANIMATE!!!!!!!', this.state.words)
 }
 
 const styles = StyleSheet.create({
-  
+
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -359,7 +361,7 @@ const styles = StyleSheet.create({
     marginLeft: '3%',
     marginRight: '3%',
   },
-  
+
   contentContainer: {
     height: 250,
     marginLeft: '3%',
@@ -376,7 +378,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inner: { //innuti scrollview där orden du skrivit skrivs ut
-    flex: 1, 
+    flex: 1,
     flexDirection: 'row',
     width: 150,
     justifyContent: 'space-between',
@@ -390,12 +392,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     textAlign: 'center',
-    
+
   },
-  buttonText:{
+  buttonText: {
     fontWeight: 'bold',
   }
 
-  
+
 
 })
