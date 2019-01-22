@@ -112,7 +112,7 @@ class LoginScreen extends React.Component {
 
                 }}>
 
-                <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-120} enabled>
+                <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-50} enabled>
 
 
                     <View style={styles.content}>
