@@ -12,7 +12,9 @@ export default class HighScoreScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      highScore: []
+      highScore: [],
+      ranking: [],
+
     }
 
   }
@@ -34,40 +36,39 @@ export default class HighScoreScreen extends React.Component {
   getScore = async() => {
     let allScore = []
 
-    await db.collection("highscore").get().then((querySnapshot)=> {
+    await db.collection("highscore").orderBy("score", "desc").limit(10).get().then((querySnapshot)=> {
       querySnapshot.forEach((doc) => {
+    
         allScore.push(doc.data())
       });
     });
+
 
     this.setState({
       highScore: allScore
     })
   }
 
-  /*
-    async getData(){
-      console.log('GET DATA FUNCTION!')
-          await db.collection("highscore").get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-            //scores.push(doc.data().points)
-        });
-    });
-  //this.setState({scores})
+  getRanking = () => {
+   let i;
+    for(i = 0; i < this.state.highScore.length; i++){
+      console.log('i', this.state.highScore[i])
     }
 
-    */
+    console.log('i utanför', this.state.highScore[i])
 
+    //console.log('index',index)
+  }
 
 
   render() {
 
+this.getRanking()
+
     let userinfo = this.state.highScore
     let arrayOfUser = Object.values(userinfo)
-    //let userinfo = this.props.screenProps.highScore
-    //let arrayOfUser = Object.values(userinfo)
+
+   
     console.log(arrayOfUser, 'unsername i higchscore')
     //let userScore = this.props.screenProps.highScore.map(user => user.name)
     return (
@@ -87,44 +88,13 @@ export default class HighScoreScreen extends React.Component {
             <Text style={styles.item}>Namn</Text>
             <Text style={styles.item}>Poäng</Text>
           </View>
+
           <FlatList style={styles.flatlist}
             data={arrayOfUser}
-            // data={      
-
-
-            /*
-            {key: 'Devin',
-          point: 1,
-        score: 100},
-            {key: 'Jackson',
-            point: 2,
-            score: 88},
-            {key: 'James',
-            point: 3,
-            score: 67},
-            {key: 'Joel',
-            point: 4,
-            score: 44},
-            {key: 'Jhn',
-            point: 5,
-            score: 20},
-            {key: 'Jon',
-            point: 6,
-            score: 20},
-            {key: 'ohn',
-            point: 7,
-            score: 20},
-            {key: 'John',
-            point: 8,
-            score: 20},
-            {key: 'n',
-            point: 9,
-            score: 20},
-            */
-
-            // }
+      
+        
             renderItem={({ item }) => <View style={styles.listItem}>
-              <Text style={styles.item}>RANK</Text>
+              <Text style={styles.item}>{"hej"}</Text>
               <Text style={styles.item}>{item.name}</Text>
               <Text style={styles.item}>{item.score}</Text>
 

@@ -14,6 +14,7 @@ export default class ScoreScreen extends React.Component {
         fontLoaded: false,
         score: this.props.navigation.state.params.userScore,
         message: '',
+        upgrade: '',
     }
 
 
@@ -48,29 +49,46 @@ export default class ScoreScreen extends React.Component {
 
     saveScore = async () => {
         const user = this.props.screenProps.currentUser
+        db.collection("highscore").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
 
+                //console.log('fail', user.uid, doc.id)
+                if (doc.id == user.uid) {
+                   // console.log('graaaattis', user.uid, doc.id, doc.data().score)
+                    if(doc.data().score <= this.state.score){
+                        console.log("det är mer poäng")
+
+                        db.collection("highscore").doc(user.uid).update({
+                            score: this.state.score,
+                        })
+
+                        this.setState({upgrade: ' Nytt personligt highscore!'})
+
+                    }
+
+                } else {
+                    db.collection("highscore").doc(user.uid).set({
+                        name: user.displayName,
+                        score: this.state.score,
+                    })
+                }
+            })
+        })
         console.log("current user", this.props.screenProps.currentUser)
-        db.collection("highscore").add({
-            name: user.displayName,
-            score: this.state.score
+
+
+        //Lägger till document i subcollection "roundes", med points.
+        db.collection('users').doc(user.uid).collection('roundes').add({
+            points: this.state.score
         })
             .then(function (docRef) {
-                console.log("Document written with ID: ", docRef.id);
+                console.log("Document for roundes written with ID: ", docRef.id);
             })
             .catch(function (error) {
                 console.error("Error adding document: ", error);
             });
-            
-          //Lägger till document i subcollection "roundes", med points.
-         db.collection('users').doc(user.uid).collection('roundes').add({
-            points: this.state.score
-          })
-          .then(function(docRef) {
-            console.log("Document for roundes written with ID: ", docRef.id);
-        })
-          .catch(function(error) {
-            console.error("Error adding document: ", error);
-        });
+
+
 
     }
 
@@ -89,7 +107,7 @@ export default class ScoreScreen extends React.Component {
                         <Text style={[{ fontFamily: 'Comfortaa-Bold' }, styles.text, styles.message]}>{this.state.message}</Text>
                         : null}
                     {this.state.fontLoaded ?
-                        <Text style={[{ fontFamily: 'Comfortaa-Bold' }, styles.text]}>{`Du fick`}</Text>
+                        <Text style={[{ fontFamily: 'Comfortaa-Bold' }, styles.text]}>{`Du fick ${this.state.upgrade}`}</Text>
                         : null}
                     {this.state.fontLoaded ?
                         <Text style={[{ fontFamily: 'Comfortaa-Bold' }, styles.text, styles.point]}>{`${this.state.score} rätt`}</Text>
