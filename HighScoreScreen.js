@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, FlatList } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, FlatList } from 'react-native';
 import * as firebase from 'firebase';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
@@ -14,7 +14,7 @@ export default class HighScoreScreen extends React.Component {
     this.state = {
       highScore: [],
       ranking: [],
-
+      loading: true,
     }
 
   }
@@ -45,7 +45,8 @@ export default class HighScoreScreen extends React.Component {
 
 
     this.setState({
-      highScore: allScore
+      highScore: allScore,
+      loading: false,
     })
   }
 
@@ -58,6 +59,7 @@ export default class HighScoreScreen extends React.Component {
     console.log('i utanför', this.state.highScore[i])
 
     //console.log('index',index)
+
   }
 
 
@@ -83,23 +85,27 @@ this.getRanking()
             <Ionicons name="md-trophy" size={80} color={'#ffea4f'} />
             <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>TOPPLISTA</Text>
           </View>
+          
           <View style={styles.listLabel}>
             <Text style={styles.item}>Ranking</Text>
             <Text style={styles.item}>Namn</Text>
             <Text style={styles.item}>Poäng</Text>
           </View>
+        {this.state.loading ? <View style={[styles.flatlist, styles.before]}><ActivityIndicator size="small" color="black" animating={this.state.loading} /></View>
+      :    <FlatList style={styles.flatlist}
+      data={arrayOfUser}
+      keyExtractor={item => item.name}
 
-          <FlatList style={styles.flatlist}
-            data={arrayOfUser}
-            keyExtractor={item => item.name}
+      renderItem={({ item, index }) => <View style={styles.listItem}>
+        <Text style={styles.item}>{index + 1}</Text>
+        <Text style={styles.item}>{item.name}</Text>
+        <Text style={styles.item}>{item.score}</Text>
+
+      </View>}
+    />
       
-            renderItem={({ item, index }) => <View style={styles.listItem}>
-              <Text style={styles.item}>{index + 1}</Text>
-              <Text style={styles.item}>{item.name}</Text>
-              <Text style={styles.item}>{item.score}</Text>
-
-            </View>}
-          />
+      }
+        
         </View>
       </LinearGradient>
     );
@@ -163,5 +169,11 @@ const styles = StyleSheet.create({
     // height: '30%',
     marginBottom: '35%'
 
+  }, 
+  before: {
+    height: 280,
+    flex: 0, 
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, Modal } from 'react-native';
+import { StyleSheet, Text, ActivityIndicator, View, TouchableHighlight, Modal } from 'react-native';
 import * as firebase from 'firebase';
 import { Ionicons } from '@expo/vector-icons';
 import db from './firebaseConfig';
@@ -15,6 +15,7 @@ export default class ProfileScreen extends React.Component {
       modalVisible: false,
       modalVisibleDelete: false,
       scores: [],
+      loading: true,
     }
 
     this.onPressLogout = this.onPressLogout.bind(this)
@@ -62,7 +63,7 @@ export default class ProfileScreen extends React.Component {
         console.log(error, 'error i profilescreen')
       });*/
     });
-    this.setState({ scores: score })
+    this.setState({ scores: score, loading: false })
   }
 
 
@@ -175,8 +176,14 @@ export default class ProfileScreen extends React.Component {
         
             <Text style={styles.rounds}>Antal spelade omgångar:
             </Text>
-            <Text style={[styles.rounds, {fontWeight: 'bold', fontSize: 24}]}>{this.state.scores.length}
+      
+            {this.state.loading? 
+            <ActivityIndicator size="small" color="black" animating={this.state.loading} />
+            :  <Text style={[styles.rounds, {fontWeight: 'bold', fontSize: 24}]}>
+                    {this.state.scores.length}
             </Text>
+          }
+            
 
           </View>
           <View style={styles.itemWrap}>

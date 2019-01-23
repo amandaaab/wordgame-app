@@ -1,10 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput, ActivityIndicator, KeyboardAvoidingView, KeyboardType, Keyboard } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage, } from 'react-native-elements';
-import SignupScreen from './SignupScreen';
+import { StyleSheet, Text, View, TouchableHighlight, TextInput, ActivityIndicator, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { LinearGradient } from 'expo';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
 import * as firebase from 'firebase';
 
 
@@ -23,7 +20,8 @@ class LoginScreen extends React.Component {
             wantToSignup: false,
             validatedEmail: false,
             validatedPassword: false,
-            items: []
+            items: [],
+            loading: false,
         }
 
     }
@@ -56,6 +54,9 @@ class LoginScreen extends React.Component {
 
 
     isLogin = () => {
+        this.setState({
+            loading: true,
+        })
         const { email, password } = this.state
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -171,14 +172,11 @@ class LoginScreen extends React.Component {
                                 elevation: 1,
                             }
                             } >
-                            {this.state.loading ?
-                                <TouchableHighlight underlayColor='transparent' style={[styles.button]}>
-                                    <ActivityIndicator style={styles.btnText} size="small" color='rgba(0,21,72,1)' />
-                                </TouchableHighlight>
 
-                                : <TouchableHighlight underlayColor='transparent' onPress={() => this.isLogin()} style={[styles.button]}>
-                                    <Text style={styles.btnText}>Logga in</Text>
-                                </TouchableHighlight>}
+                            <TouchableHighlight underlayColor='transparent' onPress={() => this.isLogin()} style={[styles.button]}>
+                            {this.state.loading ? <ActivityIndicator size="small" color="white" animating={this.state.loading} />
+                                : <Text style={styles.btnText}>Logga in</Text>}
+                            </TouchableHighlight>
                         </LinearGradient>
 
 
