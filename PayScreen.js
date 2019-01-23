@@ -1,7 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, KeyboardAvoidingView, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, ActivityIndicator, Text, TextInput, KeyboardAvoidingView, View, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
+
+
 
 
 export default class PayScreen extends React.Component {
@@ -14,6 +16,7 @@ export default class PayScreen extends React.Component {
             name : '',
             date: '',
             cvc: '',
+            loading: false,
         
         }
     
@@ -21,6 +24,9 @@ export default class PayScreen extends React.Component {
 
 
 pay = async (amount) => { 
+    this.setState({
+        loading: true,
+    })
     console.log('pay', amount);
     const userEmail = this.props.screenProps.currentUser.email;
 
@@ -113,7 +119,11 @@ pay = async (amount) => {
 
 
           <TouchableHighlight style={styles.button} onPress={()=> this.pay(amount)}>
-                    <Text style={styles.buttonText}>Betala</Text>
+                <View>
+                    {this.state.loading ? <ActivityIndicator size="small" color="white" animating={this.state.loading} />
+                    : <Text style={styles.buttonText}>Betala</Text>
+                }
+                    </View>
                 </TouchableHighlight>
             </View>
             </KeyboardAvoidingView>

@@ -60,6 +60,18 @@ export default class ScoreScreen extends React.Component {
             .catch(function (error) {
                 console.error("Error adding document: ", error);
             });
+            
+          //Lägger till document i subcollection "roundes", med points.
+         db.collection('users').doc(user.uid).collection('roundes').add({
+            points: this.state.score
+          })
+          .then(function(docRef) {
+            console.log("Document for roundes written with ID: ", docRef.id);
+        })
+          .catch(function(error) {
+            console.error("Error adding document: ", error);
+        });
+
     }
 
 
