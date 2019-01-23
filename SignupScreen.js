@@ -187,6 +187,8 @@ class SignupScreen extends React.Component {
                                 onChangeText={(displayName) => this.setState({ displayName })}
                                 value={this.state.displayName}
                                 autoFocus={false}
+                                maxLength={30}
+                                autoCapitalize = 'none'                            
                             />
 
                             <Text style={styles.labelText}>Email</Text>
@@ -197,6 +199,8 @@ class SignupScreen extends React.Component {
                                 onChangeText={(email) => this.setState({ email })}
                                 value={this.state.email}
                                 autoFocus={false}
+                                maxLength={60}  
+                                autoCapitalize = 'none'                          
                             />
 
                             <Text style={styles.labelText}>Lösenord</Text>
@@ -208,6 +212,7 @@ class SignupScreen extends React.Component {
                                 onChangeText={(password) => this.setState({ password })}
                                 value={this.state.password}
                                 autoFocus={false}
+                                maxLength={30}                            
                             />
 
                             {this.state.validatedEmail & this.state.validatedPassword ? this.validateSignUp() : null}
