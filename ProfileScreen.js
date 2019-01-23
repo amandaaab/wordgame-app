@@ -120,10 +120,8 @@ export default class ProfileScreen extends React.Component {
           </Modal>
 
           <View style={styles.whiteContainer}>
-            <Ionicons name="md-contact" size={80} />
+
             <Text style={styles.name}>{name}</Text>
-            <Text style={styles.rating}>Rating</Text>
-            <Text style={styles.rating}>⭐️ ⭐️ ⭐️ ⭐️ ⭐️ </Text>
             <Text style={styles.rounds}>Antal spelade omgångar:{this.state.scores.length}
             </Text>
 
@@ -147,7 +145,7 @@ export default class ProfileScreen extends React.Component {
             </View>
             <View style={[styles.items, styles.logoutButton]}>
               <TouchableHighlight style={styles.policy} onPress={this.onPressLogout}>
-                <Text style={styles.textP} >
+                <Text style={[styles.textP, styles.buttonP]} >
                   Logga ut
             </Text>
               </TouchableHighlight>
@@ -169,7 +167,7 @@ const styles = StyleSheet.create({
   },
   whiteContainer: {
     width: '90%',
-    height: '60%',
+    height: '40%',
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
@@ -177,9 +175,10 @@ const styles = StyleSheet.create({
 
   },
   name: {
-    color: 'grey',
-    fontSize: 25,
+    color: 'black',
     margin: '4%',
+    fontSize: 30,
+    
   },
   rating: {
     color: 'grey',
@@ -187,8 +186,9 @@ const styles = StyleSheet.create({
 
   },
   rounds: {
-    color: 'grey',
+    color: 'black',
     margin: '4%',
+    fontSize: 20
 
   },
   logoutButton: {
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   },
   textP: {
     color: 'black',
-    fontSize: 20
+    fontSize: 20, 
   },
   itemWrap: {
     width: '100%',
@@ -231,6 +231,9 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%',
+  },
+  buttonP: {
+    fontWeight: 'bold'
   }
 
 });
