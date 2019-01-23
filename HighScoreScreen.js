@@ -91,8 +91,8 @@ this.getRanking()
 
           <FlatList style={styles.flatlist}
             data={arrayOfUser}
+            keyExtractor={item => item.name}
       
-        
             renderItem={({ item }) => <View style={styles.listItem}>
               <Text style={styles.item}>{"hej"}</Text>
               <Text style={styles.item}>{item.name}</Text>
