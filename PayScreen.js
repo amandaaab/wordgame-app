@@ -4,8 +4,6 @@ import { LinearGradient } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 
 
-
-
 export default class PayScreen extends React.Component {
 
 

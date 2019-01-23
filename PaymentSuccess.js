@@ -2,11 +2,35 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
+import db from './firebaseConfig';
 
 
-const PaymentSuccess = (props) => {
+export default class PaymentSuccess extends React.Component {
 
+    componentDidMount(){
+        //payment is accepted and we can add coins to db 
+    this.addCoins();
+    }
 
+addCoins = () => {
+// funkar inte helt än. coins skrev över ett annat field i och med set. 
+//add lägger på ett nytt field. ska det istället vara ett document o i där ligger 
+//coins som olika fields. Måste sedan raderas mynt när man tagit tiden.. 
+    const user = this.props.screenProps.currentUser
+
+    db.collection('users').doc(user.uid).set({
+        coins: 100
+      })
+      .then(function(docRef) {
+        console.log("Document for coins written with ID: ", docRef.id);
+    })
+      .catch(function(error) {
+        console.error("Error adding document: ", error);
+    });
+
+}
+
+render(){
     return (
         <LinearGradient 
         colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
@@ -22,6 +46,8 @@ const PaymentSuccess = (props) => {
         </View>
         </LinearGradient>
     )
+
+    }
 }
 
 const styles = StyleSheet.create({
@@ -51,4 +77,3 @@ const styles = StyleSheet.create({
 
 })
 
-export default PaymentSuccess;
