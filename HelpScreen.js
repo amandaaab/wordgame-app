@@ -1,13 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {LinearGradient} from 'expo';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { LinearGradient } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 
 
-export default class HelpScreen extends React.Component {
+const HelpScreen = () => {
   
-    render() {
-    return (
+      return (
       <LinearGradient 
           colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
           style={{flex: 1, justifyContent: 'center'
@@ -15,9 +14,8 @@ export default class HelpScreen extends React.Component {
           }}>
       <View style={styles.container}>
       <Text style={styles.help}>Såhär spelar du...</Text>
-        <View style={styles.content}>
-      
-        <View style={styles.innerContent}>
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          <ScrollView>
          
                 <Text style={styles.text}>
                 För att börja spela trycker du på den gröna spela-knappen på förstasidan. 
@@ -29,7 +27,7 @@ export default class HelpScreen extends React.Component {
                 kategorin högst upp i den röda rutan när spelet börjar. 
                 </Text>
 
-                <View>
+                <View style={{backgroundColor: 'transparent', marginTop: 15,}}>
                   <Text style={styles.item}><Ionicons color={'green'} name="md-checkmark" size={15}/>  för varje godkänt ord får du en poäng</Text>
                   <Text style={styles.item}><Ionicons color={'green'} name="md-checkmark" size={15}/>  ett godkänt ord blir grönt</Text>
                   <Text style={styles.item}><Ionicons color={'green'} name="md-checkmark" size={15}/>  ett icke godkänt ord blir svart och överstruket</Text>
@@ -37,48 +35,47 @@ export default class HelpScreen extends React.Component {
                   <Text style={styles.item}><Ionicons color={'green'} name="md-checkmark" size={15}/>  ord skrivs endast i singular, tex tandborste och ej tandborstar</Text>
                   <Text style={styles.item}><Ionicons color={'green'} name="md-checkmark" size={15}/>  när spelet är slut ser du din poäng totala poäng</Text> 
                 </View>
-
-          </View>
-        </View>
+                </ScrollView>
+        </ScrollView>
       </View>
       </LinearGradient>
     );
   }
-}
+export default HelpScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0,
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
+    height: '85%',
+    borderRadius: 10,
    
   },
   content: {
     width: '90%',
     height: '70%',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 40, 
-   
-    marginBottom: 60
+    borderRadius: 10,
 
   },
   text: {
     color: 'black',
-    lineHeight: 21,
-  },
-  help: {
-    fontSize: 28,
-    color: 'black',
+    lineHeight: 30,
+    backgroundColor: 'transparent',
 
   },
   item: {
     marginTop: '2%',
-    marginBottom: '2%'
+    marginBottom: '2%',
+    backgroundColor: 'transparent',
+
   },
   innerContent: {
+    backgroundColor: 'transparent',
     width: '95%',
     height: '70%',
     flex: 1, 
@@ -94,6 +91,15 @@ const styles = StyleSheet.create({
     fontSize: 30,
     padding: 10,
     fontWeight: 'bold'
-  }
+  },
+  contentContainer: {
+    width: '95%',
+    backgroundColor: 'white',
+    padding: 15,
+    paddingBottom:5,
+    borderRadius: 10,
+    height: '90%',
+
+  },
 
 });
