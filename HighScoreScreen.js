@@ -93,8 +93,8 @@ this.getRanking()
             data={arrayOfUser}
             keyExtractor={item => item.name}
       
-            renderItem={({ item }) => <View style={styles.listItem}>
-              <Text style={styles.item}>{"hej"}</Text>
+            renderItem={({ item, index }) => <View style={styles.listItem}>
+              <Text style={styles.item}>{index + 1}</Text>
               <Text style={styles.item}>{item.name}</Text>
               <Text style={styles.item}>{item.score}</Text>
 
@@ -128,7 +128,9 @@ const styles = StyleSheet.create({
     padding: 0,
     fontSize: 18,
     color: 'black',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    width: '33%',
+    textAlign: 'center',
   },
 
   listItem: {
