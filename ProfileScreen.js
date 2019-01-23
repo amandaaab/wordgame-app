@@ -172,9 +172,10 @@ export default class ProfileScreen extends React.Component {
           <View style={styles.whiteContainer}>
             <Ionicons name="md-contact" size={80} />
             <Text style={styles.name}>{name.charAt(0).toUpperCase() + name.slice(1)}</Text>
-            <Text style={styles.rating}>Rating</Text>
-            <Text style={styles.rating}>⭐️ ⭐️ ⭐️ ⭐️ ⭐️ </Text>
-            <Text style={styles.rounds}>Antal spelade omgångar:{this.state.scores.length}
+        
+            <Text style={styles.rounds}>Antal spelade omgångar:
+            </Text>
+            <Text style={[styles.rounds, {fontWeight: 'bold', fontSize: 24}]}>{this.state.scores.length}
             </Text>
 
           </View>
