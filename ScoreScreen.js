@@ -55,6 +55,12 @@ export default class ScoreScreen extends React.Component {
                 //console.log('fail', user.uid, doc.id)
                 if (doc.id == user.uid) {
                    // console.log('graaaattis', user.uid, doc.id, doc.data().score)
+                   if(!doc.data().score){
+                    db.collection("highscore").doc(user.uid).set({
+                        name: user.displayName,
+                        score: this.state.score,
+                    })
+                   }
                     if(doc.data().score <= this.state.score){
                         console.log("det är mer poäng")
 
@@ -66,12 +72,12 @@ export default class ScoreScreen extends React.Component {
 
                     }
 
-                } else {
+                } /*else {
                     db.collection("highscore").doc(user.uid).set({
                         name: user.displayName,
                         score: this.state.score,
                     })
-                }
+                }*/
             })
         })
         console.log("current user", this.props.screenProps.currentUser)
