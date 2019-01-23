@@ -37,6 +37,7 @@ export default class PlayScreen extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.clockCall);
+    clearInterval(this.animating);
     
   }
 
@@ -70,7 +71,7 @@ export default class PlayScreen extends React.Component {
   }
 
   animate() {
-    setInterval(() => {
+    this.animating = setInterval(() => {
       // 1/156, varje omgång 39 sek vid nollan strecket fullt
       this.setState(prevState => ({
         progress: prevState.progress -= 0.00641026
