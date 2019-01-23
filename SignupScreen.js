@@ -1,10 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, Modal, View, Switch, TouchableHighlight, ActivityIndicator, TextInput, KeyboardAvoidingView, StatusBar } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import { LinearGradient } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import PolicyScreen from './PolicyScreen';
-
 
 import * as firebase from 'firebase';
 import LoginScreen from './LoginScreen';
