@@ -228,7 +228,7 @@ export default class PlayScreen extends React.Component {
             >
 
               {this.state.words.map((obj, i) =>
-                <View style={styles.inner}>
+                <View key={i} style={styles.inner}>
                   {obj.doAnimate ?
                     <Animated.Text
                       style={{
@@ -237,7 +237,7 @@ export default class PlayScreen extends React.Component {
                       }} >
                       {obj.word}
                     </Animated.Text> :
-                    <Text key={i} style={{ fontSize: 18, color: obj.color, textDecorationLine: obj.dec }}>{obj.word}</Text>
+                    <Text style={{ fontSize: 18, color: obj.color, textDecorationLine: obj.dec }}>{obj.word}</Text>
 
                   }
                   {obj.star ? <Ionicons name="md-star-outline" color={'#f4df42'} size={21} />
