@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { createBottomTabNavigator, createAppContainer, createStackNavigator, createSwitchNavigator, createDrawerNavigator } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 
-
 import HomeScreen from './HomeScreen';
 import HelpScreen from './HelpScreen';
 import PlayScreen from './PlayScreen';
@@ -63,10 +62,10 @@ const ProfileStack = createSwitchNavigator(
       screen: ProfileScreen
 
     },
-    pay: {screen: PayScreen},
-    beforePay: {screen: BeforePayScreen},
-    paymentSuccess: {screen: PaymentSuccess},
-    paymentFailed: {screen: PaymentFailed}
+    pay: { screen: PayScreen },
+    beforePay: { screen: BeforePayScreen },
+    paymentSuccess: { screen: PaymentSuccess },
+    paymentFailed: { screen: PaymentFailed }
   }
 
 )
@@ -175,7 +174,6 @@ export default class App extends React.Component {
     loggedIn: false,
     currentUser: null,
     roundes: [],
-   // highScore: [] // Highscore from database
 
   }
 
@@ -190,21 +188,6 @@ export default class App extends React.Component {
 
     this.setState({ allDocs: allDocsArray })
   }
-
-  getHighscore = async () => {
-    // Get highscore from database
-    let allScore = []
-
-    await db.collection("highscore").update().then((querySnapshot)=> {
-      querySnapshot.forEach((doc) => {
-        allScore.push(doc.data())
-      });
-    });
-
-    this.setState({
-      highScore: allScore
-    })
-  } 
 
   open = (email) => {
     this.setState({
@@ -223,7 +206,7 @@ export default class App extends React.Component {
 
   }
 
-// Get current user and roundes
+  // Get current user and roundes
   account = async () => {
     const { currentUser } = firebase.auth()
     let roundesArray = [];
@@ -233,19 +216,24 @@ export default class App extends React.Component {
         roundesArray.push(doc.data().roundes);
         console.log("Current data now changed: ", doc.data());
       });
- 
+
     this.setState({ currentUser })
-   
+
   }
 
   render() {
-   
-    console.log('highscore', this.state.highScore)
     return (
       this.state.loggedIn == false ?
-        <MainVerify isLoginRender={this.open} isSignupRender={this.open} />
+
+        <MainVerify isLoginRender={this.open}
+          isSignupRender={this.open} />
         :
-        <AppContainer screenProps={{ allDocs: this.state.allDocs, currentUser: this.state.currentUser, loggingOut: this.close, roundes: this.state.roundes }} />
+        <AppContainer screenProps={{
+          allDocs: this.state.allDocs,
+          currentUser: this.state.currentUser,
+          loggingOut: this.close,
+          roundes: this.state.roundes
+        }} />
 
     )
   }

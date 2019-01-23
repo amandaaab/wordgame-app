@@ -66,7 +66,7 @@ pay = async (amount) => {
         
         }}>
 
-        <KeyboardAvoidingView  style={styles.container} behavior="padding" keyboardVerticalOffset={-40} enabled>
+        <KeyboardAvoidingView  style={styles.container} behavior="padding" keyboardVerticalOffset={-80} enabled>
         <View style={styles.content}>
         <Text style={styles.text}>Var god fyll i dina uppgifter</Text>
 
@@ -141,14 +141,15 @@ pay = async (amount) => {
     content: {
         borderRadius: 10,
         width: '90%',
-        height: '80%',
+        height: '70%',
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
         flex:0, 
         flexDirection: 'column',
         justifyContent: 'space-around',
-        marginBottom: 5, 
+        marginBottom: 40, 
+    
       },
     name: {
         color: 'black',
