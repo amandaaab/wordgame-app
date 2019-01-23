@@ -1,20 +1,31 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, Modal } from 'react-native';
+import { StyleSheet, Text, ActivityIndicator, View, TouchableHighlight, Modal } from 'react-native';
 import * as firebase from 'firebase';
 import { Ionicons } from '@expo/vector-icons';
 import db from './firebaseConfig';
 import PolicyScreen from './PolicyScreen';
 import { LinearGradient } from 'expo';
+import LoginScreen from './LoginScreen';
+import DeleteScreen from './DeleteScreen';
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       modalVisible: false,
-      scores: []
+      modalVisibleDelete: false,
+      scores: [],
+      loading: true,
     }
 
     this.onPressLogout = this.onPressLogout.bind(this)
+    this.deleteAccount = this.deleteAccount.bind(this)
+    this.getRoundes = this.getRoundes.bind(this)
+    this.openModalPolicy = this.openModalPolicy.bind(this)
+    this.closeModalPolicy = this.closeModalPolicy.bind(this)
+    this.pay = this.pay.bind(this)
+    this.closeModalDelete = this.closeModalDelete.bind(this)
+    this.openModalDelete = this.openModalDelete.bind(this)
   }
 
   componentDidMount() {
@@ -52,7 +63,7 @@ export default class ProfileScreen extends React.Component {
         console.log(error, 'error i profilescreen')
       });*/
     });
-    this.setState({ scores: score })
+    this.setState({ scores: score, loading: false })
   }
 
 
@@ -84,6 +95,32 @@ export default class ProfileScreen extends React.Component {
 
   }
 
+  openModalDelete = () => {
+    this.setState({
+      modalVisibleDelete: true
+    })
+  }
+
+  closeModalDelete = () => {
+    this.setState({
+      modalVisibleDelete: false
+    })
+  }
+
+  
+
+  deleteAccount = async() => {
+    var user = firebase.auth().currentUser;
+
+    await user.delete().then(() => {
+      console.log('user deleted')
+      this.props.screenProps.loggingOut()
+    })
+  .catch(function(error) {
+      console.log(error)
+    });
+  }
+
 
   render() {
 
@@ -99,6 +136,7 @@ export default class ProfileScreen extends React.Component {
     if (user != null) {
       name = user.displayName;
     }
+    
 
     return (
       <LinearGradient
@@ -108,6 +146,19 @@ export default class ProfileScreen extends React.Component {
 
         }}>
         <View style={styles.container}>
+
+        <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisibleDelete}
+            onRequestClose={() => {
+            }}>
+
+            <DeleteScreen modalClose={this.closeModalDelete} delete={this.deleteAccount}/>
+
+          </Modal>
+
+
           <Modal
             animationType="slide"
             transparent={false}
@@ -125,11 +176,25 @@ export default class ProfileScreen extends React.Component {
         
             <Text style={styles.rounds}>Antal spelade omgångar:
             </Text>
-            <Text style={[styles.rounds, {fontWeight: 'bold', fontSize: 24}]}>{this.state.scores.length}
+      
+            {this.state.loading? 
+            <ActivityIndicator size="small" color="black" animating={this.state.loading} />
+            :  <Text style={[styles.rounds, {fontWeight: 'bold', fontSize: 24}]}>
+                    {this.state.scores.length}
             </Text>
+          }
+            
 
           </View>
           <View style={styles.itemWrap}>
+
+          <View style={styles.items}>
+              <TouchableHighlight style={styles.button} onPress={this.openModalDelete}>
+                <View style={styles.item}>
+                  <Text style={styles.textP}>Ta bort mitt konto</Text><Ionicons name="md-arrow-dropright" size={20}></Ionicons>
+                </View>
+              </TouchableHighlight>
+            </View>
 
             <View style={styles.items}>
               <TouchableHighlight style={styles.button} onPress={this.pay}>

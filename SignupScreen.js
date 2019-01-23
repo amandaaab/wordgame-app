@@ -94,6 +94,9 @@ class SignupScreen extends React.Component {
     }
 
     trySignup = () => {
+        this.setState({
+            loading: true,
+        })
 
         const { email, password, value } = this.state
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -272,14 +275,12 @@ class SignupScreen extends React.Component {
                                     marginTop: 16
                                 }
                                 } >
-                                {this.state.loading ?
-                                    <TouchableHighlight underlayColor='transparent' style={styles.button}>
-                                        <ActivityIndicator style={styles.btnText} size="small" color='rgba(0,21,72,1)' />
-                                    </TouchableHighlight>
 
-                                    : <TouchableHighlight onPress={() => this.trySignup()} underlayColor='transparent' style={styles.button}>
-                                        <Text style={styles.btnText}>Registrera</Text>
-                                    </TouchableHighlight>}
+                                <TouchableHighlight onPress={() => this.trySignup()} underlayColor='transparent' style={styles.button}>
+                                        { this.state.loading ? <ActivityIndicator size="small" color="white" animating={this.state.loading} />
+                                        : <Text style={styles.btnText}>Registrera</Text>
+                                        }
+                                 </TouchableHighlight>
 
                             </LinearGradient>
                             <Text style={{ color: 'white', margin: 10, fontSize: 17 }}></Text>
