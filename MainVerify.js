@@ -19,6 +19,7 @@ class MainVerify extends React.Component {
             loading: false,
             wantToSignup: false,
             items: [],
+            verified: this.props.verified
         
         }
 
@@ -88,7 +89,7 @@ class MainVerify extends React.Component {
 
         } else {
             return (
-                <LoginScreen isLoginRender={this.loggedIn} viewSignup={this.openSignup} />
+                <LoginScreen verified={this.state.verified} isLoginRender={this.loggedIn} viewSignup={this.openSignup} />
 
             )
         }

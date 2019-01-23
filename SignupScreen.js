@@ -6,10 +6,8 @@ import PolicyScreen from './PolicyScreen';
 
 import * as firebase from 'firebase';
 import LoginScreen from './LoginScreen';
-import db from './firebaseConfig';
-
-
-
+import VerifyEmailScreen from './VerifyEmailScreen';
+import db from './firebaseConfig'
 
 class SignupScreen extends React.Component {
 
@@ -28,18 +26,15 @@ class SignupScreen extends React.Component {
             validatedEmail: false,
             validatedPassword: false,
             validatedPolicy: false,
-            validatedName: false,
             goBackToMain: false,
-            nameError: null,
             value: false,
             modalVisible: false,
+            sentEmailLink: false
         }
 
         this.trySignup = this.trySignup.bind(this)
         this.onChangePolicy = this.onChangePolicy.bind(this)
         this.closeModalPolicy = this.closeModalPolicy.bind(this)
-        this.check = this.check.bind(this)
-        this.validateSignUp = this.validateSignUp.bind(this)
     }
 
     onPressBack = () => {
@@ -49,6 +44,19 @@ class SignupScreen extends React.Component {
         })
     }
 
+    verifyEmailLink = () => {
+        var user = firebase.auth().currentUser;
+
+        user.sendEmailVerification().then(() => {
+            this.setState({
+                sentEmailLink: true
+            })
+            // Email sent.
+        }).catch(function (error) {
+            // An error happened.
+            console.log(error, 'erroren')
+        });
+    }
 
 
     validateSignUp = () => {
@@ -64,8 +72,6 @@ class SignupScreen extends React.Component {
         });
 
         const { email, password, displayName } = this.state
-
-
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
                 let user = firebase.auth().currentUser;
@@ -73,7 +79,7 @@ class SignupScreen extends React.Component {
                     user.updateProfile({
                         displayName: displayName,
                     }).then(
-                        () => this.props.isSignupRender()
+                       () => this.verifyEmailLink()
                     )
                 }
             })
@@ -81,31 +87,29 @@ class SignupScreen extends React.Component {
                 this.setState({
                     validatedEmail: false,
                     validatedPassword: false,
-                    validatedName: false,
                     errors: "Kunde inte skapa användare"
                 })
 
             })
-
     }
 
     trySignup = () => {
 
-        const { email, password, value,  } = this.state
+        const { email, password, value } = this.state
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
         this.setState({
             errors: '',
         })
 
-        if(value == false){
+        if (value == false) {
             this.setState({
                 policyError: '* Du måste godkänna vår policy',
                 validatedPolicy: false,
                 errors: '',
 
             })
-        }else {
+        } else {
             this.setState({
                 policyError: '',
                 validatedPolicy: true,
@@ -147,44 +151,6 @@ class SignupScreen extends React.Component {
                 errors: ''
             })
         }
-
-    this.check();
-    }
-
-    check = async () => {
-    let checkArray = []
-    await db.collection("usernames").where("name", "==", this.state.displayName)
-    .get()
-    .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-
-            if(doc){
-                console.log('Namnet finns redan!!!')
-                checkArray.push(doc);
-                    
-            } else {
-                console.log('namnet är ledigt')
-            }
-        });
-    })
-    .catch(function(error) {
-        console.log("Error getting documents: ", error);
-    });
-
-    if(checkArray.length > 0){
-        this.setState({
-            validatedName: false,
-            nameError: '* namnet upptaget',
-            errors: ''
-        })
-    } else {
-        this.setState({
-            validatedName: true,
-            nameError: '',
-            errors: ''
-        })
-    }
-    
     }
 
 
@@ -206,9 +172,11 @@ class SignupScreen extends React.Component {
         }));
     }
 
-
     render() {
-        if (this.state.goBackToMain == true) {
+        if(this.state.sentEmailLink == true){
+            return <VerifyEmailScreen goBack={this.onPressBack} />
+        }
+        else if (this.state.goBackToMain == true) {
             return <LoginScreen />
         } else {
             return (
@@ -228,7 +196,7 @@ class SignupScreen extends React.Component {
                             onRequestClose={() => {
                             }}>
 
-                           <PolicyScreen modalClose={this.closeModalPolicy}/>
+                            <PolicyScreen modalClose={this.closeModalPolicy} />
 
                         </Modal>
                     </View>
@@ -239,17 +207,15 @@ class SignupScreen extends React.Component {
                             <Text style={[styles.error, { textAlign: 'center' }]}>{this.state.errors == '' ? null : this.state.errors}</Text>
 
                             <Text style={styles.labelText}>Namn</Text>
-                            {this.state.nameError ? <Text style={styles.error}>{this.state.nameError}</Text> : null}
-
                             <TextInput
                                 style={styles.input}
                                 placeholder="Namn"
                                 required={true}
-                                onChangeText={/*(displayName) => this.checkDisplayName(displayName)*/(displayName) => this.setState({ displayName })}
+                                onChangeText={(displayName) => this.setState({ displayName })}
                                 value={this.state.displayName}
                                 autoFocus={false}
                                 maxLength={30}
-                                autoCapitalize = 'none'                            
+                                autoCapitalize='none'
                             />
 
                             <Text style={styles.labelText}>Email</Text>
@@ -260,8 +226,8 @@ class SignupScreen extends React.Component {
                                 onChangeText={(email) => this.setState({ email })}
                                 value={this.state.email}
                                 autoFocus={false}
-                                maxLength={60}  
-                                autoCapitalize = 'none'                          
+                                maxLength={60}
+                                autoCapitalize='none'
                             />
 
                             <Text style={styles.labelText}>Lösenord</Text>
@@ -273,10 +239,10 @@ class SignupScreen extends React.Component {
                                 onChangeText={(password) => this.setState({ password })}
                                 value={this.state.password}
                                 autoFocus={false}
-                                maxLength={30}                            
+                                maxLength={30}
                             />
 
-                            {this.state.validatedEmail & this.state.validatedPassword & this.state.validatedName ? this.validateSignUp() : null}
+                            {this.state.validatedEmail & this.state.validatedPassword ? this.validateSignUp() : null}
 
                             <View style={styles.policy}>
                                 <View style={styles.policyItem}>
@@ -284,9 +250,9 @@ class SignupScreen extends React.Component {
                                 </View>
                                 <View style={styles.policyItem}>
                                     <TouchableHighlight onPress={() => this.openModalPolicy()}>
-                                        <Text style={{color: 'white'}}>Användar  villkor</Text>
+                                        <Text style={{ color: 'white' }}>Användar  villkor</Text>
                                     </TouchableHighlight>
-                                </View> 
+                                </View>
                             </View>
                             {this.state.policyError ? <Text style={styles.error}>{this.state.policyError}</Text> : null}
                             <LinearGradient

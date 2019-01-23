@@ -23,7 +23,8 @@ class LoginScreen extends React.Component {
             wantToSignup: false,
             validatedEmail: false,
             validatedPassword: false,
-            items: []
+            items: [],
+            needToVerify: false
         }
 
     }
@@ -36,20 +37,33 @@ class LoginScreen extends React.Component {
     validateLogin = () => {
 
         const { email, password, emailError, passwordError, validatedEmail, validatedPassword } = this.state
-
-        Keyboard.dismiss()
         
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(() => {
                    
+                    const { currentUser } = firebase.auth()
+                    let email_verified = currentUser.emailVerified
+
+                    if(email_verified){
+                        Keyboard.dismiss()
                     this.props.isLoginRender(email)
                     console.log('inloggad som:', email)
-                   
+                    }else{
+                        this.setState({
+                            needToVerify: true,
+                            email: '',
+                            password: '',
+                          
+                         
+                            
+                        })
+                     
+                    }
                    
 
                 })
                 .catch(() => {
-                    this.setState({ validatedEmail: false,validatedPassword: false,errors: 'Användare hittas inte, vänligen skapa ett konto', loading: false })
+                    this.setState({ validatedEmail: false,validatedPassword: false,errors: 'Kunde inte hitta användare', loading: false })
                     console.log(this.state.errors, 'gick ej att logga in')
                 })
         }
@@ -119,7 +133,11 @@ class LoginScreen extends React.Component {
                         <View style={styles.texts}>
                             <Text style={styles.h1}>SKYNDA!</Text>
                             <Text style={styles.screenLabel}>Ett ordspel</Text>
+                            {this.state.needToVerify ? <Text style={[styles.error,{textAlign: 'center'}]}>Du behöver verifiera din mail för att kunna logga in</Text>: null }
                             <Text style={[styles.error,{textAlign: 'center'}]}>{this.state.errors == '' ? null : this.state.errors}</Text>
+                        
+                       
+                          
                         </View>
                         <Text style={styles.labelText}>Email</Text>
                         {this.state.emailError ? <Text style={styles.error}>{this.state.emailError}</Text> : null}
