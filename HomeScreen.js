@@ -1,11 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import PlayScreen from './PlayScreen';
-//import GradientScreen from './GradientScreen';
-import {LinearGradient} from 'expo';
+import { LinearGradient } from 'expo';
 import { Font } from 'expo';
-import * as firebase from 'firebase';
-import db from './firebaseConfig'
 
 
 export default class HomeScreen extends React.Component {
@@ -37,7 +33,7 @@ export default class HomeScreen extends React.Component {
           }}>
            
             <View style={styles.container}>
-            <Text style={[styles.text, styles.undertext, styles.oneText]}> Väkommen {user && user.displayName}</Text>
+            <Text style={[styles.text, styles.undertext, styles.oneText]}> Väkommen {user && user.displayName.charAt(0).toUpperCase() + user.displayName.slice(1)}</Text>
             <Text style={[ styles.text, styles.title]}>SKYNDA!</Text>     
             <Text style={[,styles.text, styles.undertext, styles.twoText]}>Nu spelar vi!</Text>
         

@@ -131,8 +131,8 @@ class LoginScreen extends React.Component {
                             value={this.state.email}
                             keyboardType="email-address"
                             autoFocus={false}
-
-
+                            maxLength={30}
+                            autoCapitalize = 'none'                            
 
                         />
 
@@ -148,7 +148,8 @@ class LoginScreen extends React.Component {
                             placeholder="Ditt Lösenord"
                             onChangeText={(password) => this.setState({ password })}
                             value={this.state.password}
-
+                            maxLength={30}
+                            autoCapitalize = 'none'                          
                         />
                        
 

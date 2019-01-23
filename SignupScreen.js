@@ -1,10 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, Modal, View, Switch, TouchableHighlight, ActivityIndicator, TextInput, KeyboardAvoidingView, StatusBar } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import { LinearGradient } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import PolicyScreen from './PolicyScreen';
-
 
 import * as firebase from 'firebase';
 import LoginScreen from './LoginScreen';
@@ -189,6 +187,8 @@ class SignupScreen extends React.Component {
                                 onChangeText={(displayName) => this.setState({ displayName })}
                                 value={this.state.displayName}
                                 autoFocus={false}
+                                maxLength={30}
+                                autoCapitalize = 'none'                            
                             />
 
                             <Text style={styles.labelText}>Email</Text>
@@ -199,6 +199,8 @@ class SignupScreen extends React.Component {
                                 onChangeText={(email) => this.setState({ email })}
                                 value={this.state.email}
                                 autoFocus={false}
+                                maxLength={60}  
+                                autoCapitalize = 'none'                          
                             />
 
                             <Text style={styles.labelText}>Lösenord</Text>
@@ -210,6 +212,7 @@ class SignupScreen extends React.Component {
                                 onChangeText={(password) => this.setState({ password })}
                                 value={this.state.password}
                                 autoFocus={false}
+                                maxLength={30}                            
                             />
 
                             {this.state.validatedEmail & this.state.validatedPassword ? this.validateSignUp() : null}
