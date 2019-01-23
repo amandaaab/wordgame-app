@@ -66,8 +66,6 @@ export default class HighScoreScreen extends React.Component {
 
     let userinfo = this.state.highScore
     let arrayOfUser = Object.values(userinfo)
-
-    console.log(arrayOfUser.score.sort())
     //let userinfo = this.props.screenProps.highScore
     //let arrayOfUser = Object.values(userinfo)
     console.log(arrayOfUser, 'unsername i higchscore')
