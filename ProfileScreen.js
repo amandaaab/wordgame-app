@@ -212,7 +212,7 @@ export default class ProfileScreen extends React.Component {
               </TouchableHighlight>
             </View>
             <View style={[styles.items, styles.logoutButton]}>
-              <TouchableHighlight style={styles.policy} onPress={this.onPressLogout}>
+              <TouchableHighlight style={styles.logout} onPress={this.onPressLogout}>
                 <Text style={[styles.textP, styles.buttonP]} >
                   Logga ut
             </Text>
@@ -262,6 +262,13 @@ const styles = StyleSheet.create({
   logoutButton: {
     backgroundColor: 'rgb(53, 157, 255)',
     borderWidth: 0
+  },
+  logout: {
+    height: 50,
+    width: '100%',
+    flex: 0, 
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   items: {
