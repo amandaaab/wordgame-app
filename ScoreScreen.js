@@ -108,7 +108,7 @@ export default class ScoreScreen extends React.Component {
                         borderRadius: 5,
                         justifyContent: "center",
                         alignItems: 'center',
-                        margin: 2
+                        margin: 10
                     }
                     } >
                         <TouchableHighlight onPress={this.onPressContinue} style={styles.continue}>
@@ -124,13 +124,15 @@ export default class ScoreScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         width: '90%',
-        height: '50%',
+        height: '55%',
         padding: 20,
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 6,
-        marginTop: 0
+        marginTop: 0,
+        paddingBottom: 40,
+        
     },
     text: {
         color: 'black',
@@ -164,7 +166,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
-        margin: 10
     },
     point: {
         fontSize: 32,
