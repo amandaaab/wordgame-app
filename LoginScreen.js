@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     content: {
-        height: '50%',
+        height: '60%',
         width: '100%',
         backgroundColor: 'transparent',
         justifyContent: 'center',

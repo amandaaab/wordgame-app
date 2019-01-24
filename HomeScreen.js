@@ -33,10 +33,10 @@ export default class HomeScreen extends React.Component {
           }}>
            
             <View style={styles.container}>
-            <Text style={[styles.text, styles.undertext, styles.oneText]}> Väkommen {user && user.displayName.charAt(0).toUpperCase() + user.displayName.slice(1)}</Text>
-            <Text style={[ styles.text, styles.title]}>SKYNDA!</Text>     
-            <Text style={[,styles.text, styles.undertext, styles.twoText]}>Nu spelar vi</Text>
-        
+            <Text style={[,styles.text, styles.undertext, styles.twoText]}>🏃‍♀️</Text>
+            <Text style={[ styles.text, styles.title]}>SKYNDA!</Text>
+            <Text style={[styles.text, styles.undertext, styles.oneText]}>{user && user.displayName.charAt(0).toUpperCase() + user.displayName.slice(1)}</Text>
+            
             
         <LinearGradient
             colors={['#62fc9d', '#47ef88']}
@@ -81,11 +81,12 @@ export default class HomeScreen extends React.Component {
     },
 
     oneText: {
-        marginBottom: 20
+        marginBottom: 40
     },
 
     twoText: {
-        marginBottom: 60
+        marginBottom: 20,
+        fontSize: 70
     },
 
     title: {
