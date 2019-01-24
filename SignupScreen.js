@@ -206,7 +206,7 @@ class SignupScreen extends React.Component {
 
                         </Modal>
                     </View>
-                    <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-50} enabled>
+                    <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-80} enabled>
                         <View style={styles.content}>
 
                             <Text style={styles.screenLabel}>Registrera dig</Text>
@@ -265,7 +265,7 @@ class SignupScreen extends React.Component {
                                 colors={['#62fc9d', '#47ef88']}
                                 style={{
                                     width: '60%',
-                                    height: 50,
+                                    height: 48,
                                     borderRadius: 30,
                                     justifyContent: "center",
                                     alignItems: 'center',
@@ -275,7 +275,7 @@ class SignupScreen extends React.Component {
                                     shadowOpacity: 0.8,
                                     shadowRadius: 2,
                                     elevation: 1,
-                                    marginTop: 10
+                                    marginTop: 6
                                 }
                                 } >
 
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
     screenLabel: {
         fontSize: 34,
         color: 'white',
-        margin: '2%'
+        
 
     },
 
@@ -358,14 +358,14 @@ const styles = StyleSheet.create({
 
     input: {
         width: '75%',
-        height: 50,
+        height: 47,
         textAlign: 'center',
         borderBottomWidth: 1,
         borderColor: '#dddbdb',
         backgroundColor: '#f9f9f9',
-        margin: 6,
+        margin: 4,
         borderRadius: 14,
-        marginBottom: 8,
+        marginBottom: 6,
 
     },
 

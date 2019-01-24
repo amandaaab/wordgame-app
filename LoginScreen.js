@@ -129,7 +129,7 @@ class LoginScreen extends React.Component {
 
                 }}>
 
-                <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-50} enabled>
+                <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-140} enabled>
 
 
                     <View style={styles.content}>
@@ -243,9 +243,6 @@ const styles = StyleSheet.create({
     screenLabel: {
         fontSize: 26,
         color: 'white',
-        marginBottom: 20,
-        marginTop: 5
-
     },
     content: {
         height: '50%',
@@ -255,19 +252,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
 
     },
-
-
-
     texts: {
-        padding: 20,
+        padding: 0,
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
-
-        margin: 10
-
-
-
     },
 
     labelText: {
@@ -278,9 +267,8 @@ const styles = StyleSheet.create({
     },
 
     input: {
-
         width: '75%',
-        height: 50,
+        height: 48,
         textAlign: 'center',
         borderBottomWidth: 1,
         borderColor: '#dddbdb',
@@ -315,12 +303,11 @@ const styles = StyleSheet.create({
         borderBottomColor: '#bbb',
         borderBottomWidth: 0.5,
         margin: -10
-
     },
+
     regText: {
         color: 'white',
         fontSize: 22,
-
     }
 
 });
