@@ -17,7 +17,7 @@ class SignupScreen extends React.Component {
         this.state = {
             email: '',
             password: '',
-            displayName: '',
+            displayName: "",
             loading: false,
             errors: '',
             emailError: null,
@@ -26,6 +26,7 @@ class SignupScreen extends React.Component {
             validatedEmail: false,
             validatedPassword: false,
             validatedPolicy: false,
+            validatedName: false,
             goBackToMain: false,
             value: false,
             modalVisible: false,
@@ -87,6 +88,7 @@ class SignupScreen extends React.Component {
                 this.setState({
                     validatedEmail: false,
                     validatedPassword: false,
+                    validatedName: false,
                     errors: "Kunde inte skapa användare"
                 })
 
@@ -157,6 +159,56 @@ class SignupScreen extends React.Component {
                 errors: ''
             })
         }
+
+        this.check();
+    }
+
+
+    check = async () => {
+        let checkArray = []
+
+        if(this.state.displayName == ""){
+            this.setState({
+	            validatedName: false,
+                nameError: '* fyll i ett namn',
+                loading: false,
+	            errors: ''
+	        })
+        } else {
+        await db.collection("usernames").where("name", "==", this.state.displayName)
+	    .get()
+	    .then(function(querySnapshot) {
+	        querySnapshot.forEach(function(doc) {
+	
+	            if(doc){
+	                console.log('Namnet finns redan!!!')
+	                checkArray.push(doc);
+	
+	            } else {
+	                console.log('namnet är ledigt')
+	            }
+	        });
+	    })
+	    .catch(function(error) {
+	        console.log("Error getting documents: ", error);
+	    });
+	
+	    if(checkArray.length > 0){
+	        this.setState({
+	            validatedName: false,
+                nameError: '* namnet upptaget',
+                loading: false,
+	            errors: ''
+	        })
+	    } else {
+	        this.setState({
+	            validatedName: true,
+	            nameError: '',
+	            errors: ''
+	        })
+        }
+    }
+
     }
 
 
@@ -213,6 +265,7 @@ class SignupScreen extends React.Component {
                             <Text style={[styles.error, { textAlign: 'center' }]}>{this.state.errors == '' ? null : this.state.errors}</Text>
 
                             <Text style={styles.labelText}>Namn</Text>
+                            {this.state.nameError ? <Text style={styles.error}>{this.state.nameError}</Text> : null}
                             <TextInput
                                 style={styles.input}
                                 placeholder="Namn"
@@ -221,6 +274,7 @@ class SignupScreen extends React.Component {
                                 value={this.state.displayName}
                                 autoFocus={false}
                                 maxLength={30}
+                                minLength={1}
                                 autoCapitalize='none'
                             />
 
@@ -248,7 +302,7 @@ class SignupScreen extends React.Component {
                                 maxLength={30}
                             />
 
-                            {this.state.validatedEmail & this.state.validatedPassword ? this.validateSignUp() : null}
+                            {this.state.validatedEmail & this.state.validatedPassword & this.state.validatedName? this.validateSignUp() : null}
 
                             <View style={styles.policy}>
                                 <View style={styles.policyItem}>
