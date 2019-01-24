@@ -51,6 +51,7 @@ export default class HomeScreen extends React.Component {
             shadowOpacity: 0.8,
             shadowRadius: 2,
             elevation: 1,
+            marginBottom: 50
     
         
         }}
