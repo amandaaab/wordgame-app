@@ -7,3 +7,4 @@ npm-debug.*
 *.mobileprovision
 server.js
 *node_modules
+firebaseConfig.js
