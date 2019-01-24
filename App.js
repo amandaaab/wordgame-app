@@ -88,7 +88,7 @@ const Menu = createBottomTabNavigator(
     Home: {
       screen: HomeStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-play-circle" size={64} style={styles.icons} color={focused ? '#1f1e35' : 'black'}
+        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-play-circle" size={64} style={styles.icons} color={focused ? 'black': '#1f1e35'}
         /></View>,
         tabBarOptions: {
           showLabel: false,
@@ -108,7 +108,7 @@ const Menu = createBottomTabNavigator(
     Help: {
       screen: HelpStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-help-circle" style={styles.icons} size={64} color={focused ? '#1f1e35' : 'black'} /></View>,
+        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-help-circle" style={styles.icons} size={64} color={focused ? 'black': '#1f1e35'} /></View>,
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -127,7 +127,7 @@ const Menu = createBottomTabNavigator(
     Profile: {
       screen: ProfileStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-contact" size={64} style={styles.icons} color={focused ? '#1f1e35' : 'black'} /></View>,
+        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-contact" size={64} style={styles.icons} color={focused ?'black': '#1f1e35'} /></View>,
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -147,7 +147,7 @@ const Menu = createBottomTabNavigator(
     HighScore: {
       screen: HighScoreStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <Ionicons name="md-trophy" size={50} color={focused ? '#ffe389' : '#ffea4f'} />,
+        tabBarIcon: ({ focused }) => <Ionicons name="md-trophy" size={50} color={focused ?'#ffea4f': '#ffe389'} />,
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -210,9 +210,6 @@ export default class App extends React.Component {
   account = async () => {
     const { currentUser } = firebase.auth()
     let roundesArray = [];
-
-    let email_verified = currentUser.emailVerified
-    console.log()
     /*
     await db.collection("users").doc(currentUser.uid)
       .onSnapshot(function (doc) {

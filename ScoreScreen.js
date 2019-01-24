@@ -41,22 +41,34 @@ export default class ScoreScreen extends React.Component {
     saveScore = async () => {
         const user = this.props.screenProps.currentUser
         db.collection("highscore").get().then((querySnapshot) => {
+        
             querySnapshot.forEach((doc) => {
 
+                if (doc.id !== user.uid) {
+                    console.log('finns inte något dokument')
+                    db.collection("highscore").doc(user.uid).set({
+                        name: user.displayName,
+                        score: this.state.score,
+                    })
+
+                }
                 if (doc.id == user.uid) {
-                    if (!doc.data().score) {
-                        db.collection("highscore").doc(user.uid).set({
-                            name: user.displayName,
-                            score: this.state.score,
-                        })
-                    }
-                    if (doc.data().score <= this.state.score) {
+                    console.log('dokument finns')
+                    if (doc.data().score < this.state.score) {
+                        console.log('matchar doc, ändrar score eftersom det är högre', )
                         db.collection("highscore").doc(user.uid).update({
                             score: this.state.score,
                         })
                         this.setState({ upgrade: ' Nytt personligt highscore!' })
+                    }else {
+                        console.log('else, mindre')
+                        this.setState({
+                            upgrade: 'hjhfkjshfkshkjdfhd'
+                        })
                     }
                 }
+
+
             })
         })
 
@@ -82,20 +94,20 @@ export default class ScoreScreen extends React.Component {
 
                 }}>
                 <View style={styles.starWrap}>
-                    <Ionicons name="md-star" size={90} color={"#fff34f"}/>
+                    <Ionicons name="md-star" size={90} color={"#fff34f"} />
                 </View>
-               
-                <View style={styles.container}>
-                 
-                        <Text style={[styles.text, styles.message]}>{this.state.message}</Text>
-                       
-                 
-                        <Text style={ styles.text}>{`Du fick ${this.state.upgrade}`}</Text>
-            
-    
-                        <Text style={[styles.text, styles.point]}>{`${this.state.score} rätt`}</Text>
 
-                        <Text style={styles.text}>Vill du ha en revanch?</Text>
+                <View style={styles.container}>
+
+                    <Text style={[styles.text, styles.message]}>{this.state.message}</Text>
+
+
+                    <Text style={styles.text}>{`Du fick ${this.state.upgrade}`}</Text>
+
+
+                    <Text style={[styles.text, styles.point]}>{`${this.state.score} rätt`}</Text>
+
+                    <Text style={styles.text}>Vill du ha en revanch?</Text>
 
                 </View>
                 <LinearGradient
@@ -111,10 +123,10 @@ export default class ScoreScreen extends React.Component {
                         margin: 2
                     }
                     } >
-                        <TouchableHighlight onPress={this.onPressContinue} style={styles.continue}>
-                            <Text style={styles.buttonText}>Gå vidare</Text>
-                        </TouchableHighlight>
-                
+                    <TouchableHighlight onPress={this.onPressContinue} style={styles.continue}>
+                        <Text style={styles.buttonText}>Gå vidare</Text>
+                    </TouchableHighlight>
+
                 </LinearGradient>
             </LinearGradient>
         );
@@ -154,7 +166,7 @@ const styles = StyleSheet.create({
     message: {
         fontSize: 32,
         marginTop: 50,
-        fontWeight:'bold'
+        fontWeight: 'bold'
     },
     continue: {
         backgroundColor: 'transparent',
@@ -168,7 +180,7 @@ const styles = StyleSheet.create({
     },
     point: {
         fontSize: 32,
-        fontWeight:'bold'
+        fontWeight: 'bold'
     }
 
 });
