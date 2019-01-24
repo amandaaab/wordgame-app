@@ -84,20 +84,20 @@ export default class ScoreScreen extends React.Component {
 
                 }}>
                 <View style={styles.starWrap}>
-                    <Ionicons name="md-star" size={90} color={"#fff34f"}/>
+                    <Ionicons name="md-star" size={90} color={"#fff34f"} />
                 </View>
-               
-                <View style={styles.container}>
-                 
-                        <Text style={[styles.text, styles.message]}>{this.state.message}</Text>
-                       
-                 
-                        <Text style={ styles.text}>{`Du fick ${this.state.upgrade}`}</Text>
-            
-    
-                        <Text style={[styles.text, styles.point]}>{`${this.state.score} rätt`}</Text>
 
-                        <Text style={styles.text}>Vill du ha en revanch?</Text>
+                <View style={styles.container}>
+
+                    <Text style={[styles.text, styles.message]}>{this.state.message}</Text>
+
+
+                    <Text style={styles.text}>{`Du fick ${this.state.upgrade}`}</Text>
+
+
+                    <Text style={[styles.text, styles.point]}>{`${this.state.score} rätt`}</Text>
+
+                    <Text style={styles.text}>Vill du ha en revanch?</Text>
 
                 </View>
                 <LinearGradient
@@ -113,10 +113,10 @@ export default class ScoreScreen extends React.Component {
                         margin: 10
                     }
                     } >
-                        <TouchableHighlight onPress={this.onPressContinue} style={styles.continue}>
-                            <Text style={styles.buttonText}>Gå vidare</Text>
-                        </TouchableHighlight>
-                
+                    <TouchableHighlight onPress={this.onPressContinue} style={styles.continue}>
+                        <Text style={styles.buttonText}>Gå vidare</Text>
+                    </TouchableHighlight>
+
                 </LinearGradient>
             </LinearGradient>
         );
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     message: {
         fontSize: 32,
         marginTop: 50,
-        fontWeight:'bold'
+        fontWeight: 'bold'
     },
     continue: {
         backgroundColor: 'transparent',
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     },
     point: {
         fontSize: 32,
-        fontWeight:'bold'
+        fontWeight: 'bold'
     }
 
 });
