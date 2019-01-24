@@ -5,6 +5,7 @@ import SignupScreen from './SignupScreen';
 import LoginScreen from './LoginScreen';
 import * as firebase from 'firebase';
 import db from './firebaseConfig';
+import ForgotPasswordScreen from './ForgotPasswordScreen';
 
 
 class MainVerify extends React.Component {
@@ -13,13 +14,14 @@ class MainVerify extends React.Component {
         super(props);
 
         this.state = {
-            email: '',
+          //  email: '',
             password: '',
             errors: false,
             loading: false,
             wantToSignup: false,
             items: [],
-            verified: this.props.verified
+            verified: this.props.verified, 
+            forgotPass: false
         
         }
 
@@ -82,16 +84,32 @@ class MainVerify extends React.Component {
         })
     }
 
+    openForgotPass = () => {
+        this.setState({
+            forgotPass: true
+        })
+    }
+
+    closeForgotPass = () => {
+        this.setState({
+            forgotPass: false
+        })
+    }
+
     render() {
         if (this.state.wantToSignup == true) {
             return <SignupScreen isSignupRender={this.signedUp} closeSignUp={this.closeSignUp} />
 
 
-        } else {
+        } else  {
+            if(this.state.forgotPass == true){
+                return <ForgotPasswordScreen backToLogin={this.closeForgotPass} />
+            }else {
             return (
-                <LoginScreen verified={this.state.verified} isLoginRender={this.loggedIn} viewSignup={this.openSignup} />
+                <LoginScreen verified={this.state.verified} isLoginRender={this.loggedIn} viewForgotPass={this.openForgotPass} viewSignup={this.openSignup} />
 
             )
+        }
         }
     }
 }
@@ -103,7 +121,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
-        width: '100%'
+        width: '100%',
+        
     },
 
 

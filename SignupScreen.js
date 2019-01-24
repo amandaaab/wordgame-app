@@ -215,7 +215,7 @@ class SignupScreen extends React.Component {
                             <Text style={styles.labelText}>Namn</Text>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Namn"
+                                placeholder="Tex. spelkungen1"
                                 required={true}
                                 onChangeText={(displayName) => this.setState({ displayName })}
                                 value={this.state.displayName}
@@ -228,7 +228,7 @@ class SignupScreen extends React.Component {
                             {this.state.emailError ? <Text style={styles.error}>{this.state.emailError}</Text> : null}
                             <TextInput
                                 style={styles.input}
-                                placeholder="Email"
+                                placeholder="Tex. exempel@exempel.se"
                                 onChangeText={(email) => this.setState({ email })}
                                 value={this.state.email}
                                 autoFocus={false}

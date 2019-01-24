@@ -189,12 +189,12 @@ export default class App extends React.Component {
     this.setState({ allDocs: allDocsArray })
   }
 
-  open = (email) => {
+  open = () => {
     this.setState({
       loggedIn: true
     })
 
-    console.log(email)
+   ///console.log(email)
     this.account()
 
   }

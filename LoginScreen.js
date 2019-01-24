@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, TextInput, ActivityIndicator, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { LinearGradient } from 'expo';
 
+
 import * as firebase from 'firebase';
 
 
@@ -23,6 +24,7 @@ class LoginScreen extends React.Component {
             items: [],
             needToVerify: false,
             loading: false,
+           
         }
 
     }
@@ -51,14 +53,11 @@ class LoginScreen extends React.Component {
                             needToVerify: true,
                             email: '',
                             password: '',
-                          
-                         
-                            
+                             
                         })
                      
                     }
-                   
-
+            
                 })
                 .catch(() => {
                     this.setState({ validatedEmail: false,validatedPassword: false,errors: 'Kunde inte hitta användare', loading: false })
@@ -116,6 +115,9 @@ class LoginScreen extends React.Component {
 
     }
 
+    renderForgotPass = () => {
+     this.props.viewForgotPass()
+    }
 
 
     render() {
@@ -147,7 +149,7 @@ class LoginScreen extends React.Component {
                         <TextInput
 
                             style={styles.input}
-                            placeholder="Tex. amanda@gmail.com"
+                            placeholder="Tex. exempel@exempel.se"
                             onChangeText={(email) => this.setState({ email })}
                             value={this.state.email}
                             keyboardType="email-address"
@@ -206,6 +208,9 @@ class LoginScreen extends React.Component {
                         <TouchableHighlight onPress={() => this.renderSignup()} style={[styles.button, styles.reg]}>
                             <Text style={styles.regText}>Skapa Konto</Text>
                         </TouchableHighlight>
+                        <TouchableHighlight onPress={() => this.renderForgotPass()} style={[styles.button, styles.reg, styles.forgot]}>
+                            <Text style={styles.forgotText}>Har du glömt ditt lösenord?</Text>
+                        </TouchableHighlight>
                     </View>
                 </KeyboardAvoidingView>
             </LinearGradient>
@@ -215,8 +220,8 @@ class LoginScreen extends React.Component {
         )
 
     }
-
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -277,6 +282,17 @@ const styles = StyleSheet.create({
         borderRadius: 14
 
 
+    },
+    forgot: {
+        margin: 20,
+        width: '100%',
+        borderBottomColor: 'transparent'
+
+    },
+
+    forgotText: {
+        fontSize: 16,
+        color: 'white'
     },
 
     button: {
