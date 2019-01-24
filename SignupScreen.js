@@ -63,7 +63,7 @@ class SignupScreen extends React.Component {
     validateSignUp = () => {
 
         db.collection("usernames").doc(this.state.displayName).set({
-            name: this.state.displayName
+            name: this.state.displayName.toLowerCase()
         })
             .then(function (docRef) {
                 console.log("Document written with displayname in usernames ", docRef);
@@ -73,12 +73,14 @@ class SignupScreen extends React.Component {
             });
 
         const { email, password, displayName } = this.state
+        displayName.toLowerCase()
+
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
                 let user = firebase.auth().currentUser;
                 if (user) {
                     user.updateProfile({
-                        displayName: displayName,
+                        displayName: displayName.toLowerCase(),
                     }).then(
                         () => this.verifyEmailLink()
                     )
@@ -175,7 +177,7 @@ class SignupScreen extends React.Component {
 	            errors: ''
 	        })
         } else {
-        await db.collection("usernames").where("name", "==", this.state.displayName)
+        await db.collection("usernames").where("name", "==", this.state.displayName.toLowerCase())
 	    .get()
 	    .then(function(querySnapshot) {
 	        querySnapshot.forEach(function(doc) {
