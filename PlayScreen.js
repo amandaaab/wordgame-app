@@ -38,7 +38,7 @@ export default class PlayScreen extends React.Component {
   componentWillUnmount() {
     clearInterval(this.clockCall);
     clearInterval(this.animating);
-    
+
   }
 
   animateText() {
@@ -48,9 +48,6 @@ export default class PlayScreen extends React.Component {
     if (wordExists.length > 0) {
       console.log('ORDET i animateText', wordExists)
       this.animateTextAfter()
-      //if(this.state.words.map){
-
-      //this.setState({animate: false})
     }
   }
 
@@ -380,7 +377,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     flexGrow: 1,
     marginBottom: '2%',
-    paddingBottom: '2%', 
+    paddingBottom: '2%',
     alignItems: 'center',
   },
   inner: { //innuti scrollview där orden du skrivit skrivs ut

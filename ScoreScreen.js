@@ -4,27 +4,18 @@ import { LinearGradient } from 'expo';
 import { Font } from 'expo';
 import * as firebase from 'firebase';
 import db from './firebaseConfig';
-
-
-
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default class ScoreScreen extends React.Component {
 
     state = {
-        fontLoaded: false,
         score: this.props.navigation.state.params.userScore,
         message: '',
         upgrade: '',
     }
 
-
     async componentDidMount() {
-        await Font.loadAsync({
-            'Comfortaa-Bold': require('./assets/fonts/Comfortaa-Bold.ttf'),
-        });
-
-        this.setState({ fontLoaded: true });
-
+        // Set state message depending on score
         if (this.state.score === 0) {
             this.setState({
                 message: 'Bättre lycka nästa gång...'
@@ -40,48 +31,34 @@ export default class ScoreScreen extends React.Component {
             })
         }
         this.saveScore()
-
     }
 
     onPressContinue = () => {
         this.props.navigation.navigate('Home')
     }
 
+    // Set the score in database depending on if data exists and if it's more or less for the currentUser
     saveScore = async () => {
         const user = this.props.screenProps.currentUser
         db.collection("highscore").get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
 
-                //console.log('fail', user.uid, doc.id)
                 if (doc.id == user.uid) {
-                   // console.log('graaaattis', user.uid, doc.id, doc.data().score)
-                   if(!doc.data().score){
-                    db.collection("highscore").doc(user.uid).set({
-                        name: user.displayName,
-                        score: this.state.score,
-                    })
-                   }
-                    if(doc.data().score <= this.state.score){
-                        console.log("det är mer poäng")
-
+                    if (!doc.data().score) {
+                        db.collection("highscore").doc(user.uid).set({
+                            name: user.displayName,
+                            score: this.state.score,
+                        })
+                    }
+                    if (doc.data().score <= this.state.score) {
                         db.collection("highscore").doc(user.uid).update({
                             score: this.state.score,
                         })
-
-                        this.setState({upgrade: ' Nytt personligt highscore!'})
-
+                        this.setState({ upgrade: ' Nytt personligt highscore!' })
                     }
-
-                } /*else {
-                    db.collection("highscore").doc(user.uid).set({
-                        name: user.displayName,
-                        score: this.state.score,
-                    })
-                }*/
+                }
             })
         })
-        console.log("current user", this.props.screenProps.currentUser)
-
 
         //Lägger till document i subcollection "roundes", med points.
         db.collection('users').doc(user.uid).collection('roundes').add({
@@ -93,11 +70,7 @@ export default class ScoreScreen extends React.Component {
             .catch(function (error) {
                 console.error("Error adding document: ", error);
             });
-
-
-
     }
-
 
     render() {
         this.state.score > 5 ? this.saveScore : null
@@ -108,28 +81,41 @@ export default class ScoreScreen extends React.Component {
                     flex: 1, justifyContent: 'center', alignItems: 'center'
 
                 }}>
+                <View style={styles.starWrap}>
+                    <Ionicons name="md-star" size={90} color={"#fff34f"}/>
+                </View>
+               
                 <View style={styles.container}>
-                    {this.state.fontLoaded ?
-                        <Text style={[{ fontFamily: 'Comfortaa-Bold' }, styles.text, styles.message]}>{this.state.message}</Text>
-                        : null}
-                    {this.state.fontLoaded ?
-                        <Text style={[{ fontFamily: 'Comfortaa-Bold' }, styles.text]}>{`Du fick ${this.state.upgrade}`}</Text>
-                        : null}
-                    {this.state.fontLoaded ?
-                        <Text style={[{ fontFamily: 'Comfortaa-Bold' }, styles.text, styles.point]}>{`${this.state.score} rätt`}</Text>
+                 
+                        <Text style={[styles.text, styles.message]}>{this.state.message}</Text>
+                       
+                 
+                        <Text style={ styles.text}>{`Du fick ${this.state.upgrade}`}</Text>
+            
+    
+                        <Text style={[styles.text, styles.point]}>{`${this.state.score} rätt`}</Text>
 
-                        : null}
-                    {this.state.fontLoaded ?
-                        <Text style={[{ fontFamily: 'Comfortaa-Bold' }, styles.text]}>Vill du ha en revanch? gå vidare</Text>
-                        : null}
+                        <Text style={styles.text}>Vill du ha en revanch?</Text>
 
                 </View>
-                {this.state.fontLoaded ?
-                    <TouchableHighlight onPress={this.onPressContinue} style={styles.continue}>
-                        <Text style={[{ fontFamily: 'Comfortaa-Bold' }, styles.buttonText]}>Gå vidare</Text>
-                    </TouchableHighlight>
-                    : null}
-
+                <LinearGradient
+                    colors={['#fff796', '#fff34f']}
+                    style={{
+                        width: '90%',
+                        marginLeft: '3%',
+                        marginRight: '3%',
+                        height: 48,
+                        borderRadius: 5,
+                        justifyContent: "center",
+                        alignItems: 'center',
+                        margin: 2
+                    }
+                    } >
+                        <TouchableHighlight onPress={this.onPressContinue} style={styles.continue}>
+                            <Text style={styles.buttonText}>Gå vidare</Text>
+                        </TouchableHighlight>
+                
+                </LinearGradient>
             </LinearGradient>
         );
     }
@@ -137,18 +123,25 @@ export default class ScoreScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: '80%',
-        height: '60%',
+        width: '90%',
+        height: '50%',
         padding: 20,
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 6,
+        marginTop: 0
     },
     text: {
         color: 'black',
         marginTop: 40,
-        fontSize: 16
+        fontSize: 20
+    },
+    starWrap: {
+        flex: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: -40
     },
 
     buttonText: {
@@ -159,11 +152,12 @@ const styles = StyleSheet.create({
     },
 
     message: {
-        fontSize: 28,
-        marginTop: 50
+        fontSize: 32,
+        marginTop: 50,
+        fontWeight:'bold'
     },
     continue: {
-        backgroundColor: '#fff684',
+        backgroundColor: 'transparent',
         width: '80%',
         height: 54,
         borderRadius: 6,
@@ -173,7 +167,8 @@ const styles = StyleSheet.create({
         margin: 10
     },
     point: {
-        fontSize: 28
+        fontSize: 32,
+        fontWeight:'bold'
     }
 
 });
