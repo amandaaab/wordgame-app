@@ -5,12 +5,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
 import MainVerify from './MainVerify';
 import LoginScreen from './LoginScreen';
+import App from './App.js'
 
 class ForgotPasswordScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: ''
+            email: '',
+            goBack: false,
         }
     }
 
@@ -28,6 +30,8 @@ class ForgotPasswordScreen extends React.Component {
     render() {
 
         return (
+
+            this.state.goBack ? <App/> :
             <View style={styles.container}>
               <KeyboardAvoidingView style={styles.content} behavior="padding" keyboardVerticalOffset={-80} enabled>
                 <Text style={styles.text}>Skriv in din registrerade email, så skickar vi en återställningslänk för lösenordet till din epost.</Text>
@@ -47,6 +51,10 @@ class ForgotPasswordScreen extends React.Component {
 
                 <TouchableHighlight onPress={() => this.sendPass()} style={styles.button}>
                     <Text style={styles.buttonText}>Skicka</Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight onPress={() => this.setState({ goBack: true})} style={styles.backButton}>
+                    <Text style={styles.buttonTextBack}>Gå tillbaka</Text>
                 </TouchableHighlight>
                 </KeyboardAvoidingView>
             </View>
@@ -97,8 +105,18 @@ const styles = StyleSheet.create({
         borderRadius: 14,
         padding: 30
 
+    },
+    buttonTextBack: {
+        color: 'black',
+        fontSize: 23,
+        fontWeight: 'bold',
 
     },
+    backButton: {
+        marginTop: 40,
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+    }
 })
 
 export default ForgotPasswordScreen
