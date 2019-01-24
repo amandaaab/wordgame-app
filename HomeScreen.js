@@ -35,7 +35,7 @@ export default class HomeScreen extends React.Component {
             <View style={styles.container}>
             <Text style={[styles.text, styles.undertext, styles.oneText]}> Väkommen {user && user.displayName.charAt(0).toUpperCase() + user.displayName.slice(1)}</Text>
             <Text style={[ styles.text, styles.title]}>SKYNDA!</Text>     
-            <Text style={[,styles.text, styles.undertext, styles.twoText]}>Nu spelar vi!</Text>
+            <Text style={[,styles.text, styles.undertext, styles.twoText]}>Nu spelar vi</Text>
         
             
         <LinearGradient

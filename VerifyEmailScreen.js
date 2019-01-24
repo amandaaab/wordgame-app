@@ -9,8 +9,8 @@ import LoginScreen from './LoginScreen';
 const VerifyEmailScreen = (props) => {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Ett email har skickats med en veriferings länk till din epost</Text>
-            <Text style={styles.text}>Gå vidare när öppnat länken i din mail</Text>
+            <Text style={styles.text}>Ett email med en verifieringslänk har nu skickats till din epost.</Text>
+            <Text style={styles.text}>Hittar du inte mailet kan det ha hamnat i din skräppost.</Text>
             <TouchableHighlight onPress={()=> props.goBack()} style={styles.button}>
                 <Text style={styles.buttonText}>Gå vidare och logga in</Text>
             </TouchableHighlight>
@@ -32,12 +32,12 @@ const styles = StyleSheet.create({
         margin: 20
     },
     buttonText: {
-        fontSize: 26,
+        fontSize: 23,
         fontWeight: 'bold'
     },
     button: {
         borderBottomColor: 'black',
-        borderBottomWidth: 3, 
+        borderBottomWidth: 1, 
     }
 })
 
