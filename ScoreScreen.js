@@ -40,25 +40,27 @@ export default class ScoreScreen extends React.Component {
     // Set the score in database depending on if data exists and if it's more or less for the currentUser
     saveScore = async () => {
         const user = this.props.screenProps.currentUser
-        db.collection("highscore").get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
 
-                if (doc.id == user.uid) {
-                    if (!doc.data().score) {
-                        db.collection("highscore").doc(user.uid).set({
-                            name: user.displayName,
-                            score: this.state.score,
-                        })
-                    }
-                    if (doc.data().score <= this.state.score) {
-                        db.collection("highscore").doc(user.uid).update({
-                            score: this.state.score,
-                        })
-                        this.setState({ upgrade: ' Nytt personligt highscore!' })
-                    }
+        var docRef = db.collection("highscore").doc(user.uid);
+
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+                if(doc.data().score < this.state.score) {
+                    db.collection("highscore").doc(user.uid).update({
+                        score: this.state.score,
+                    })
+                    this.setState({ upgrade: 'ett nytt personligt highscore!' })
                 }
-            })
-        })
+            } else {
+                db.collection("highscore").doc(user.uid).set({
+                    name: user.displayName,
+                    score: this.state.score,
+                })
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+
 
         //Lägger till document i subcollection "roundes", med points.
         db.collection('users').doc(user.uid).collection('roundes').add({
