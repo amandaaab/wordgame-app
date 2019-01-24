@@ -109,6 +109,7 @@ class SignupScreen extends React.Component {
             this.setState({
                 policyError: '* Du måste godkänna vår policy',
                 validatedPolicy: false,
+                loading: false,
                 errors: '',
 
             })
@@ -125,6 +126,7 @@ class SignupScreen extends React.Component {
             console.log('email är inte correct')
             this.setState({
                 emailError: '* Du måste fylla en giltlig email',
+                loading: false,
                 validatedEmail: false,
                 errors: '',
 
@@ -143,6 +145,7 @@ class SignupScreen extends React.Component {
             this.setState({
                 passwordError: '* Vänligen fyll i ett lösenord',
                 validatedPassword: false,
+                loading: false,
                 errors: ''
 
 

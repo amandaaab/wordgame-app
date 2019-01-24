@@ -82,6 +82,7 @@ class LoginScreen extends React.Component {
             this.setState({
                 emailError: '* Du måste fylla en giltlig email',
                 validatedEmail: false,
+                loading: false,
                 errors: '',
 
             })
@@ -99,6 +100,7 @@ class LoginScreen extends React.Component {
             this.setState({
                 passwordError: '* Vänligen fyll i ett lösenord',
                 validatedPassword: false,
+                loading: false,
                 errors: ''
                
                 
