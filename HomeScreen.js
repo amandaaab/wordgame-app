@@ -51,6 +51,7 @@ export default class HomeScreen extends React.Component {
             shadowOpacity: 0.8,
             shadowRadius: 2,
             elevation: 1,
+    
         
         }}
           >
@@ -81,7 +82,7 @@ export default class HomeScreen extends React.Component {
     },
 
     oneText: {
-        marginBottom: 40
+        marginBottom: 60
     },
 
     twoText: {
@@ -113,6 +114,7 @@ export default class HomeScreen extends React.Component {
         justifyContent: "center",
         alignItems: 'center',
         padding: 10,
+
         
     },
 
