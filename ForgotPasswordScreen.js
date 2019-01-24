@@ -32,8 +32,9 @@ class ForgotPasswordScreen extends React.Component {
         return (
 
             this.state.goBack ? <App/> :
-            <View style={styles.container}>
-              <KeyboardAvoidingView style={styles.content} behavior="padding" keyboardVerticalOffset={-80} enabled>
+              <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-80} enabled>
+                              <Text style={styles.rubrik}>Återställ lösenord</Text>
+
                 <Text style={styles.text}>Skriv in din registrerade email, så skickar vi en återställningslänk för lösenordet till din epost.</Text>
                 <TextInput
 
@@ -57,7 +58,6 @@ class ForgotPasswordScreen extends React.Component {
                     <Text style={styles.buttonTextBack}>Gå tillbaka</Text>
                 </TouchableHighlight>
                 </KeyboardAvoidingView>
-            </View>
         )
     }
 }
@@ -71,18 +71,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10
     },
-    content: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-   
-        
-    },
 
     text: {
         textAlign: 'center',
         fontSize: 22,
         margin: 20
+    },
+    rubrik: {
+        textAlign: 'center',
+        fontSize: 26,
+        margin: 20,
+        fontWeight: 'bold',
     },
     buttonText: {
         fontSize: 23,
@@ -103,7 +102,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f9f9f9',
         margin: 12,
         borderRadius: 14,
-        padding: 30
+        padding: 5,
 
     },
     buttonTextBack: {
