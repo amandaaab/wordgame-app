@@ -7,6 +7,7 @@ import PolicyScreen from './PolicyScreen';
 import { LinearGradient } from 'expo';
 import LoginScreen from './LoginScreen';
 import DeleteScreen from './DeleteScreen';
+import SupportScreen from './SupportScreen';
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ export default class ProfileScreen extends React.Component {
     this.state = {
       modalVisible: false,
       modalVisibleDelete: false,
+      modalVisibleSupport: false,
       scores: [],
       loading: true,
     }
@@ -26,6 +28,8 @@ export default class ProfileScreen extends React.Component {
     this.pay = this.pay.bind(this)
     this.closeModalDelete = this.closeModalDelete.bind(this)
     this.openModalDelete = this.openModalDelete.bind(this)
+    this.openSupportModal = this.openSupportModal.bind(this)
+    this.closeSupportModal = this.closeSupportModal.bind(this)
   }
 
   componentDidMount() {
@@ -107,7 +111,17 @@ export default class ProfileScreen extends React.Component {
     })
   }
 
+  openSupportModal = () => {
+    this.setState({
+      modalVisibleSupport: true,
+    })
+  }
   
+  closeSupportModal = () => {
+    this.setState({
+      modalVisibleSupport: false,
+    })
+  }
 
   deleteAccount = async() => {
     var user = firebase.auth().currentUser;
@@ -170,6 +184,17 @@ export default class ProfileScreen extends React.Component {
 
           </Modal>
 
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisibleSupport}
+            onRequestClose={() => {
+            }}>
+
+            <SupportScreen modalClose={this.closeSupportModal} />
+
+          </Modal>
+
           <View style={styles.whiteContainer}>
             <Ionicons name="md-contact" size={80} />
             <Text style={styles.name}>{name.charAt(0).toUpperCase() + name.slice(1)}</Text>
@@ -205,9 +230,17 @@ export default class ProfileScreen extends React.Component {
             </View>
 
             <View style={styles.items}>
+              <TouchableHighlight style={styles.button} onPress={this.openSupportModal}>
+                <View style={styles.item}>
+                  <Text style={styles.textP}>Support</Text><Ionicons name="md-arrow-dropright" size={20}></Ionicons>
+                </View>
+              </TouchableHighlight>
+            </View>
+
+            <View style={styles.items}>
               <TouchableHighlight style={styles.button} onPress={() => this.openModalPolicy()}>
                 <View style={styles.item}>
-                  <Text style={styles.textP}>Läs våra användarvillkor</Text><Ionicons name="md-arrow-dropright" size={20}></Ionicons>
+                  <Text style={styles.textP}>Privacy Policy</Text><Ionicons name="md-arrow-dropright" size={20}></Ionicons>
                 </View>
               </TouchableHighlight>
             </View>

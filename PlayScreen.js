@@ -16,7 +16,7 @@ export default class PlayScreen extends React.Component {
       text: '', //text from userinput
       words: [],//all words you have written in the inputfield, both right and wrong
       usedExtraTime: false,
-      timer: 20, // timer countdown
+      timer: 50, // timer countdown
       score: 0,
       answers: [], //array with answers(in an array too) that belongs to the selected question.
       randomNumber: Math.floor(Math.random() * Math.floor(this.props.screenProps.allDocs.length)), //We need a randomNumber for later to random get a question from an array with questions
@@ -71,7 +71,7 @@ export default class PlayScreen extends React.Component {
     this.animating = setInterval(() => {
       // 1/156, varje omgång 39 sek vid nollan strecket fullt
       this.setState(prevState => ({
-        progress: prevState.progress -= 0.00641026
+        progress: prevState.progress -= 0.00510204//0.00641026
       }))
 
     }, 250); //uppdateras var 1/4 sekund
