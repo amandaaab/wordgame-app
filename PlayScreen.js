@@ -19,7 +19,7 @@ export default class PlayScreen extends React.Component {
       timer: 20, // timer countdown
       score: 0,
       answers: [], //array with answers(in an array too) that belongs to the selected question.
-      randomNumber: Math.floor(Math.random() * Math.floor(3)), //We need a randomNumber for later to random get a question from an array with questions
+      randomNumber: Math.floor(Math.random() * Math.floor(this.props.screenProps.allDocs.length)), //We need a randomNumber for later to random get a question from an array with questions
       progress: 1, //progressbar
       indeterminate: false, //progressbar
       animate: true,
