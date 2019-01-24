@@ -21,13 +21,20 @@ export default class ScoreScreen extends React.Component {
                 message: 'Bättre lycka nästa gång...'
             })
         }
-        else if (this.state.score >= 1 && this.state.score < 2) {
+        else if (this.state.score >= 1 && this.state.score <= 4) {
             this.setState({
                 message: 'Du kan bättre!'
             })
-        } else {
+        }
+        else if(this.state.score >= 5 && this.state.score < 8){
             this.setState({
-                message: 'Bra Jobbat!'
+                message: 'Bra jobbat!'
+            })
+        }
+        
+        else {
+            this.setState({
+                message: 'Du är riktigt grym!'
             })
         }
         this.saveScore()
