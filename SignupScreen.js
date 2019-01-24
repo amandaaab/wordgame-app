@@ -64,12 +64,12 @@ class SignupScreen extends React.Component {
         db.collection("usernames").doc(this.state.displayName).set({
             name: this.state.displayName
         })
-        .then(function (docRef) {
+            .then(function (docRef) {
                 console.log("Document written with displayname in usernames ", docRef);
-        })
-        .catch(function (error) {
+            })
+            .catch(function (error) {
                 console.error("Error adding document to usernames: ", error);
-        });
+            });
 
         const { email, password, displayName } = this.state
         firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -79,7 +79,7 @@ class SignupScreen extends React.Component {
                     user.updateProfile({
                         displayName: displayName,
                     }).then(
-                       () => this.verifyEmailLink()
+                        () => this.verifyEmailLink()
                     )
                 }
             })
@@ -176,7 +176,7 @@ class SignupScreen extends React.Component {
     }
 
     render() {
-        if(this.state.sentEmailLink == true){
+        if (this.state.sentEmailLink == true) {
             return <VerifyEmailScreen goBack={this.onPressBack} />
         }
         else if (this.state.goBackToMain == true) {
@@ -272,15 +272,15 @@ class SignupScreen extends React.Component {
                                     shadowOpacity: 0.8,
                                     shadowRadius: 2,
                                     elevation: 1,
-                                    marginTop: 16
+                                    marginTop: 10
                                 }
                                 } >
 
                                 <TouchableHighlight onPress={() => this.trySignup()} underlayColor='transparent' style={styles.button}>
-                                        { this.state.loading ? <ActivityIndicator size="small" color="white" animating={this.state.loading} />
+                                    {this.state.loading ? <ActivityIndicator size="small" color="white" animating={this.state.loading} />
                                         : <Text style={styles.btnText}>Registrera</Text>
-                                        }
-                                 </TouchableHighlight>
+                                    }
+                                </TouchableHighlight>
 
                             </LinearGradient>
                             <Text style={{ color: 'white', margin: 10, fontSize: 17 }}></Text>
@@ -293,9 +293,6 @@ class SignupScreen extends React.Component {
                         </View>
 
                     </KeyboardAvoidingView>
-
-
-
                 </LinearGradient>
             )
 
@@ -318,7 +315,7 @@ const styles = StyleSheet.create({
     screenLabel: {
         fontSize: 34,
         color: 'white',
-        margin: 10
+        margin: '2%'
 
     },
 
@@ -329,7 +326,7 @@ const styles = StyleSheet.create({
     },
 
     content: {
-        height: '50%',
+        height: '40%',
         width: '100%',
 
         justifyContent: 'center',
@@ -363,9 +360,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: '#dddbdb',
         backgroundColor: '#f9f9f9',
-        margin: 12,
+        margin: 6,
         borderRadius: 14,
-        marginBottom: 16,
+        marginBottom: 8,
 
     },
 
