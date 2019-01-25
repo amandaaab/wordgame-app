@@ -37,7 +37,7 @@ to your private wifi.
 */
     try {
       let response = await fetch(
-        'http://192.168.0.33:5000/payment',{
+        'http://172.20.10.2:5000/payment',{
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -47,7 +47,9 @@ to your private wifi.
       })
 
         if(response.ok){ // if the response is ok, go to PaymentSuccess.js
-            this.props.navigation.navigate('paymentSuccess')
+            this.props.navigation.navigate('paymentSuccess', {
+                amount: amount
+            })
         } 
         else { //if the response is not ok, go to PaymentFailed.js
             this.props.navigation.navigate('paymentFailed')
@@ -55,6 +57,7 @@ to your private wifi.
 
     } catch (error) {
         //If error - go to PaymentFailed.js
+        console.log(error)
       this.props.navigation.navigate('paymentFailed')
     }
 

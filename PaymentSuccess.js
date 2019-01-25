@@ -12,21 +12,33 @@ export default class PaymentSuccess extends React.Component {
     this.addCoins();
     }
 
-addCoins = () => {
-// funkar inte helt än. coins skrev över ett annat field i och med set. 
-//add lägger på ett nytt field. ska det istället vara ett document o i där ligger 
-//coins som olika fields. Måste sedan raderas mynt när man tagit tiden.. 
-    const user = this.props.screenProps.currentUser //getting current user 
+// add coins to db. 
+addCoins = async () => {
 
-    /*db.collection('users').doc(user.uid).set({
-        coins: 100
-      })
-      .then(function(docRef) {
-        console.log("Document for coins written with ID: ", docRef.id);
-    })
-      .catch(function(error) {
-        console.error("Error adding document: ", error);
-    });*/
+    const user = this.props.screenProps.currentUser //getting current user 
+    const amount = this.props.navigation.getParam('amount');
+    let coins;
+    if(amount == 20){
+        coins = 200
+    } else {
+        coins = 100
+    }
+
+    var docRef = await db.collection("users").doc(user.uid);
+
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+                    db.collection("users").doc(user.uid).update({
+                        coins: doc.data().coins + coins
+                    })
+            } else {
+                db.collection("users").doc(user.uid).set({
+                    coins: 100
+                })
+            }
+        }).catch(function (error) {
+            console.log("Error getting document:", error);
+        });
 
 }
 
@@ -39,7 +51,7 @@ render(){
         <View style={styles.content}>
         <Text style={styles.text}>Tack för din betalning!</Text>
          
-            <TouchableHighlight style={styles.button} onPress={()=> props.navigation.navigate('Profile')}>
+            <TouchableHighlight style={styles.button} onPress={()=> this.props.navigation.navigate('Profile')}>
                 <Text style={styles.buttonText}>Gå tillbaka  <Ionicons name="md-arrow-round-forward" size={25}/>
 </Text>
             </TouchableHighlight>
