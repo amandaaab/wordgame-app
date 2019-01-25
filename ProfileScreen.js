@@ -24,7 +24,6 @@ export default class ProfileScreen extends React.Component {
     this.getRoundes = this.getRoundes.bind(this)
     this.openModalPolicy = this.openModalPolicy.bind(this)
     this.closeModalPolicy = this.closeModalPolicy.bind(this)
-    this.pay = this.pay.bind(this)
     this.closeModalDelete = this.closeModalDelete.bind(this)
     this.openModalDelete = this.openModalDelete.bind(this)
     this.openSupportModal = this.openSupportModal.bind(this)

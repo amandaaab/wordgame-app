@@ -12,7 +12,7 @@ class ForgotPasswordScreen extends React.Component {
         }
     }
 
-    // Sen a link to users email if user has forgotten password, and then navigate back to loginscreen
+    // Send a link to users email if user has forgotten password, and then navigate back to loginscreen
     sendPass = () => {
         var auth = firebase.auth();
         var emailAddress = this.state.email;

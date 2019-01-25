@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo';
 
+/*This modal pops up when you pressed "delete account" in profilescreen. Sending which of the buttons
+where pressed with a callback*/
 const DeleteScreen = (props) => {
 
     return (

@@ -2,6 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo';
 
+
+//Our private policy. 
+
 const PolicyScreen = (props) => {
 
     return (

@@ -60,6 +60,7 @@ class SignupScreen extends React.Component {
 
     validateSignUp = () => {
 
+    //adding selected username to database to compare with when next person signup so users can't have the same username.
         db.collection("usernames").doc(this.state.displayName).set({
             name: this.state.displayName.toLowerCase()
         })
@@ -72,7 +73,8 @@ class SignupScreen extends React.Component {
 
         const { email, password, displayName } = this.state
         displayName.toLowerCase()
-
+        
+        // creating user account
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
                 let user = firebase.auth().currentUser;

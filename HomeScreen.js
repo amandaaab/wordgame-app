@@ -2,12 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo';
 
+//The first screen when you have signed in succesfully. 
 export default class HomeScreen extends React.Component {
     constructor(props) {
         super(props);
         
     }
 
+    //starting the game and navigate to "PlayScreen.js"
     onPressPlay = () => {
         this.props.navigation.navigate('play')
     }

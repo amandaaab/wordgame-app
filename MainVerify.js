@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet} from 'react-native';
 import SignupScreen from './SignupScreen';
 import LoginScreen from './LoginScreen';
 import * as firebase from 'firebase';
@@ -7,13 +6,14 @@ import db from './firebaseConfig';
 import ForgotPasswordScreen from './ForgotPasswordScreen';
 
 
+    //deciding which screen is showing when sign in/ sign up.
+
 class MainVerify extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-          //  email: '',
             password: '',
             errors: false,
             loading: false,
@@ -25,21 +25,6 @@ class MainVerify extends React.Component {
         }
 
     }
-
-   
-/*
-    async componentDidMount(){
-         const soundObject = new Expo.Audio.Sound();
-        try {
-            await soundObject.loadAsync(require('./assets/3265418_a-happy-camper_by_schwartzsound_preview.mp3'));
-            await soundObject.playAsync();
-            // Your sound is playing!
-        } catch (error) {
-            // An error occurred!
-        }
-    }
-    */
-    
 
     signedUp = () => {
         this.props.isSignupRender()
@@ -113,29 +98,5 @@ class MainVerify extends React.Component {
     }
 }
 
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'transparent',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        
-    },
-
-
-    loginButton: {
-        backgroundColor: 'transparent',
-        width: '60%',
-        height: 50,
-        borderRadius: 6,
-        justifyContent: "center",
-        alignItems: 'center',
-        padding: 10,
-
-    },
-
-});
 
 export default MainVerify

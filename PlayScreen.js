@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo';
 import * as Progress from 'react-native-progress';
 import { Ionicons } from '@expo/vector-icons';
 
-
+//The screen where the game is played. 
 
 export default class PlayScreen extends React.Component {
 
@@ -29,17 +29,20 @@ export default class PlayScreen extends React.Component {
 
   componentDidMount() {
     this.clockCall = setInterval(() => {
-      this.decrementClock();
+      this.decrementClock(); //countdown function executes
     }, 1000);
-    this.animate();
+    this.animate(); //animation progressbar function executes
   }
 
+  //clear all asynchronous actions when component will unmount. 
   componentWillUnmount() {
     clearInterval(this.clockCall);
     clearInterval(this.animating);
 
   }
 
+  /*if "doAnimate" is true, do the animation. The text gets larger for 1 second to show that the player
+  already has written the word one.*/
   animateText() {
     let wordExists = this.state.words.filter(word => word.doAnimate === true);
     if (wordExists.length > 0) {
@@ -59,9 +62,10 @@ export default class PlayScreen extends React.Component {
 
   }
 
+  //the progressbar get smaller each 1/4 second.
   animate() {
     this.animating = setInterval(() => {
-      // 1/156, varje omgång 39 sek vid nollan strecket fullt
+      // 1/196, varje omgång 49 sek vid nollan strecket fullt
       this.setState(prevState => ({
         progress: prevState.progress -= 0.00510204//0.00641026
       }))
@@ -69,6 +73,7 @@ export default class PlayScreen extends React.Component {
     }, 250); //uppdateras var 1/4 sekund
   }
 
+  //if time runs out, navigate to ScoreScreen.js
   decrementClock = () => {
     this.setState((prevstate) => ({ timer: prevstate.timer - 1 }));
     if (this.state.timer === 0) {
@@ -78,14 +83,14 @@ export default class PlayScreen extends React.Component {
 
 
   onChangeT = (value) => {
-    //ändrar tillbaka doAnimate till false. 
+    //change "doAnimate" back to false, beacuse we want the animation to stop
     let words = [...this.state.words];
     let index = words.findIndex(word => word.word === this.state.text);
     words[index] = { ...words[index], doAnimate: false };
     this.setState({ words })
 
     this.setState({
-      text: value.toLowerCase()
+      text: value.toLowerCase() //small letters 
     })
   }
 
@@ -97,7 +102,7 @@ export default class PlayScreen extends React.Component {
     this.correctThis(allAnswers)
   }
 
-
+//checks if the answers i correct or uncorrect, black textcolor for uncorrect words and green textcolor for correct
   correctThis = (allAnswers) => {
     const isItCorrect = allAnswers.includes(this.state.text);
     if (isItCorrect) {
@@ -120,7 +125,7 @@ export default class PlayScreen extends React.Component {
               color: 'green',
               dec: 'none',
               point: 1,
-              star: true,
+              star: true, //star icon after a correct word 
             }
           ],
 
@@ -137,7 +142,7 @@ export default class PlayScreen extends React.Component {
             color: 'black',
             dec: 'line-through',
             point: 0,
-            star: false
+            star: false //x icon after an uncorrect word
 
           }
         ]
@@ -149,21 +154,24 @@ export default class PlayScreen extends React.Component {
 
   }
 
+  //Pressing the yellow button "mer tid", and it's added 10 seconds to the progressbar and the timer. 
   onGetSeconds = () => {
     this.setState(prevState => ({
       timer: prevState.timer + 10,
       usedExtraTime: true,
-      progress: prevState.progress += 0.2564104
+      progress: prevState.progress += 0.2564104 // ändra detta, fel värde för just femtio sekunder.
     }))
 
   }
 
   render() {
+    //animation textsize
     const textSize = this.animatedValue.interpolate({
       inputRange: [0, 0.5, 1],
       outputRange: [18, 32, 18]
     })
 
+    //if the progressbar has less than 25% time left, the color changes to red. 
     let progressColor;
     if (this.state.progress < 0.25) {
       progressColor = '#c92020';

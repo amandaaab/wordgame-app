@@ -48,28 +48,12 @@ export default class HighScoreScreen extends React.Component {
       loading: false,
     })
   }
-  /*
   
-    getRanking = () => {
-     let i;
-      for(i = 0; i < this.state.highScore.length; i++){
-        console.log('i', this.state.highScore[i])
-      }
-  
-      console.log('i utanför', this.state.highScore[i])
-  
-      //console.log('index',index)
-  
-    }
-  */
 
   render() {
-    //this.getRanking()
     let userinfo = this.state.highScore
     let arrayOfUser = Object.values(userinfo)
 
-    //console.log(arrayOfUser, 'unsername i higchscore')
-    //let userScore = this.props.screenProps.highScore.map(user => user.name)
     return (
       <LinearGradient
         colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
