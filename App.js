@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import { createBottomTabNavigator, createAppContainer, createStackNavigator, createSwitchNavigator, createDrawerNavigator } from 'react-navigation';
+import { StyleSheet, View, } from 'react-native';
+import { createBottomTabNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 
 import HomeScreen from './HomeScreen';
@@ -19,6 +19,8 @@ import PaymentFailed from './PaymentFailed';
 import db from './firebaseConfig';
 import * as firebase from 'firebase';
 
+// Menu
+
 const HomeStack = createSwitchNavigator(
   {
     Home: {
@@ -33,7 +35,6 @@ const HomeStack = createSwitchNavigator(
 
     },
   }
-
 )
 
 HomeStack.navigationOptions = ({ navigation }) => {
@@ -67,20 +68,15 @@ const ProfileStack = createSwitchNavigator(
     paymentSuccess: { screen: PaymentSuccess },
     paymentFailed: { screen: PaymentFailed }
   }
-
 )
 
 const HighScoreStack = createSwitchNavigator(
   {
     HighScore: {
-
       screen: HighScoreScreen
-
     },
-
   }
 )
-
 
 const Menu = createBottomTabNavigator(
 
@@ -88,12 +84,14 @@ const Menu = createBottomTabNavigator(
     Home: {
       screen: HomeStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-play-circle" size={64} style={styles.icons} color={focused ? 'black': '#1f1e35'}
-        /></View>,
+
+        tabBarIcon: ({ focused }) =>
+          <View style={styles.outerCircle}><Ionicons name="md-play-circle" size={64} style={styles.icons} color={focused ? 'black' : '#1f1e35'}
+          /></View>,
+
         tabBarOptions: {
           showLabel: false,
           style: {
-
             backgroundColor: 'transparent',
             borderTopWidth: 0,
             position: 'absolute',
@@ -105,10 +103,13 @@ const Menu = createBottomTabNavigator(
         }
       })
     },
+
     Help: {
       screen: HelpStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-help-circle" style={styles.icons} size={64} color={focused ? 'black': '#1f1e35'} /></View>,
+
+        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-help-circle" style={styles.icons} size={64} color={focused ? 'black' : '#1f1e35'} /></View>,
+
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -122,12 +123,14 @@ const Menu = createBottomTabNavigator(
           }
         }
       })
-
     },
+
     Profile: {
       screen: ProfileStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-contact" size={64} style={styles.icons} color={focused ?'black': '#1f1e35'} /></View>,
+
+        tabBarIcon: ({ focused }) => <View style={styles.outerCircle}><Ionicons name="md-contact" size={64} style={styles.icons} color={focused ? 'black' : '#1f1e35'} /></View>,
+
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -142,12 +145,13 @@ const Menu = createBottomTabNavigator(
         }
       })
     },
-
 
     HighScore: {
       screen: HighScoreStack,
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused }) => <Ionicons name="md-trophy" size={50} color={focused ?'#ffea4f': '#ffe389'} />,
+
+        tabBarIcon: ({ focused }) => <Ionicons name="md-trophy" size={50} color={focused ? '#ffea4f' : '#ffe389'} />,
+
         tabBarOptions: {
           showLabel: false,
           style: {
@@ -168,6 +172,7 @@ const Menu = createBottomTabNavigator(
 
 const AppContainer = createAppContainer(Menu)
 
+// App component/ compenent-wrap
 export default class App extends React.Component {
   state = {
     allDocs: [], //questions from database in an array
@@ -177,8 +182,9 @@ export default class App extends React.Component {
 
   }
 
+
   async componentWillMount() {
-    //getting all questions from the database, push them to the array and set state
+  //getting all questions from the database, push them to the array and set state 
     let allDocsArray = [];
     await db.collection("questions").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -189,16 +195,16 @@ export default class App extends React.Component {
     this.setState({ allDocs: allDocsArray })
   }
 
+  // Login
   open = () => {
     this.setState({
       loggedIn: true
     })
 
-   ///console.log(email)
     this.account()
 
   }
-
+// Do not login
   close = () => {
     this.setState({
       loggedIn: false
@@ -206,7 +212,7 @@ export default class App extends React.Component {
 
   }
 
-  // Get current user and roundes
+  // Get current user and roundes, and set a state with currentUser
   account = async () => {
     const { currentUser } = firebase.auth()
     let roundesArray = [];
@@ -218,25 +224,26 @@ export default class App extends React.Component {
       });
 
       */
-
     this.setState({ currentUser })
-
   }
 
   render() {
+
     return (
       this.state.loggedIn == false ?
 
         <MainVerify isLoginRender={this.open}
-          isSignupRender={this.open} />
-        :
-        <AppContainer screenProps={{
-          allDocs: this.state.allDocs,
-          currentUser: this.state.currentUser,
-          loggingOut: this.close,
-          roundes: this.state.roundes
-        }} />
+                    isSignupRender={this.open} />
 
+        :
+
+        <AppContainer screenProps={{
+                      allDocs: this.state.allDocs,
+                      currentUser: this.state.currentUser,
+                      loggingOut: this.close,
+                      roundes: this.state.roundes
+
+        }} />
     )
   }
 }
@@ -249,7 +256,6 @@ const styles = StyleSheet.create({
   },
 
   outerCircle: {
-
     borderRadius: 40,
     width: 56,
     height: 56,
@@ -259,8 +265,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: 'black',
     borderWidth: 1,
-
-
-
   },
 })

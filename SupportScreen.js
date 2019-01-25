@@ -1,24 +1,24 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo';
-import { Ionicons } from '@expo/vector-icons';
 
 const SupportScreen = (props) => {
 
     return (
-        <LinearGradient 
-        colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
-        style={{flex: 1, justifyContent: 'center', alignItems: 'center'
-        
-        }}>
-        <View style={styles.modal}>
-            <Text style={styles.title}>För support: maila oss på team.skynda@gmail.com</Text>
+        <LinearGradient
+            colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
+            style={{
+                flex: 1, justifyContent: 'center', alignItems: 'center'
+
+            }}>
+            <View style={styles.modal}>
+                <Text style={styles.title}>För support: maila oss på team.skynda@gmail.com</Text>
 
 
-            <TouchableHighlight style={styles.closeButton} onPress={() => props.modalClose()}>
-                <Text style={styles.buttonText}>Gå tillbaka</Text>
-            </TouchableHighlight>
-        </View>
+                <TouchableHighlight style={styles.closeButton} onPress={() => props.modalClose()}>
+                    <Text style={styles.buttonText}>Gå tillbaka</Text>
+                </TouchableHighlight>
+            </View>
         </LinearGradient>
     )
 }
@@ -35,19 +35,19 @@ const styles = StyleSheet.create({
         width: '90%',
         height: '50%',
         borderRadius: 10,
-        
+
     },
 
     title: {
         fontSize: 20,
         padding: 12,
         margin: 0,
-        color: 'black', 
+        color: 'black',
         fontWeight: 'bold',
     },
 
     closeButton: {
-        backgroundColor: '#6fcc57', 
+        backgroundColor: '#6fcc57',
         width: '40%',
         height: 50,
         borderRadius: 30,
@@ -56,13 +56,13 @@ const styles = StyleSheet.create({
         padding: 10,
         margin: 20,
     },
-      buttonText: {
+    buttonText: {
         fontSize: 22,
         color: 'white',
         textAlign: 'center',
     },
-    deleteButton : {
-        backgroundColor: '#e04747', 
+    deleteButton: {
+        backgroundColor: '#e04747',
         width: '40%',
         height: 50,
         borderRadius: 30,
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         width: '80%',
-        flex: 0, 
+        flex: 0,
         flexDirection: 'row',
         justifyContent: 'space-around',
 
