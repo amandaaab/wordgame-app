@@ -12,22 +12,29 @@ export default class PayScreen extends React.Component {
 
         this.state = { 
             name : '',
-            date: '',
-            cvc: '',
-            loading: false,
+            loading: false, //State for the activityindicator 
         
         }
     
       }
 
 
+/* Async function for using await for waiting for a promise.  */      
 pay = async (amount) => { 
     this.setState({
-        loading: true,
+        loading: true,// the activityindicator starts
     })
-    console.log('pay', amount);
+
+//getting current users email to send to stripe
     const userEmail = this.props.screenProps.currentUser.email;
 
+/*We use fetch with method POST to our route payment in server/server.js.
+When your developing with expo you can't fetch localhost, it will not connect to the server. 
+You will need to replace localhost with your public ip-address to get it working and the phone and your 
+computer have to be connected to the same network wifi.
+If it's a public wifi it can be possible it will through an error. Use your own network or connect your phone
+to your private wifi. 
+*/
     try {
       let response = await fetch(
         'http://192.168.0.33:5000/payment',{
@@ -36,27 +43,25 @@ pay = async (amount) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
-        body: JSON.stringify({amount: amount, email: userEmail}),
+        body: JSON.stringify({amount: amount, email: userEmail}), //Sending the selected amount and useremail to server.js
       })
-        console.log(response)
 
-        if(response.ok){
-            console.log('testestest')
+        if(response.ok){ // if the response is ok, go to PaymentSuccess.js
             this.props.navigation.navigate('paymentSuccess')
-        } else {
-            console.log('payment failed')
+        } 
+        else { //if the response is not ok, go to PaymentFailed.js
             this.props.navigation.navigate('paymentFailed')
         }
 
     } catch (error) {
-      //console.log('ERROR i payscreen:', error); network request failed
+        //If error - go to PaymentFailed.js
       this.props.navigation.navigate('paymentFailed')
     }
 
 } 
 
     render() {
-        console.log('amount:', this.props.navigation.getParam('amount'))
+        // getting the param that we send from BeforePayScreen.js and place it in a variable
         const amount = this.props.navigation.getParam('amount');
     
       return (
@@ -90,7 +95,7 @@ pay = async (amount) => {
         <Ionicons name="md-card" size={15}/>  Kortnummer
         </Text>
             <TextInput style={styles.input}
-                        value={'4242 4242 4242 4242'}
+                        value={'4242 4242 4242 4242'} //the cardnumber is a testnumber from stripe 
             />
         </View>
 
@@ -100,7 +105,7 @@ pay = async (amount) => {
                 <TextInput style={styles.input}
                             keyboardType={'numeric'}
                             required={true}
-                            value={'01/20'}
+                            value={'01/20'} //exp date is not needed in stripe test payments 
                 />
         </View>
         <View style={styles.smallBox}>
@@ -109,14 +114,14 @@ pay = async (amount) => {
                         maxLength={3}
                         keyboardType={'numeric'}
                         required={true}
-                        value={'999'}
+                        value={'999'} //cvc is not needed in stripe test payments
             />
         </View>
 
         </View>
 
 
-          <TouchableHighlight style={styles.button} onPress={()=> this.pay(amount)}>
+          <TouchableHighlight style={styles.button} onPress={()=> this.pay(amount)}> 
                 <View>
                     {this.state.loading ? <ActivityIndicator size="small" color="white" animating={this.state.loading} />
                     : <Text style={styles.buttonText}>Betala</Text>

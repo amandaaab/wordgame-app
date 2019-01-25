@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 
 
+//If the payment failed this page shows up, you can go back to HomeScreen.js when pressing "gå tillbaka"-button
 const PaymentFailed = (props) => {
 
 

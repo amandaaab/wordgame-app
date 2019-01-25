@@ -8,7 +8,7 @@ import db from './firebaseConfig';
 export default class PaymentSuccess extends React.Component {
 
     componentDidMount(){
-        //payment is accepted and we can add coins to db 
+        //payment is accepted when the componentd has mounted and we can add coins to db 
     this.addCoins();
     }
 
@@ -16,9 +16,9 @@ addCoins = () => {
 // funkar inte helt än. coins skrev över ett annat field i och med set. 
 //add lägger på ett nytt field. ska det istället vara ett document o i där ligger 
 //coins som olika fields. Måste sedan raderas mynt när man tagit tiden.. 
-    const user = this.props.screenProps.currentUser
+    const user = this.props.screenProps.currentUser //getting current user 
 
-    db.collection('users').doc(user.uid).set({
+    /*db.collection('users').doc(user.uid).set({
         coins: 100
       })
       .then(function(docRef) {
@@ -26,7 +26,7 @@ addCoins = () => {
     })
       .catch(function(error) {
         console.error("Error adding document: ", error);
-    });
+    });*/
 
 }
 

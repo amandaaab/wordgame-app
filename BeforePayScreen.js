@@ -3,45 +3,56 @@ import { StyleSheet, Text, TextInput, KeyboardAvoidingView, View, TouchableHighl
 import { LinearGradient } from 'expo';
 import { CheckBox } from 'react-native-elements'
 
-
+/* The screen which comes after you clicked on "Buy coins here" in your profile. It comes with two checkboxes where
+you can choose between different amounts. 
+ */
 export default class BeforePayScreen extends React.Component {
 
+//Set initial state, first the checkboxes are not checked and therefore set to false
 state = {
     checkedFirst: false,
     checkedSecond: false,
     amount: 0,
 }
 
+/*Function to go to PayScreen.js and do the payment when you press the "gå vidare till betalning"-button*/
 forward = async () => { 
-    if(this.state.checkedFirst || this.state.checkedSecond === true){
+    if(this.state.checkedFirst || this.state.checkedSecond === true){ //checks if a checkbox is selected. 
         this.props.navigation.navigate('pay', {
-            amount: this.state.amount,
+            amount: this.state.amount, //Sending amount as a parameter to PayScreen
         })
     }
 
 } 
 
-firstChecked = (amount) => {
+/*when the chechbox in the top is pressed this function executes and the state is changed to
+true for the first checkbox and now it's checked on the screen*/
+firstChecked = (amount) => { 
 
     this.setState(prevState => ({
         checkedFirst: !prevState.checkedFirst,
         checkedSecond: false, 
-        amount: amount
+        amount: amount //amount was passed in as a parameter 
      
       }))
 }
+
+
+/*when the chechbox in the bottom is pressed this function executes and the state is changed to
+true for the second checkbox and now it's checked on the screen*/
 
 secondChecked = (amount) => {
 
     this.setState(prevState => ({
         checkedSecond: !prevState.checkedSecond,
         checkedFirst: false,
-        amount: amount
+        amount: amount //amount was passed in as a parameter
       }))
 }
 
 
  
+//KeyboardAvoidingView is used for moving content higher than the keyboard so you will be able to se all the content when your writing. 
     render() {
       return (
         <LinearGradient 
@@ -94,7 +105,6 @@ secondChecked = (amount) => {
     container: {
         borderRadius: 10,
         flex: 0,
-        //backgroundColor: 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'white',
