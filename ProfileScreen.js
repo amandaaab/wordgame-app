@@ -17,6 +17,8 @@ export default class ProfileScreen extends React.Component {
       modalVisibleSupport: false,
       scores: [],
       loading: true,
+      loadingCoins: true,
+      coins: 0,
     }
 
     this.onPressLogout = this.onPressLogout.bind(this)
@@ -32,9 +34,18 @@ export default class ProfileScreen extends React.Component {
   // Add a listener to navigation, so that it always checks if there have been any updates in database
   componentDidMount() {
     this.navs = [
-      this.props.navigation.addListener('willFocus', () => this.getRoundes()),
-      this.props.navigation.addListener('willBlur', () => this.getRoundes()),
-      this.props.navigation.addListener('didFocus', () => this.getRoundes()),
+      this.props.navigation.addListener('willFocus', () => {
+        this.getRoundes()
+        this.getCoins()
+      }),
+      this.props.navigation.addListener('willBlur', () => {
+        this.getRoundes()
+        this.getCoins()
+      }),
+      this.props.navigation.addListener('didFocus', () => {
+        this.getRoundes()
+        this.getCoins()
+      }),
     ]
   }
   // Remove listener when not using that component
@@ -58,6 +69,31 @@ export default class ProfileScreen extends React.Component {
     });
 
     this.setState({ scores: score, loading: false })
+  }
+
+//show how many coins! 
+  getCoins = async() => {
+
+    const user = this.props.screenProps.currentUser //getting current user 
+
+    var docRef = await db.collection("users").doc(user.uid);
+
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+              console.log('coins!!:', doc.data().coins)
+              this.setState({ 
+                coins: doc.data().coins,
+                loadingCoins: false,
+              })
+            } else {
+               console.log('user dont have any coins yet.')
+               this.setState({loadingCoins: false})
+            }
+        }).catch(function (error) {
+            console.log("Error getting document:", error);
+        });
+
+
   }
 
   // Sign out function
@@ -184,15 +220,29 @@ export default class ProfileScreen extends React.Component {
             <Ionicons name="md-contact" size={80} />
             <Text style={styles.name}>{name.charAt(0).toUpperCase() + name.slice(1)}</Text>
 
-            <Text style={styles.rounds}>Antal spelade omgångar:
+            <View style={styles.coins}>
+            <Text style={styles.rounds}>Spelade omgångar :
             </Text>
-
             {this.state.loading ?
               <ActivityIndicator size="small" color="black" animating={this.state.loading} />
-              : <Text style={[styles.rounds, { fontWeight: 'bold', fontSize: 24 }]}>
+              : <Text style={[styles.rounds, { fontWeight: 'bold', fontSize: 20 }]}>
                 {this.state.scores.length}
               </Text>
             }
+          </View>
+
+
+        <View style={styles.coins}>
+          <Text style={styles.rounds}>Mynt: </Text>
+
+          {this.state.loadingCoins ?
+              <ActivityIndicator size="small" color="black" animating={this.state.loading} />
+              : <Text style={[styles.rounds, { fontWeight: 'bold', fontSize: 20 }]}>
+                {this.state.coins}
+              </Text>
+            }
+      </View>
+
 
 
           </View>
@@ -262,7 +312,6 @@ const styles = StyleSheet.create({
   },
   name: {
     color: 'black',
-    margin: '4%',
     fontSize: 30,
 
   },
@@ -273,7 +322,6 @@ const styles = StyleSheet.create({
   },
   rounds: {
     color: 'black',
-    margin: '4%',
     fontSize: 20
 
   },
@@ -326,6 +374,14 @@ const styles = StyleSheet.create({
   },
   buttonP: {
     fontWeight: 'bold'
+  },
+
+  coins: {
+    flex: 0, 
+    justifyContent: 'center',
+    flexDirection: 'row', 
+    alignItems: 'center',
+    margin: '3%'
   }
 
 });

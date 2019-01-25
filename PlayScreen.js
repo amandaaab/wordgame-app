@@ -24,15 +24,18 @@ export default class PlayScreen extends React.Component {
       progress: 1, //progressbar
       indeterminate: false, //progressbar
       animate: true,
+      showTimeButton: false,
     }
     this.animatedValue = new Animated.Value(0)
   }
 
-  componentDidMount() {
+componentDidMount() {
+
     this.clockCall = setInterval(() => {
       this.decrementClock(); //countdown function executes
     }, 1000);
     this.animate(); //animation progressbar function executes
+    this.showButton();
   }
 
   //clear all asynchronous actions when component will unmount. 
@@ -40,6 +43,28 @@ export default class PlayScreen extends React.Component {
     clearInterval(this.clockCall);
     clearInterval(this.animating);
 
+  }
+
+  showButton = async () => {
+    const user = this.props.screenProps.currentUser //getting current user 
+
+    var docRef = await db.collection("users").doc(user.uid);
+    docRef.get().then((doc) => {
+        if(doc.exists){
+          if (doc.data().coins >= 10) {
+                 console.log('Mer än 10 coins!!!')
+                 this.setState({showTimeButton: true})
+          } else {
+            console.log('mindre än 10 coins')
+            this.setState({showTimeButton: false})
+          }
+        } else {
+          this.setState({showTimeButton: false})
+          console.log('no coins yet');
+        }
+      }).catch(function (error) {
+          console.log("Error getting document:", error);
+      });
   }
 
   /*if "doAnimate" is true, do the animation. The text gets larger for 1 second to show that the player
@@ -160,6 +185,7 @@ export default class PlayScreen extends React.Component {
     this.setState(prevState => ({
       timer: prevState.timer + 10,
       usedExtraTime: true,
+      showTimeButton: false,
       progress: prevState.progress += 0.2040816 //changing the progressbar after pressed more time. 
     }))
 
@@ -285,7 +311,7 @@ export default class PlayScreen extends React.Component {
           </LinearGradient>
         </View>
 
-        {!this.state.usedExtraTime ?
+        {this.state.showTimeButton ?
 
           <LinearGradient
             colors={['#fff796', '#fff34f']}
@@ -322,6 +348,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,21,72,1)',
   },
 
+  button: { //yellow button, get more time
+    width: '100%',
+    height: 48,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
   text: {
     color: 'white',
     fontSize: 22,
@@ -353,10 +387,6 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-
-  button: {
-    backgroundColor: 'transparent',
   },
 
   inputContainer: {

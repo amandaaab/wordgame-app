@@ -212,18 +212,10 @@ export default class App extends React.Component {
 
   }
 
-  // Get current user and roundes, and set a state with currentUser
+  // Get current user and set a state with currentUser
   account = async () => {
     const { currentUser } = firebase.auth()
-    let roundesArray = [];
-    /*
-    await db.collection("users").doc(currentUser.uid)
-      .onSnapshot(function (doc) {
-        roundesArray.push(doc.data().roundes);
-        console.log("Current data now changed: ", doc.data());
-      });
-
-      */
+    
     this.setState({ currentUser })
   }
 
