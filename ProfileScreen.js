@@ -53,6 +53,8 @@ export default class ProfileScreen extends React.Component {
     this.navs.forEach((nav) => {
       nav.remove();
     });
+
+    this.getCoins.remove();
   }
 
   // Get rounds(how many times a user has played) from database and set a new state.
