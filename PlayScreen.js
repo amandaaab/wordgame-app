@@ -3,6 +3,7 @@ import { StyleSheet, KeyboardAvoidingView, Text, View, TextInput, TouchableHighl
 import { LinearGradient } from 'expo';
 import * as Progress from 'react-native-progress';
 import { Ionicons } from '@expo/vector-icons';
+import db from './firebaseConfig';
 
 //The screen where the game is played. 
 
@@ -155,12 +156,29 @@ export default class PlayScreen extends React.Component {
   }
 
   //Pressing the yellow button "mer tid", and it's added 10 seconds to the progressbar and the timer. 
-  onGetSeconds = () => {
+  onGetSeconds = async () => {
     this.setState(prevState => ({
       timer: prevState.timer + 10,
       usedExtraTime: true,
       progress: prevState.progress += 0.2040816 //changing the progressbar after pressed more time. 
     }))
+
+
+    const user = this.props.screenProps.currentUser //getting current user 
+    
+    //decrement coins in database with 10 when pressing on get mor time 
+    var docRef = await db.collection("users").doc(user.uid);
+
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+                    db.collection("users").doc(user.uid).update({
+                        coins: doc.data().coins - 10
+                    })
+            }
+        }).catch(function (error) {
+            console.log("Error getting document:", error);
+        });
+
 
   }
 
