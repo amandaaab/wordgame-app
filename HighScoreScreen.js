@@ -6,72 +6,69 @@ import { LinearGradient } from 'expo';
 
 import db from './firebaseConfig';
 
-
 export default class HighScoreScreen extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+
     this.state = {
       highScore: [],
       ranking: [],
       loading: true,
-    }
 
+    }
   }
 
-  componentDidMount () {
+  // Adds a listener to navigation, so that it always checks if there have been any updates in database
+  componentDidMount() {
     this.navs = [
       this.props.navigation.addListener('willFocus', () => this.getScore()),
       this.props.navigation.addListener('willBlur', () => this.getScore()),
       this.props.navigation.addListener('didFocus', () => this.getScore()),
     ]
   }
-
-  componentWillUnmount () {
+  // Remove listener when not using that component
+  componentWillUnmount() {
     this.navs.forEach((nav) => {
       nav.remove();
     });
   }
 
-  getScore = async() => {
+  // Get score from database and set a state new state
+  getScore = async () => {
     let allScore = []
 
-    await db.collection("highscore").orderBy("score", "desc").limit(10).get().then((querySnapshot)=> {
+    await db.collection("highscore").orderBy("score", "desc").limit(10).get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-    
         allScore.push(doc.data())
       });
     });
-
-
     this.setState({
       highScore: allScore,
       loading: false,
     })
   }
-
-  getRanking = () => {
-   let i;
-    for(i = 0; i < this.state.highScore.length; i++){
-      console.log('i', this.state.highScore[i])
+  /*
+  
+    getRanking = () => {
+     let i;
+      for(i = 0; i < this.state.highScore.length; i++){
+        console.log('i', this.state.highScore[i])
+      }
+  
+      console.log('i utanför', this.state.highScore[i])
+  
+      //console.log('index',index)
+  
     }
-
-    console.log('i utanför', this.state.highScore[i])
-
-    //console.log('index',index)
-
-  }
-
+  */
 
   render() {
-
-this.getRanking()
-
+    //this.getRanking()
     let userinfo = this.state.highScore
     let arrayOfUser = Object.values(userinfo)
 
-   
-    console.log(arrayOfUser, 'unsername i higchscore')
+    //console.log(arrayOfUser, 'unsername i higchscore')
     //let userScore = this.props.screenProps.highScore.map(user => user.name)
     return (
       <LinearGradient
@@ -85,27 +82,25 @@ this.getRanking()
             <Ionicons name="md-trophy" size={80} color={'#ffea4f'} />
             <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>TOPPLISTA</Text>
           </View>
-          
+
           <View style={styles.listLabel}>
             <Text style={styles.item}>Ranking</Text>
             <Text style={styles.item}>Namn</Text>
             <Text style={styles.item}>Poäng</Text>
           </View>
-        {this.state.loading ? <View style={[styles.flatlist, styles.before]}><ActivityIndicator size="small" color="black" animating={this.state.loading} /></View>
-      :    <FlatList style={styles.flatlist}
-      data={arrayOfUser}
-      keyExtractor={item => item.name}
+          {this.state.loading ? <View style={[styles.flatlist, styles.before]}><ActivityIndicator size="small" color="black" animating={this.state.loading} /></View>
+            : <FlatList style={styles.flatlist}
+              data={arrayOfUser}
+              keyExtractor={item => item.name}
 
-      renderItem={({ item, index }) => <View style={styles.listItem}>
-        <Text style={styles.item}>{index + 1}</Text>
-        <Text style={styles.item}>{item.name}</Text>
-        <Text style={styles.item}>{item.score}</Text>
+              renderItem={({ item, index }) => <View style={styles.listItem}>
+                <Text style={styles.item}>{index + 1}</Text>
+                <Text style={styles.item}>{item.name}</Text>
+                <Text style={styles.item}>{item.score}</Text>
 
-      </View>}
-    />
-      
-      }
-        
+              </View>}
+            />
+          }
         </View>
       </LinearGradient>
     );
@@ -166,13 +161,12 @@ const styles = StyleSheet.create({
   flatlist: {
     width: '100%',
     backgroundColor: 'white',
-    // height: '30%',
     marginBottom: '35%'
 
-  }, 
+  },
   before: {
     height: 280,
-    flex: 0, 
+    flex: 0,
     justifyContent: 'center',
     alignItems: 'center',
   }

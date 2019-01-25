@@ -1,8 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo';
-import { Font } from 'expo';
-import * as firebase from 'firebase';
 import db from './firebaseConfig';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -26,17 +24,18 @@ export default class ScoreScreen extends React.Component {
                 message: 'Du kan bättre!'
             })
         }
-        else if(this.state.score >= 5 && this.state.score < 8){
+        else if (this.state.score >= 5 && this.state.score < 8) {
             this.setState({
                 message: 'Bra jobbat!'
             })
         }
-        
+
         else {
             this.setState({
                 message: 'Du är riktigt grym!'
             })
         }
+
         this.saveScore()
     }
 
@@ -44,15 +43,14 @@ export default class ScoreScreen extends React.Component {
         this.props.navigation.navigate('Home')
     }
 
-    // Set the score in database depending on if data exists and if it's more or less for the currentUser
+    // Set the score in database depending on if data exists and if it's more or less than the current score for that user
     saveScore = async () => {
         const user = this.props.screenProps.currentUser
-
         var docRef = db.collection("highscore").doc(user.uid);
 
         docRef.get().then((doc) => {
             if (doc.exists) {
-                if(doc.data().score < this.state.score) {
+                if (doc.data().score < this.state.score) {
                     db.collection("highscore").doc(user.uid).update({
                         score: this.state.score,
                     })
@@ -64,10 +62,9 @@ export default class ScoreScreen extends React.Component {
                     score: this.state.score,
                 })
             }
-        }).catch(function(error) {
+        }).catch(function (error) {
             console.log("Error getting document:", error);
         });
-
 
         //Lägger till document i subcollection "roundes", med points.
         db.collection('users').doc(user.uid).collection('roundes').add({
@@ -141,7 +138,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         marginTop: 0,
         paddingBottom: 40,
-        
+
     },
     text: {
         color: 'black',

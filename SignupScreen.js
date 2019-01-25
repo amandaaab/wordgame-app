@@ -37,14 +37,14 @@ class SignupScreen extends React.Component {
         this.onChangePolicy = this.onChangePolicy.bind(this)
         this.closeModalPolicy = this.closeModalPolicy.bind(this)
     }
-
+// Go back to loginScreen
     onPressBack = () => {
         this.props.closeSignUp()
         this.setState({
             goBackToMain: true
         })
     }
-
+// When signing up, this function sends a verify email with a link to users email
     verifyEmailLink = () => {
         var user = firebase.auth().currentUser;
 
@@ -52,10 +52,8 @@ class SignupScreen extends React.Component {
             this.setState({
                 sentEmailLink: true
             })
-            // Email sent.
         }).catch(function (error) {
-            // An error happened.
-            console.log(error, 'erroren')
+            console.log(error)
         });
     }
 
@@ -66,10 +64,10 @@ class SignupScreen extends React.Component {
             name: this.state.displayName.toLowerCase()
         })
             .then(function (docRef) {
-                console.log("Document written with displayname in usernames ", docRef);
+                console.log(docRef);
             })
             .catch(function (error) {
-                console.error("Error adding document to usernames: ", error);
+                console.error(error);
             });
 
         const { email, password, displayName } = this.state
@@ -93,11 +91,12 @@ class SignupScreen extends React.Component {
                     validatedName: false,
                     errors: "Kunde inte skapa användare"
                 })
-
             })
     }
 
+    // Validate signup to check if user has filled in corecctly
     trySignup = () => {
+
         this.setState({
             loading: true,
         })
@@ -115,8 +114,8 @@ class SignupScreen extends React.Component {
                 validatedPolicy: false,
                 loading: false,
                 errors: '',
-
             })
+
         } else {
             this.setState({
                 policyError: '',
@@ -127,7 +126,6 @@ class SignupScreen extends React.Component {
         }
 
         if (reg.test(email) == false) {
-            console.log('email är inte correct')
             this.setState({
                 emailError: '* Du måste fylla en giltlig email',
                 loading: false,
@@ -145,15 +143,13 @@ class SignupScreen extends React.Component {
         }
 
         if (password.length < 6) {
-            console.log('fyll i lösen')
             this.setState({
                 passwordError: '* Vänligen fyll i ett lösenord',
                 validatedPassword: false,
                 loading: false,
                 errors: ''
-
-
             })
+
         } else {
             this.setState({
                 passwordError: null,
@@ -165,67 +161,67 @@ class SignupScreen extends React.Component {
         this.check();
     }
 
-
+// Check if username is available
     check = async () => {
         let checkArray = []
 
-        if(this.state.displayName == ""){
+        if (this.state.displayName == "") {
             this.setState({
-	            validatedName: false,
+                validatedName: false,
                 nameError: '* fyll i ett namn',
                 loading: false,
-	            errors: ''
-	        })
+                errors: ''
+            })
+
         } else {
-        await db.collection("usernames").where("name", "==", this.state.displayName.toLowerCase())
-	    .get()
-	    .then(function(querySnapshot) {
-	        querySnapshot.forEach(function(doc) {
-	
-	            if(doc){
-	                console.log('Namnet finns redan!!!')
-	                checkArray.push(doc);
-	
-	            } else {
-	                console.log('namnet är ledigt')
-	            }
-	        });
-	    })
-	    .catch(function(error) {
-	        console.log("Error getting documents: ", error);
-	    });
-	
-	    if(checkArray.length > 0){
-	        this.setState({
-	            validatedName: false,
-                nameError: '* namnet upptaget',
-                loading: false,
-	            errors: ''
-	        })
-	    } else {
-	        this.setState({
-	            validatedName: true,
-	            nameError: '',
-	            errors: ''
-	        })
+            await db.collection("usernames").where("name", "==", this.state.displayName.toLowerCase())
+                .get()
+                .then(function (querySnapshot) {
+                    querySnapshot.forEach(function (doc) {
+
+                        if (doc) {
+                            checkArray.push(doc);
+
+                        } else {
+                            console.log('namnet är ledigt')
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+            if (checkArray.length > 0) {
+                this.setState({
+                    validatedName: false,
+                    nameError: '* namnet upptaget',
+                    loading: false,
+                    errors: ''
+                })
+
+            } else {
+                this.setState({
+                    validatedName: true,
+                    nameError: '',
+                    errors: ''
+                })
+            }
         }
     }
 
-    }
-
-
+// Open policy screen
     openModalPolicy = () => {
         this.setState({
             modalVisible: true
         })
     }
-
+// close policy screen
     closeModalPolicy = () => {
         this.setState({
             modalVisible: false
         })
     }
-
+// Change state depending if user has approved the policy
     onChangePolicy = () => {
         this.setState(prevState => ({
             value: !prevState.value
@@ -243,10 +239,8 @@ class SignupScreen extends React.Component {
                 <LinearGradient
                     colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
                     style={{
-                        flex: 1/* justifyContent: 'center', alignItems: 'center'*/
-
+                        flex: 1
                     }}>
-
 
                     <View style={styles.contentOne}>
                         <Modal
@@ -257,9 +251,9 @@ class SignupScreen extends React.Component {
                             }}>
 
                             <PolicyScreen modalClose={this.closeModalPolicy} />
-
                         </Modal>
                     </View>
+
                     <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-80} enabled>
                         <View style={styles.content}>
 
@@ -304,7 +298,7 @@ class SignupScreen extends React.Component {
                                 maxLength={30}
                             />
 
-                            {this.state.validatedEmail & this.state.validatedPassword & this.state.validatedName? this.validateSignUp() : null}
+                            {this.state.validatedEmail & this.state.validatedPassword & this.state.validatedName ? this.validateSignUp() : null}
 
                             <View style={styles.policy}>
                                 <View style={styles.policyItem}>
@@ -374,7 +368,7 @@ const styles = StyleSheet.create({
     screenLabel: {
         fontSize: 34,
         color: 'white',
-        
+
 
     },
 

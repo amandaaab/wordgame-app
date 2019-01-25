@@ -32,7 +32,6 @@ export default class PlayScreen extends React.Component {
       this.decrementClock();
     }, 1000);
     this.animate();
-    //this.animateText();
   }
 
   componentWillUnmount() {
@@ -42,11 +41,8 @@ export default class PlayScreen extends React.Component {
   }
 
   animateText() {
-    console.log('animateText körs')
-    console.log('FRÅN ANIMATE!!!!!!!', this.state.words)
     let wordExists = this.state.words.filter(word => word.doAnimate === true);
     if (wordExists.length > 0) {
-      console.log('ORDET i animateText', wordExists)
       this.animateTextAfter()
     }
   }
@@ -61,10 +57,6 @@ export default class PlayScreen extends React.Component {
       }
     ).start();
 
-    /*let words = [...this.state.words];
-            let index = words.findIndex(word => word.word === this.state.text);
-            words[index] = {...words[index], doAnimate: false};
-            this.setState({ words });*/
   }
 
   animate() {
@@ -86,7 +78,6 @@ export default class PlayScreen extends React.Component {
 
 
   onChangeT = (value) => {
-
     //ändrar tillbaka doAnimate till false. 
     let words = [...this.state.words];
     let index = words.findIndex(word => word.word === this.state.text);
@@ -101,9 +92,6 @@ export default class PlayScreen extends React.Component {
   //when clicking on submit  
   onSave = () => {
     this.textInput.clear()
-    //const answer2 = this.state.questions.filter(obj => obj === `${this.state.questions[randomNumber]}`)
-
-    console.log('vald fråga:', this.state.allQandA[this.state.randomNumber].question);
     let allAnswers = this.state.allQandA.filter(obj => obj.question === this.state.allQandA[this.state.randomNumber].question)[0].answers;
 
     this.correctThis(allAnswers)
@@ -115,15 +103,14 @@ export default class PlayScreen extends React.Component {
     if (isItCorrect) {
 
       let wordExists = this.state.words.filter(word => word.word === this.state.text);
+
       if (wordExists.length > 0) {
-        console.log('ORDET', wordExists)
 
         let words = [...this.state.words];
         let index = words.findIndex(word => word.word === this.state.text);
         words[index] = { ...words[index], doAnimate: true };
         this.setState({ words }, () => this.animateText());
-        //this.animateText();
-        //alert('ordet finns redan')
+
       } else {
         this.setState(prevState => ({
           words: [
@@ -139,7 +126,7 @@ export default class PlayScreen extends React.Component {
 
           score: prevState.score + 1
 
-        }), () => console.log('textfinns', this.state.words))
+        }))
       }
     } else {
       this.setState(prevState => ({
@@ -155,7 +142,7 @@ export default class PlayScreen extends React.Component {
           }
         ]
 
-      }), () => console.log('textfinss ej', this.state.words))
+      }))
     }
 
 
@@ -169,7 +156,6 @@ export default class PlayScreen extends React.Component {
       progress: prevState.progress += 0.2564104
     }))
 
-    //alert('vill ha mer tid');
   }
 
   render() {
@@ -178,16 +164,14 @@ export default class PlayScreen extends React.Component {
       outputRange: [18, 32, 18]
     })
 
-    //let randomNumber = Math.floor(Math.random() * Math.floor(this.state.questions2.length));
-    //console.log('Alla frågor:', this.props.screenProps.allDocs)
     let progressColor;
     if (this.state.progress < 0.25) {
       progressColor = '#c92020';
     } else {
       progressColor = 'rgba(235,43,70,1)'
     }
-    return (
 
+    return (
 
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <StatusBar
@@ -204,7 +188,7 @@ export default class PlayScreen extends React.Component {
             borderRadius={6}
             height={18}
             borderColor={'transparent'}
-            color={progressColor}//{'#fff684'}
+            color={progressColor}
             width={null}
             animationType={'timing'}
             style={styles.progress}
@@ -214,7 +198,6 @@ export default class PlayScreen extends React.Component {
 
           <ScrollView
             contentContainerStyle={styles.contentContainer}
-
           >
 
             <ScrollView
@@ -265,11 +248,9 @@ export default class PlayScreen extends React.Component {
               justifyContent: "center",
               alignItems: 'center',
               height: 60
-
-
-
             }}
           >
+
             <TouchableHighlight
               style={styles.enterButton}
               onPress={this.onSave}>
@@ -277,8 +258,6 @@ export default class PlayScreen extends React.Component {
             </TouchableHighlight>
           </LinearGradient>
         </View>
-
-        {/*<Text style={styles.text}>{this.state.score}</Text>*/}
 
         {!this.state.usedExtraTime ?
 
@@ -302,7 +281,6 @@ export default class PlayScreen extends React.Component {
             </TouchableHighlight>
           </LinearGradient>
           : null}
-
 
       </KeyboardAvoidingView>
 
@@ -380,7 +358,8 @@ const styles = StyleSheet.create({
     paddingBottom: '2%',
     alignItems: 'center',
   },
-  inner: { //innuti scrollview där orden du skrivit skrivs ut
+
+  inner: {
     flex: 1,
     flexDirection: 'row',
     width: 150,
@@ -397,10 +376,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
 
   },
+  
   buttonText: {
     fontWeight: 'bold',
   }
-
-
 
 })

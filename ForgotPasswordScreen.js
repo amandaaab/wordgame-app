@@ -1,10 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, FlatList, TextInput, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, TextInput, KeyboardAvoidingView } from 'react-native';
 import * as firebase from 'firebase';
-import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo';
-import MainVerify from './MainVerify';
-import LoginScreen from './LoginScreen';
 import App from './App.js'
 
 class ForgotPasswordScreen extends React.Component {
@@ -16,47 +12,47 @@ class ForgotPasswordScreen extends React.Component {
         }
     }
 
+    // Sen a link to users email if user has forgotten password, and then navigate back to loginscreen
     sendPass = () => {
         var auth = firebase.auth();
         var emailAddress = this.state.email;
 
         auth.sendPasswordResetEmail(emailAddress).then(() => {
             this.props.backToLogin()
+
         }).catch(function (error) {
-            // An error happened.
+            console.log(error)
         });
     }
 
     render() {
-
         return (
+            this.state.goBack ? <App /> :
+                <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-80} enabled>
+                    <Text style={styles.rubrik}>Återställ lösenord</Text>
 
-            this.state.goBack ? <App/> :
-              <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-80} enabled>
-                              <Text style={styles.rubrik}>Återställ lösenord</Text>
+                    <Text style={styles.text}>Skriv in din registrerade email, så skickar vi en återställningslänk för lösenordet till din epost.</Text>
+                    <TextInput
 
-                <Text style={styles.text}>Skriv in din registrerade email, så skickar vi en återställningslänk för lösenordet till din epost.</Text>
-                <TextInput
+                        style={styles.input}
+                        placeholder="Tex. exempel@exempel.se"
+                        onChangeText={(email) => this.setState({ email })}
+                        value={this.state.email}
+                        keyboardType="email-address"
+                        autoFocus={false}
+                        maxLength={40}
+                        autoCapitalize='none'
 
-                    style={styles.input}
-                    placeholder="Tex. exempel@exempel.se"
-                    onChangeText={(email) => this.setState({ email })}
-                    value={this.state.email}
-                    keyboardType="email-address"
-                    autoFocus={false}
-                    maxLength={40}
-                    autoCapitalize='none'
-
-                />
+                    />
 
 
-                <TouchableHighlight onPress={() => this.sendPass()} style={styles.button}>
-                    <Text style={styles.buttonText}>Skicka</Text>
-                </TouchableHighlight>
+                    <TouchableHighlight onPress={() => this.sendPass()} style={styles.button}>
+                        <Text style={styles.buttonText}>Skicka</Text>
+                    </TouchableHighlight>
 
-                <TouchableHighlight onPress={() => this.setState({ goBack: true})} style={styles.backButton}>
-                    <Text style={styles.buttonTextBack}>Gå tillbaka</Text>
-                </TouchableHighlight>
+                    <TouchableHighlight onPress={() => this.setState({ goBack: true })} style={styles.backButton}>
+                        <Text style={styles.buttonTextBack}>Gå tillbaka</Text>
+                    </TouchableHighlight>
                 </KeyboardAvoidingView>
         )
     }
@@ -90,7 +86,7 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: 'black',
-        padding: 16, 
+        padding: 16,
         borderRadius: 20
     },
     input: {

@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, TextInput, ActivityIndicator, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { LinearGradient } from 'expo';
 
-
 import * as firebase from 'firebase';
 
 
@@ -24,7 +23,7 @@ class LoginScreen extends React.Component {
             items: [],
             needToVerify: false,
             loading: false,
-           
+
         }
 
     }
@@ -35,49 +34,50 @@ class LoginScreen extends React.Component {
     }
 
     validateLogin = () => {
-
         const { email, password, emailError, passwordError, validatedEmail, validatedPassword } = this.state
-        
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(() => {
-                   
-                    const { currentUser } = firebase.auth()
-                    let email_verified = currentUser.emailVerified
 
-                    if(email_verified){
-                        Keyboard.dismiss()
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(() => {
+
+                const { currentUser } = firebase.auth()
+                let email_verified = currentUser.emailVerified
+
+                if (email_verified) {
+                    Keyboard.dismiss()
                     this.props.isLoginRender(email)
                     console.log('inloggad som:', email)
-                    }else{
-                        this.setState({
-                            needToVerify: true,
-                            email: '',
-                            password: '',
-                             
-                        })
-                     
-                    }
-            
-                })
-                .catch(() => {
-                    this.setState({ validatedEmail: false,validatedPassword: false,errors: 'Kunde inte hitta användare', loading: false })
-                    console.log(this.state.errors, 'gick ej att logga in')
-                })
-        }
+                } else {
+                    this.setState({
+                        needToVerify: true,
+                        email: '',
+                        password: '',
 
+                    })
 
+                }
+
+            })
+            .catch(() => {
+                this.setState({ validatedEmail: false, validatedPassword: false, errors: 'Kunde inte hitta användare', loading: false })
+                console.log(this.state.errors, 'gick ej att logga in')
+            })
+    }
+
+    // function to check if the user has filled in inputs correctly
     isLogin = () => {
         this.setState({
             loading: true,
         })
+
         const { email, password } = this.state
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
         this.setState({
             errors: '',
         })
+
         if (reg.test(email) == false) {
-            console.log('email är inte correct')
+          
             this.setState({
                 emailError: '* Du måste fylla en giltlig email',
                 validatedEmail: false,
@@ -85,25 +85,23 @@ class LoginScreen extends React.Component {
                 errors: '',
 
             })
+
         } else {
             this.setState({
                 emailError: null,
                 validatedEmail: true,
                 errors: ''
             })
-          
         }
 
         if (password === '') {
-            console.log('fyll i lösen')
             this.setState({
                 passwordError: '* Vänligen fyll i ett lösenord',
                 validatedPassword: false,
                 loading: false,
                 errors: ''
-               
-                
             })
+
         } else {
             this.setState({
                 passwordError: null,
@@ -111,19 +109,15 @@ class LoginScreen extends React.Component {
                 errors: ''
             })
         }
-
-
     }
 
+    // Callback function to open forgotPasswordScreen
     renderForgotPass = () => {
-     this.props.viewForgotPass()
+        this.props.viewForgotPass()
     }
-
 
     render() {
-
         return (
-
             <LinearGradient
                 colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
                 style={{
@@ -138,12 +132,10 @@ class LoginScreen extends React.Component {
                         <View style={styles.texts}>
                             <Text style={styles.h1}>SKYNDA!</Text>
                             <Text style={styles.screenLabel}>Ett ordspel</Text>
-                            {this.state.needToVerify ? <Text style={[styles.error,{textAlign: 'center'}]}>Du behöver verifiera din mail för att kunna logga in</Text>: null }
-                            <Text style={[styles.error,{textAlign: 'center'}]}>{this.state.errors == '' ? null : this.state.errors}</Text>
-                        
-                       
-                          
+                            {this.state.needToVerify ? <Text style={[styles.error, { textAlign: 'center' }]}>Du behöver verifiera din mail för att kunna logga in</Text> : null}
+                            <Text style={[styles.error, { textAlign: 'center' }]}>{this.state.errors == '' ? null : this.state.errors}</Text>
                         </View>
+
                         <Text style={styles.labelText}>Email</Text>
                         {this.state.emailError ? <Text style={styles.error}>{this.state.emailError}</Text> : null}
                         <TextInput
@@ -155,15 +147,12 @@ class LoginScreen extends React.Component {
                             keyboardType="email-address"
                             autoFocus={false}
                             maxLength={30}
-                            autoCapitalize = 'none'                            
+                            autoCapitalize='none'
 
                         />
 
-                        
-
                         <Text style={styles.labelText}>Lösenord</Text>
                         {this.state.passwordError ? <Text style={styles.error}>{this.state.passwordError}</Text> : null}
-
 
                         <TextInput
                             secureTextEntry={true}
@@ -172,9 +161,8 @@ class LoginScreen extends React.Component {
                             onChangeText={(password) => this.setState({ password })}
                             value={this.state.password}
                             maxLength={30}
-                            autoCapitalize = 'none'                          
+                            autoCapitalize='none'
                         />
-                       
 
                         {this.state.validatedEmail & this.state.validatedPassword ? this.validateLogin() : null}
 
@@ -193,35 +181,31 @@ class LoginScreen extends React.Component {
                                 shadowRadius: 2,
                                 elevation: 1,
                             }
-                            } >
+                        } >
 
                             <TouchableHighlight underlayColor='transparent' onPress={() => this.isLogin()} style={[styles.button]}>
-                            {this.state.loading ? <ActivityIndicator size="small" color="white" animating={this.state.loading} />
-                                : <Text style={styles.btnText}>Logga in</Text>}
+                                {this.state.loading ? <ActivityIndicator size="small" color="white" animating={this.state.loading} />
+                                    : <Text style={styles.btnText}>Logga in</Text>}
                             </TouchableHighlight>
                         </LinearGradient>
-
-
 
                         <Text style={{ color: 'white', margin: 20, fontSize: 17 }}>Eller</Text>
 
                         <TouchableHighlight onPress={() => this.renderSignup()} style={[styles.button, styles.reg]}>
                             <Text style={styles.regText}>Skapa Konto</Text>
                         </TouchableHighlight>
+
                         <TouchableHighlight onPress={() => this.renderForgotPass()} style={[styles.button, styles.reg, styles.forgot]}>
                             <Text style={styles.forgotText}>Har du glömt ditt lösenord?</Text>
                         </TouchableHighlight>
+
                     </View>
                 </KeyboardAvoidingView>
             </LinearGradient>
 
-
-
         )
-
     }
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -237,11 +221,10 @@ const styles = StyleSheet.create({
         fontSize: 54,
         color: 'white',
         fontWeight: 'bold'
-
     },
 
     error: {
-        color: 'yellow', 
+        color: 'yellow',
         fontSize: 16
     },
 
@@ -255,8 +238,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
-
     },
+
     texts: {
         padding: 0,
         justifyContent: 'center',
@@ -280,14 +263,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#f9f9f9',
         margin: 12,
         borderRadius: 14
-
-
     },
+
     forgot: {
         margin: 20,
         width: '100%',
         borderBottomColor: 'transparent'
-
     },
 
     forgotText: {

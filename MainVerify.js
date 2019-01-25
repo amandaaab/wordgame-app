@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TextInput, } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+import { StyleSheet} from 'react-native';
 import SignupScreen from './SignupScreen';
 import LoginScreen from './LoginScreen';
 import * as firebase from 'firebase';
