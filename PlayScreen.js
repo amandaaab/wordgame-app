@@ -159,7 +159,7 @@ export default class PlayScreen extends React.Component {
     this.setState(prevState => ({
       timer: prevState.timer + 10,
       usedExtraTime: true,
-      progress: prevState.progress += 0.2564104 // ändra detta, fel värde för just femtio sekunder.
+      progress: prevState.progress += 0.2040816 //changing the progressbar after pressed more time. 
     }))
 
   }
