@@ -80,7 +80,6 @@ export default class ProfileScreen extends React.Component {
 
         docRef.get().then((doc) => {
             if (doc.exists) {
-              console.log('coins!!:', doc.data().coins)
               this.setState({ 
                 coins: doc.data().coins,
                 loadingCoins: false,

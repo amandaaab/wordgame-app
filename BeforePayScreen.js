@@ -25,6 +25,10 @@ forward = async () => {
 
 } 
 
+goBack = () => {
+    this.props.navigation.navigate('Profile')
+}
+
 /*when the chechbox in the top is pressed this function executes and the state is changed to
 true for the first checkbox and now it's checked on the screen*/
 firstChecked = (amount) => { 
@@ -93,6 +97,10 @@ secondChecked = (amount) => {
           <TouchableHighlight style={styles.button} onPress={this.forward}>
                     <Text style={styles.buttonText}>Gå vidare till betalning</Text>
                 </TouchableHighlight>
+
+                <TouchableHighlight style={styles.backbutton} onPress={this.goBack}>
+                    <Text style={styles.buttonBackText}>Avbryt</Text>
+                </TouchableHighlight>
             </View>
             </KeyboardAvoidingView>
         </LinearGradient>
@@ -137,7 +145,16 @@ secondChecked = (amount) => {
     },
     buttonText: {
     color: 'white',
+    fontSize: 14,
     },
+    backbutton: {
+        marginTop: 20, 
+        backgroundColor: 'white',
+    },
+    buttonBackText: {
+        color: 'black',
+        fontSize: 16,
+    }
 
 
 });
